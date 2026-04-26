@@ -26,8 +26,6 @@ public class CricketDaoImpl implements CricketDao {
         return sessionFactorySecondaryDb.getCurrentSession();
     }
 
-    // GENERIC HELPERS
-
     private <T> List<T> getAll(Class<T> clazz) {
         return getSession().createQuery("FROM " + clazz.getSimpleName(), clazz).list();
     }
