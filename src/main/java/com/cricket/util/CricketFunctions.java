@@ -294,7 +294,7 @@ public class CricketFunctions {
 		if(match.getSetup().getHomeTeamId() > 0)
 			match.getSetup().setHomeTeam(allTeams.stream().filter(tm -> tm.getTeamId() == match.getSetup().getHomeTeamId()).findFirst().orElse(null));
 		if(match.getSetup().getAwayTeamId() > 0)
-			match.getSetup().setHomeTeam(allTeams.stream().filter(tm -> tm.getTeamId() == match.getSetup().getAwayTeamId()).findFirst().orElse(null));
+			match.getSetup().setAwayTeam(allTeams.stream().filter(tm -> tm.getTeamId() == match.getSetup().getAwayTeamId()).findFirst().orElse(null));
 		if(match.getSetup().getGroundId() > 0) {
 			match.getSetup().setGround(allGrounds.stream().filter(grnd -> grnd.getGroundId() == match.getSetup().getGroundId()).findFirst().orElse(null));
 			if(match.getSetup().getGround() != null) {
