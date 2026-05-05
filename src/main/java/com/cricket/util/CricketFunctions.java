@@ -5370,6 +5370,9 @@ public class CricketFunctions {
 		}
 		
 		best_stats.setRuns(equation / 2);
+		if (best_stats.getPlayer() != null) {
+			best_stats.setPlayerName(best_stats.getPlayer().getFull_name());
+        }
 		
 		return best_stats;
 	}
@@ -5387,6 +5390,10 @@ public class CricketFunctions {
 		} else {
 			best_stats.setWickets(best_stats.getBestEquation() / 1000);
 		}
+		
+		if (best_stats.getPlayer() != null) {
+			best_stats.setPlayerName(best_stats.getPlayer().getFull_name());
+        }
 
 		return best_stats;
 	

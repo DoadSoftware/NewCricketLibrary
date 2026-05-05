@@ -20,6 +20,7 @@ public class BestStats implements Cloneable{
   private int balls;
   private String status;
   private boolean not_out;
+  private String playerName;
   
   private int teamId;
   private int matches;
@@ -123,6 +124,14 @@ public void setChallengeRuns(int challengeRuns) {
 	else {
 		this.challengeRuns = challengeRuns;
 	}
+}
+
+public String getPlayerName() {
+	return playerName;
+}
+
+public void setPlayerName(String playerName) {
+	this.playerName = playerName;
 }
 
 public boolean isNot_out() {
