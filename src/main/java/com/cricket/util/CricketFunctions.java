@@ -7464,19 +7464,19 @@ public class CricketFunctions {
 			
 		case "CURRENT_MATCH_DATA":
 			
-			List<Tournament> past_tournament_stat_clone = new ArrayList<Tournament>();
-			for(Tournament tourn : past_tournament_stat) {
-				past_tournament_stat_clone.add(objectMapper.readValue(objectMapper.writeValueAsString(tourn), Tournament.class));
-			}
+//			List<Tournament> past_tournament_stat_clone = new ArrayList<Tournament>();
+//			for(Tournament tourn : past_tournament_stat) {
+//				past_tournament_stat_clone.add(objectMapper.readValue(objectMapper.writeValueAsString(tourn), Tournament.class));
+//			}
 				
-//			List<Tournament> past_tournament_stat_clone = past_tournament_stat.stream().map(tourn_stats -> {
-//				try {
-//					return tourn_stats.clone();
-//				} catch (CloneNotSupportedException e) {
-//					e.printStackTrace();
-//				}
-//				return tourn_stats;
-//			}).collect(Collectors.toList());
+			List<Tournament> past_tournament_stat_clone = past_tournament_stat.stream().map(tourn_stats -> {
+				try {
+					return tourn_stats.clone();
+				} catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+				}
+				return tourn_stats;
+			}).collect(Collectors.toList());
 			
 			has_match_started = false;
 			is_player_found = false;
