@@ -3,9 +3,10 @@ package com.cricket.model;
 import java.util.ArrayList;
 import java.util.List;
 import com.cricket.util.CricketUtil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import jakarta.persistence.Transient;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -96,7 +97,7 @@ public class Tournament implements Cloneable {
   private int tapeBall_wickets;
   private int tapeBall_dotsBall;
   
-  @JsonIgnore
+  @Transient
   private Player player;
   
   private int tournament_fours;

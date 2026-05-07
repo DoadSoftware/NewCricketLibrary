@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import jakarta.persistence.Transient;
+
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Setup {
@@ -101,7 +103,7 @@ public class Setup {
 
   private List<Player> awayOtherSquad;
 
-  @JsonIgnore
+  @Transient
   private Ground ground;
   
   @JsonIgnore
