@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import jakarta.persistence.Transient;
+
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Partnership implements Comparable<Partnership>
@@ -32,10 +34,10 @@ public class Partnership implements Comparable<Partnership>
 
   private int totalNines;
   
-  @JsonIgnore
+  @Transient
   private Player firstPlayer;
   
-  @JsonIgnore
+  @Transient
   private Player secondPlayer;
   
 public Partnership(int partnershipNumber, int firstBatterNo, int secondBatterNo) {
