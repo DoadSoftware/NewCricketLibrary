@@ -230,7 +230,7 @@ public class CricketUtil {
 	public final static String EXTRAS = "EXTRAS";
 	public final static String TOTAL = "TOTAL";
 	public final static String PROJECTED = "PROJECTED";
-	
+	public final static String PHASE_WISE = "PHASE_WISE";
 	public final static String TIMELINE = "TIMELINE";
 
 	public final static String FIRST = "FIRST";
