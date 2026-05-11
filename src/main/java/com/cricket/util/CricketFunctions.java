@@ -14051,21 +14051,21 @@ public class CricketFunctions {
 					break;
 				}
 			}
-			
-			for(Inning inn : match.getMatch().getInning()) {
-				if (inn.getIsCurrentInning().toUpperCase().equalsIgnoreCase(CricketUtil.YES)) {
-					if(inn.getTotalWickets() < 10) {
-						noOfWicket = inn.getTotalWickets();
-					}else {
-						noOfWicket = 9;
+			if(match.getMatch() != null) {
+				for(Inning inn : match.getMatch().getInning()) {
+					if (inn.getIsCurrentInning().toUpperCase().equalsIgnoreCase(CricketUtil.YES)) {
+						if(inn.getTotalWickets() < 10) {
+							noOfWicket = inn.getTotalWickets();
+						}else {
+							noOfWicket = 9;
+						}
+						this_dls.add(new DuckWorthLewis(htmlFile.body().getElementsByTag("font").get(i).text(),
+								htmlFile.body().getElementsByTag("font").get(i+(2+(noOfWicket))).text()));
 					}
-					this_dls.add(new DuckWorthLewis(htmlFile.body().getElementsByTag("font").get(i).text(),
-							htmlFile.body().getElementsByTag("font").get(i+(2+(noOfWicket))).text()));
+					
 				}
-				
+				i = i +11;
 			}
-			i = i +11;
-			
 		}
 		
 		return this_dls;
