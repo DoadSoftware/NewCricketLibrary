@@ -262,6 +262,19 @@ public class CricketFunctions {
 	    }
 	}
 	
+	public static int getPowerplayOvers(String ppRange, int currentOver) {
+	    int startOver = Integer.parseInt(ppRange.split("-")[0]);
+	    int endOver = Integer.parseInt(ppRange.split("-")[1]);
+
+	    if (currentOver >= endOver) {
+	        return endOver - startOver + 1; // full PP completed
+	    } else if (currentOver >= startOver) {
+	        return currentOver - startOver + 1; // ongoing PP
+	    }
+
+	    return 0; // PP not started
+	}
+	
 	public static MatchAllData populateMatchVariables(MatchAllData match, List<Player> allPlayers, List<Team> allTeams, List<Ground> allGrounds) 
 	{
 		List<Player> players = new ArrayList<Player>();
