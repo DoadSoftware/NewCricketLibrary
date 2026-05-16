@@ -244,6 +244,24 @@ public class CricketFunctions {
 		return match;
 	}
 
+	public static boolean genderMatches(String category, String playerGender) {
+	    if (category == null || playerGender == null) {
+	        return false;
+	    }
+
+	    category = category.trim().toUpperCase();
+	    playerGender = playerGender.trim().toUpperCase();
+
+	    switch (category) {
+	        case "MEN":
+	            return "MALE".equals(playerGender);
+	        case "WOMEN":
+	            return "FEMALE".equals(playerGender);
+	        default:
+	            return category.equals(playerGender);
+	    }
+	}
+	
 	public static MatchAllData populateMatchVariables(MatchAllData match, List<Player> allPlayers, List<Team> allTeams, List<Ground> allGrounds) 
 	{
 		List<Player> players = new ArrayList<Player>();
@@ -7817,11 +7835,8 @@ public class CricketFunctions {
 					 extractTournamentData("PAST_MATCHES_DATA",ShowStrikeRate, headToHead_matches, cricketService, currentMatch, null));
 			 
 		case "PAST_MATCHES_DATA":
-			
 			for(HeadToHeadPlayer mtch : headToHead_matches) {
-				
 				if(!mtch.getMatchFileName().equalsIgnoreCase(currentMatch.getMatch().getMatchFileName())) {
-					
 					playerId = -1;
 					for(int i=0; i<=tournament_stats.size() - 1;i++)
 					{
