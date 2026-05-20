@@ -2538,8 +2538,8 @@ public class CricketFunctions {
         return "";
     }
 	public static void setInteractiveData(MatchAllData match,String line_txt, int i) throws IOException {
-		String this_ball_data = "", Bowler = "", Batsman = "", OtherBatsman = "", 
-		over_number = "", over_ball = "", inning_number = "",batsman_style = "",
+		String this_ball_data = "", Bowler = "", Batsman = "", OtherBatsman = "", howoutText = "",
+		over_number = "", over_ball = "", inning_number = "",batsman_style = "", shotText = "",
 		bowler_handed = "",this_over = "",this_over_run = "",shot = "-",wagonX = "0", wagonY = "0",height = "0",six_distance = "";
 		int j = 0,roundedX=0,roundedY = 0;
 		double clickX = 0,clickY = 0,thisX= 0,thisY= 0;
@@ -2840,7 +2840,7 @@ public class CricketFunctions {
 			  
 			  //-----------WAGON AND SHOTS------------------//
 			  
-			  wagonX = "0";wagonY = "0";shot = "-";
+			  wagonX = "0";wagonY = "0";shot = "-";howoutText = "";
 			  switch(match.getEventFile().getEvents().get(i).getEventType()) {
 			   
 			  case CricketUtil.DOT: case CricketUtil.WIDE: case CricketUtil.NO_BALL: case CricketUtil.BYE: 
@@ -2961,6 +2961,35 @@ public class CricketFunctions {
 									}else {
 										shot = shot + "A";
 									}
+									
+									
+									if (match.getMatch().getShots().get(k).getShotType().contains("no_shot")) {
+										shotText = "NONE";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("nudge")) {
+										 shotText = "NUDGE";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("defence")) {
+										shotText = "DEFEND";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("on_drive")) {
+										shotText = "ON DR";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("off_drive")) {
+										shotText = "OFF DR";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("glance")) {
+										shotText = "GLANCE";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("pull_hook")) {
+										shotText = "PUL/HK";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("square_cut")) {
+										shotText = "CUT";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("slog")) {
+										shotText = "SLOG";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("reverse_sweep")) {
+										shotText = "REV SW";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("steer")) {
+										shotText = "ST23RD";
+									}else if(match.getMatch().getShots().get(k).getShotType().contains("sweep")) {
+										shotText = "SWEEP";
+									}else {
+										shotText = "-";
+									}
 								}
 							}
 						}
@@ -2970,8 +2999,11 @@ public class CricketFunctions {
 			 line_txt = addSubString(line_txt,wagonY,90);
 			 
 			if(match.getEventFile().getEvents().get(i).getEventType().toUpperCase().equalsIgnoreCase(CricketUtil.LOG_WICKET)) {
-		    	line_txt = addSubString(line_txt,"Y",95);
-	    		
+		    	if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.RUN_OUT)) {
+		    		line_txt = addSubString(line_txt,"N",95);
+				}else {
+					line_txt = addSubString(line_txt,"Y",95);
+				}
 		    }else {
 		    	line_txt = addSubString(line_txt,"N",95);	
 		    }
@@ -2985,6 +3017,26 @@ public class CricketFunctions {
 			line_txt = addSubString(line_txt,OtherBatsman,131);
 			line_txt = addSubString(line_txt,this_over_run,157);
 			line_txt = addSubString(line_txt,six_distance,162);
+			line_txt = addSubString(line_txt,shotText,166);
+			
+			if(match.getEventFile().getEvents().get(i).getEventHowOut() != null) {
+				if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.CAUGHT)) {
+					line_txt = addSubString(line_txt,"CT",179);
+			    }else if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.BOWLED)) {
+					line_txt = addSubString(line_txt,"BOW",179);
+			    }else if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.RUN_OUT)) {
+					line_txt = addSubString(line_txt,"RO",179);
+			    }else if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.LBW)) {
+					line_txt = addSubString(line_txt,"LBW",179);
+			    }else if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.STUMPED)) {
+					line_txt = addSubString(line_txt,"ST",179);
+			    }else {
+			    	line_txt = addSubString(line_txt,"",179);
+			    }
+			}else {
+				line_txt = addSubString(line_txt,"",179);
+			}
+			
 			
 			Files.write(Paths.get(CricketUtil.CRICKET_SERVER_DIRECTORY + CricketUtil.INTERACTIVE_DIRECTORY + CricketUtil.DOAD_INTERACTIVE_TXT), 
 				Arrays.asList(line_txt), StandardOpenOption.APPEND);
@@ -3017,6 +3069,7 @@ public class CricketFunctions {
 		case "FULL_WRITE":
 			
 			txt = addSubString(txt,"============================================================================================================================================================" + "\n\n",0);
+			txt = addSubString(txt,"# 180-182               Howout text" + "\n",0);
 			txt = addSubString(txt,"# 174-178               Spin text" + "\n",0);
 			txt = addSubString(txt,"# 167-172               Shot type code" + "\n",0);
 			txt = addSubString(txt,"# 163-165               Distance of sixes (in metres)" + "\n",0);
@@ -3073,7 +3126,8 @@ public class CricketFunctions {
 			line_txt = addSubString(line_txt,"T/Ov",157);
 			line_txt = addSubString(line_txt,"6D",162);
 			line_txt = addSubString(line_txt,"Shot",166);
-			line_txt = addSubString(line_txt,"Spin  N W T/O-2",173);
+			line_txt = addSubString(line_txt,"Spin",173);
+			line_txt = addSubString(line_txt,"Howout Text",179);
 
 			Files.write(Paths.get(CricketUtil.CRICKET_SERVER_DIRECTORY + CricketUtil.INTERACTIVE_DIRECTORY + CricketUtil.DOAD_INTERACTIVE_TXT), 
 				Arrays.asList(line_txt), StandardOpenOption.APPEND);
