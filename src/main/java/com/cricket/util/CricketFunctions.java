@@ -9416,7 +9416,6 @@ public class CricketFunctions {
 				bc.setHowOutBowler(allPlayers.stream().filter(plyr -> plyr.getPlayerId() == bc.getHowOutBowlerId()).findFirst().orElse(null));
 				break;
 			}
-			
 			switch (bc.getHowOut().toUpperCase()) {
 			case CricketUtil.CAUGHT: case CricketUtil.STUMPED: case CricketUtil.RUN_OUT:  
 				bc.setHowOutFielder(allPlayers.stream().filter(plyr -> plyr.getPlayerId() == bc.getHowOutFielderId()).findFirst().orElse(null));
@@ -16681,22 +16680,26 @@ public class CricketFunctions {
 	
 	    // Update batter's stats
 	    switch(eventType) {
-	    case CricketUtil.BYE: case CricketUtil.LEG_BYE:
+	    case CricketUtil.BYE: case CricketUtil.LEG_BYE: case CricketUtil.WIDE: case CricketUtil.NO_BALL:
+	    	 if(eventType.equalsIgnoreCase(CricketUtil.NO_BALL)) {
+	    		 batter.setTotalBalls(batter.getTotalBalls() + 1);
+	     	}
 	    	break;
 	    case CricketUtil.LOG_WICKET:
 	    	batter.setOutnotOut("");
 	    	batter.setTotalRuns(batter.getTotalRuns() + Integer.valueOf(statsData.split(",")[0]));
+	    	batter.setTotalBalls(batter.getTotalBalls() + Integer.valueOf(statsData.split(",")[6]));
 	    	break;
 	    default:
 	    	batter.setTotalRuns(batter.getTotalRuns() + Integer.valueOf(statsData.split(",")[0]));
+	    	batter.setTotalBalls(batter.getTotalBalls() + Integer.valueOf(statsData.split(",")[6]));
 	    	break;
 	    }
 	    
 	    batter.setTotalFours(batter.getTotalFours() + Integer.valueOf(statsData.split(",")[3]));
 	    batter.setTotalSixes(batter.getTotalSixes() + Integer.valueOf(statsData.split(",")[4]));
 	    batter.setTotalNines(batter.getTotalNines() + Integer.valueOf(statsData.split(",")[5]));
-	    batter.setTotalBalls(batter.getTotalBalls() + Integer.valueOf(statsData.split(",")[6]));
-
+	    
 	    // If the batter is the one that got out, update the "out/not out" status
 	    if (Integer.valueOf(statsData.split(",")[statsData.split(",").length - 1]) == batter.getId()) {
 	        batter.setOutnotOut("");
