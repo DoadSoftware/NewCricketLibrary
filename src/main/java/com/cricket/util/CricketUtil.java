@@ -31,11 +31,13 @@ public class CricketUtil {
 	public final static String SETUP_DIRECTORY = "Setup/";
 	public final static String SPEED_DIRECTORY = "Speed/";
 	public final static String MATCHES_DIRECTORY = "Matches/";
+	public final static String DATABASE_DIRECTORY = "Database/";
 	public final static String ARCHIVE_MATCHES_DIRECTORY = "MatchFiles/";
 	public final static String SCENES_DIRECTORY = "Scenes/";
 	public final static String CONFIGURATIONS_DIRECTORY = "Configurations/";
 	public final static String TRIO_DIRECTORY = "TRIO/";
 	public final static String COMMENTATOR_XML = "COMMENTATOR.XML";
+	public final static String CRICKET_TEAMS_MDB = "CricketTeams.mdb";
 	public final static String CLOCK_XML = "Clock.XML";
 	public final static String SPEED_XML = "Speed.XML";
 	public final static String DOAD_INTERACTIVE_TXT = "DOADInteractiveFile.txt";
