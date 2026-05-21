@@ -6249,8 +6249,8 @@ public class CricketFunctions {
 		}
 		return 0;
 	}
-	public static int PreviousBowlerRuns(MatchAllData matchData,int currentBowlerId) {
-		int over_c=0,total_runs=0;
+	public static String PreviousBowlerRuns(MatchAllData matchData,int currentBowlerId) {
+		int over_c=0,total_runs=0,total_wicket=0;
 		for (int i = matchData.getEventFile().getEvents().size() - 1; i >= 0; i--) {
 			if (matchData.getEventFile().getEvents().get(i).getEventInningNumber() 
 					== matchData.getMatch().getInning().stream().filter(in -> in.getIsCurrentInning()
@@ -6259,7 +6259,7 @@ public class CricketFunctions {
 				if (matchData.getEventFile().getEvents().get(i).getEventType().equalsIgnoreCase(CricketUtil.CHANGE_BOWLER)) {
 					over_c++;
 					if(over_c == 2) {
-						return total_runs;
+						return total_runs + "," + total_wicket;
 					}
 				}else {
 					if(over_c == 1) {
@@ -6273,6 +6273,7 @@ public class CricketFunctions {
 				        	total_runs += matchData.getEventFile().getEvents().get(i).getEventRuns();
 				        	break;
 				        case CricketUtil.LOG_WICKET:
+				        	total_wicket += 1; 
 				        	total_runs += matchData.getEventFile().getEvents().get(i).getEventRuns();
 					          if (matchData.getEventFile().getEvents().get(i).getEventExtra() != null) {
 					        	 total_runs += matchData.getEventFile().getEvents().get(i).getEventExtraRuns();
@@ -6295,7 +6296,7 @@ public class CricketFunctions {
 				}
 			}
 		}
-		return 0;
+		return null;
 	}
 	
 	public static Event batsmanSubstitution(MatchAllData matchData,int Inning_Number) {
