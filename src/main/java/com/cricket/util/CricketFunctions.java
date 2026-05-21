@@ -2752,6 +2752,10 @@ public class CricketFunctions {
 	    			if(match.getEventFile().getEvents().get(i).getValueToProcess().contains("penalty")) {
 	    				this_over = "5PENALTY";	
 	    			}
+	    			
+	    			if(this_over.equalsIgnoreCase("0")) {
+	    				this_over = "";
+	    			}
 	    		}else {
 	    			this_over = match.getEventFile().getEvents().get(i).getEventType();
 	    		}
@@ -2813,10 +2817,15 @@ public class CricketFunctions {
 			    					match.getEventFile().getEvents().get(i).getEventExtra().equalsIgnoreCase(CricketUtil.WIDE)) {
 			    				if(match.getEventFile().getEvents().get(i).getEventRuns()>0) {
 			    					this_over_run =  match.getEventFile().getEvents().get(i).getEventRuns() + this_over;
-			    					int runs = (match.getEventFile().getEvents().get(i).getEventRuns() + match.getEventFile().getEvents().get(i).getEventExtraRuns() + 
-				    						match.getEventFile().getEvents().get(i).getEventSubExtraRuns());
-				    				line_txt = addSubString(line_txt,String.valueOf(runs),74);
-		    						
+			    					if(match.getEventFile().getEvents().get(i).getEventExtra().equalsIgnoreCase(CricketUtil.NO_BALL)) {
+			    						int runs = (match.getEventFile().getEvents().get(i).getEventExtraRuns() + 
+					    						match.getEventFile().getEvents().get(i).getEventSubExtraRuns());
+			    						line_txt = addSubString(line_txt,String.valueOf(runs),74);
+			    					}else {
+			    						int runs = (match.getEventFile().getEvents().get(i).getEventRuns() + match.getEventFile().getEvents().get(i).getEventExtraRuns() + 
+					    						match.getEventFile().getEvents().get(i).getEventSubExtraRuns());
+			    						line_txt = addSubString(line_txt,String.valueOf(runs),74);
+			    					}
 				    				this_ball_data = match.getEventFile().getEvents().get(i).getEventExtra() + match.getEventFile().getEvents().get(i).getEventRuns();
 				    			}else {
 				    				this_over_run = this_over;
@@ -2852,11 +2861,33 @@ public class CricketFunctions {
 			    	}
 			      if (match.getEventFile().getEvents().get(i).getEventHowOut() != null && !match.getEventFile().getEvents().get(i).getEventHowOut().isEmpty()) {
 			        if (this_ball_data.isEmpty()) {
-			          this_ball_data = CricketUtil.WICKET.charAt(0) + "";
+			          this_ball_data = CricketUtil.WICKET + "";
+			          
+			          if(this_ball_data != null && !this_ball_data.trim().isEmpty()) {
+			    			
+			        	  this_ball_data = this_ball_data.replace("WIDE", "WD");
+			        	  this_ball_data = this_ball_data.replace("NO_BALL", "NB");
+			        	  this_ball_data = this_ball_data.replace("LEG_BYE", "LB");
+			        	  this_ball_data = this_ball_data.replace("BYE", "B");
+			        	  this_ball_data = this_ball_data.replace("PENALTY", "PN");
+			        	  this_ball_data = this_ball_data.replace("LOG_WICKET", "W");
+			        	  this_ball_data = this_ball_data.replace("WICKET", "W");
+					  }
 			          line_txt = addSubString(line_txt,this_ball_data,74);
 		        	  
 			        } else {
-			          this_ball_data = this_ball_data + "+" + CricketUtil.WICKET.charAt(0) + "";
+			          this_ball_data = this_ball_data + "+" + CricketUtil.WICKET + "";
+			          if(this_ball_data != null && !this_ball_data.trim().isEmpty()) {
+			    			
+			        	  this_ball_data = this_ball_data.replace("WIDE", "WD");
+			        	  this_ball_data = this_ball_data.replace("NO_BALL", "NB");
+			        	  this_ball_data = this_ball_data.replace("LEG_BYE", "LB");
+			        	  this_ball_data = this_ball_data.replace("BYE", "B");
+			        	  this_ball_data = this_ball_data.replace("PENALTY", "PN");
+			        	  this_ball_data = this_ball_data.replace("LOG_WICKET", "W");
+			        	  this_ball_data = this_ball_data.replace("WICKET", "W");
+					  }
+			          
 			          line_txt = addSubString(line_txt,this_ball_data,74);
 			        }
 			      }
