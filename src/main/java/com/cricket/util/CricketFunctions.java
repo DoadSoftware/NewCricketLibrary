@@ -2600,6 +2600,25 @@ public class CricketFunctions {
 						}
 					}
 					
+					if(match.getSetup().getHomeOtherSquad() != null) {
+						for(Player hos : match.getSetup().getHomeOtherSquad()) {
+							if(match.getEventFile().getEvents().get(i).getEventBatterNo() == hos.getPlayerId()) {
+								if(hos.getBattingStyle() == null) {
+									batsman_style = "";
+								}else {
+									batsman_style = hos.getBattingStyle().toUpperCase().charAt(0) + "";
+								}
+		    				}
+							if(match.getEventFile().getEvents().get(i).getEventBowlerNo() == hos.getPlayerId()) {
+								if(hos.getBowlingStyle() == null) {
+									bowler_handed = "";
+								}else {
+									bowler_handed = hos.getBowlingStyle().toUpperCase().charAt(0) + "";
+								}
+		    				}
+						}
+					}
+					
 					for(Player as : match.getSetup().getAwaySquad()) {
 						if(match.getEventFile().getEvents().get(i).getEventBatterNo() == as.getPlayerId()) {
 							if(as.getBattingStyle() == null) {
@@ -2631,6 +2650,25 @@ public class CricketFunctions {
 									bowler_handed = "";
 								}else {
 									bowler_handed = asub.getBowlingStyle().toUpperCase().charAt(0) + "";
+								}
+		    				}
+						}
+					}
+					
+					if(match.getSetup().getAwayOtherSquad() != null) {
+						for(Player aos : match.getSetup().getAwayOtherSquad()) {
+							if(match.getEventFile().getEvents().get(i).getEventBatterNo() == aos.getPlayerId()) {
+								if(aos.getBattingStyle() == null) {
+									batsman_style = "";
+								}else {
+									batsman_style = aos.getBattingStyle().toUpperCase().charAt(0) + "";
+								}
+		    				}
+							if(match.getEventFile().getEvents().get(i).getEventBowlerNo() == aos.getPlayerId()) {
+								if(aos.getBowlingStyle() == null) {
+									bowler_handed = "";
+								}else {
+									bowler_handed = aos.getBowlingStyle().toUpperCase().charAt(0) + "";
 								}
 		    				}
 						}
@@ -2936,6 +2974,7 @@ public class CricketFunctions {
 								if(match.getEventFile().getEvents().get(i).getEventBallNo() == match.getMatch().getShots().get(k).getBallNumber()) {
 									if(match.getEventFile().getEvents().get(i).getEventType().equalsIgnoreCase(CricketUtil.WIDE)) {
 										shot = "";
+										shotText = "";
 									}else {
 										if (match.getMatch().getShots().get(k).getShotType().contains("no_shot")) {
 											shot = "N";
@@ -2956,34 +2995,34 @@ public class CricketFunctions {
 										}else {
 											shot = shot + "A";
 										}
-									}
-									
-									if (match.getMatch().getShots().get(k).getShotType().contains("no_shot")) {
-										shotText = "NONE";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("nudge")) {
-										 shotText = "NUDGE";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("defence")) {
-										shotText = "DEFEND";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("on_drive")) {
-										shotText = "ON DR";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("off_drive")) {
-										shotText = "OFF DR";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("glance")) {
-										shotText = "GLANCE";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("pull_hook")) {
-										shotText = "PUL/HK";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("square_cut")) {
-										shotText = "CUT";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("slog")) {
-										shotText = "SLOG";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("reverse_sweep")) {
-										shotText = "REV SW";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("steer")) {
-										shotText = "ST23RD";
-									}else if(match.getMatch().getShots().get(k).getShotType().contains("sweep")) {
-										shotText = "SWEEP";
-									}else {
-										shotText = "";
+										
+										if (match.getMatch().getShots().get(k).getShotType().contains("no_shot")) {
+											shotText = "NONE";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("nudge")) {
+											 shotText = "NUDGE";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("defence")) {
+											shotText = "DEFEND";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("on_drive")) {
+											shotText = "ON DR";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("off_drive")) {
+											shotText = "OFF DR";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("glance")) {
+											shotText = "GLANCE";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("pull_hook")) {
+											shotText = "PUL/HK";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("square_cut")) {
+											shotText = "CUT";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("slog")) {
+											shotText = "SLOG";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("reverse_sweep")) {
+											shotText = "REV SW";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("steer")) {
+											shotText = "ST23RD";
+										}else if(match.getMatch().getShots().get(k).getShotType().contains("sweep")) {
+											shotText = "SWEEP";
+										}else {
+											shotText = "";
+										}
 									}
 								}
 							}
