@@ -3060,13 +3060,32 @@ public class CricketFunctions {
 						}
 				  }
 			  }
-			 line_txt = addSubString(line_txt,wagonX,84);
-			 line_txt = addSubString(line_txt,wagonY,90);
+			  
+			 if(six_distance.equalsIgnoreCase("0")) {
+				 six_distance = "";
+			 }
+			  
+			 if(wagonX.equalsIgnoreCase("0")) {
+				 line_txt = addSubString(line_txt,wagonX,84);
+			 }else {
+				 line_txt = addSubString(line_txt,wagonX,83);
+			 }
+			 
+			 if(wagonY.equalsIgnoreCase("0")) {
+				 line_txt = addSubString(line_txt,wagonY,90);
+			 }else {
+				 line_txt = addSubString(line_txt,wagonY,89);
+			 }
+//			 line_txt = addSubString(line_txt,wagonX,83);
+//			 line_txt = addSubString(line_txt,wagonY,89);
 			 
 			 if(match.getEventFile().getEvents().get(i).getEventType().toUpperCase().equalsIgnoreCase(CricketUtil.LOG_WICKET)) {
 			    	if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.CAUGHT) || 
 			    			match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.CAUGHT_AND_BOWLED) || 
-			    			match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.HIT_WICKET)) {
+			    			match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.HIT_WICKET) || 
+			    			match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.BOWLED) || 
+			    			match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.LBW) || 
+			    			match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.STUMPED)) {
 			    		line_txt = addSubString(line_txt,"Y",95);
 					}else {
 						line_txt = addSubString(line_txt,"N",95);
@@ -3084,7 +3103,15 @@ public class CricketFunctions {
 				line_txt = addSubString(line_txt,OtherBatsman,131);
 				line_txt = addSubString(line_txt,this_over_run,157);
 				line_txt = addSubString(line_txt,six_distance,162);
-				line_txt = addSubString(line_txt,shotText,166);
+				
+				if(match.getEventFile().getEvents().get(i).getEventHowOut() != null) {
+					if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.RUN_OUT)) {
+						line_txt = addSubString(line_txt,"",166);
+				    }else {
+				    	line_txt = addSubString(line_txt,shotText,166);
+				    }
+				}
+				
 				
 				if(match.getEventFile().getEvents().get(i).getEventHowOut() != null) {
 					if(match.getEventFile().getEvents().get(i).getEventHowOut().toUpperCase().equalsIgnoreCase(CricketUtil.CAUGHT) || 
