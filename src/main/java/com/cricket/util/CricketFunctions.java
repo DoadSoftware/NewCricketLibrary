@@ -2984,8 +2984,8 @@ public class CricketFunctions {
 										}else if(match.getMatch().getWagons().get(k).getBoundaryHeight().contains("very_high_in_the_air")) {
 											height = "4";
 										}
-										if(match.getMatch().getShots() != null) {
-											if(match.getMatch().getShots() != null && match.getMatch().getShots().get(k).getRuns() == 6) {
+										if(match.getMatch().getWagons() != null) {
+											if(match.getMatch().getWagons() != null && match.getMatch().getWagons().get(k).getSixDistance() != 0) {
 												six_distance = String.valueOf(match.getMatch().getWagons().get(k).getSixDistance());
 											}
 										}
@@ -3013,7 +3013,11 @@ public class CricketFunctions {
 											 shot = "E";
 										}else if(match.getMatch().getShots().get(k).getShotType().contains("defence") || match.getMatch().getShots().get(k).getShotType().contains("off_drive") || 
 												match.getMatch().getShots().get(k).getShotType().contains("on_drive") || match.getMatch().getShots().get(k).getShotType().contains("straight_drive") || 
-												match.getMatch().getShots().get(k).getShotType().contains("front") || match.getMatch().getShots().get(k).getShotType().contains("back")) {
+												match.getMatch().getShots().get(k).getShotType().contains("front") || match.getMatch().getShots().get(k).getShotType().contains("back") || 
+												match.getMatch().getShots().get(k).getShotType().contains("glance") || match.getMatch().getShots().get(k).getShotType().contains("pull_hook") ||
+												match.getMatch().getShots().get(k).getShotType().contains("square_cut") || match.getMatch().getShots().get(k).getShotType().contains("slog") || 
+												match.getMatch().getShots().get(k).getShotType().contains("reverse_sweep") || match.getMatch().getShots().get(k).getShotType().contains("steer") || 
+												match.getMatch().getShots().get(k).getShotType().contains("sweep")) {
 											 shot = "P";
 										}else {
 											shot = "M";
@@ -3026,6 +3030,8 @@ public class CricketFunctions {
 										}else {
 											shot = shot + "A";
 										}
+										
+										
 										
 										if (match.getMatch().getShots().get(k).getShotType().contains("no_shot")) {
 											shotText = "NONE";
@@ -3095,7 +3101,14 @@ public class CricketFunctions {
 			    }
 				
 				line_txt = addSubString(line_txt,batsman_style,102);
-				line_txt = addSubString(line_txt,shot,109);
+				
+				if(shot.equalsIgnoreCase("")) {
+					line_txt = addSubString(line_txt,"EA",109);
+				}else {
+					line_txt = addSubString(line_txt,shot,109);
+				}
+				
+//				line_txt = addSubString(line_txt,shot,109);
 				line_txt = addSubString(line_txt,height,115);
 				line_txt = addSubString(line_txt,wagonX,120);
 				line_txt = addSubString(line_txt,wagonY,126);
@@ -3110,6 +3123,8 @@ public class CricketFunctions {
 				    }else {
 				    	line_txt = addSubString(line_txt,shotText,166);
 				    }
+				}else {
+					line_txt = addSubString(line_txt,shotText,166);
 				}
 				
 				
