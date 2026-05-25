@@ -5488,6 +5488,21 @@ public class CricketFunctions {
 		}
 		return fixtures;
 	}
+	public static List<Fixture> processAllFixtures(List<Fixture> allFixtures, List<Team> allTeams) {
+		List<Fixture> fixtures = allFixtures;
+		for(Team tm : allTeams) {
+			for(Fixture fix : fixtures) {
+				if(fix.getHometeamid() == tm.getTeamId()) {
+					fix.setHome_Team(tm);
+				}
+				if(fix.getAwayteamid() == tm.getTeamId()) {
+					fix.setAway_Team(tm);
+				}
+			}
+		}
+		return fixtures;
+	}
+	
 	public static List<LeaderBoard> processLeaderBoard(CricketService cricketService) {
 		List<LeaderBoard> leaderboards = cricketService.getLeaderBoards();
 		
