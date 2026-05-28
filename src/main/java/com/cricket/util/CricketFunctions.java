@@ -3550,7 +3550,7 @@ public class CricketFunctions {
 	    return bowlerDetails;
 	}
 
-	public static void exportMatchData(MatchAllData match) throws IOException 
+	public static void exportMatchData(MatchAllData match, String directory) throws IOException 
 	{
 		List<String> lineByLineData = new ArrayList<String>();
 		StringBuilder matchDataTxt = new StringBuilder();
@@ -3896,16 +3896,12 @@ public class CricketFunctions {
 			}
 		}
 		
-		if(!new File(CricketUtil.CRICKET_SERVER_DIRECTORY + CricketUtil.HEADTOHEAD_DIRECTORY 
-			+ match.getMatch().getMatchFileName().replace(".json", ".h2h")).exists()) {
-			
-			File h2hFile = new File(CricketUtil.CRICKET_SERVER_DIRECTORY + CricketUtil.HEADTOHEAD_DIRECTORY + match.getMatch().getMatchFileName().replace(".json", ".h2h"));
+		if(!new File(directory + CricketUtil.HEADTOHEAD_DIRECTORY + match.getMatch().getMatchFileName().replace(".json", ".h2h")).exists()) {
+			File h2hFile = new File(directory + CricketUtil.HEADTOHEAD_DIRECTORY + match.getMatch().getMatchFileName().replace(".json", ".h2h"));
 			h2hFile.getParentFile().mkdirs(); 
 			h2hFile.createNewFile();
-
 		}
-		FileWriter fileWriter = new FileWriter(CricketUtil.CRICKET_SERVER_DIRECTORY + CricketUtil.HEADTOHEAD_DIRECTORY 
-			+ match.getMatch().getMatchFileName().replace(".json", ".h2h"));
+		FileWriter fileWriter = new FileWriter(directory + CricketUtil.HEADTOHEAD_DIRECTORY + match.getMatch().getMatchFileName().replace(".json", ".h2h"));
 		
 		for(String str: lineByLineData) {
 			fileWriter.write(str + System.lineSeparator());
@@ -16378,7 +16374,7 @@ public class CricketFunctions {
 									overbyWkts1 ++;
 								}
 							}
-						break;
+							break;
 						default:
 							if(events.get(i).getEventInningNumber()==1) {
 								overbyRun += events.get(i).getEventRuns();
