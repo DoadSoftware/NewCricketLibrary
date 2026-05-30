@@ -80,6 +80,7 @@ com\cricket\model\MatchStats$BatterOut.class
 com\Ae_Third_Party_Xml\AE_Inning.class
 com\Ae_Third_Party_Xml\AE_WagonData.class
 com\cricket\model\PowerPlays.class
+com\cricket\util\CricketFunctions$BatsmenStrikeRateComparator.class
 com\cricket\util\CricketFunctions$TopBatsmenBestStatsComparator.class
 com\Ae_Third_Party_Xml\AE_Distance.class
 com\cricket\model\Commentator.class
