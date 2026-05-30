@@ -3108,6 +3108,7 @@ public class CricketFunctions {
 					line_txt = addSubString(line_txt,shot,109);
 				}
 				
+				six_distance = "";
 //				line_txt = addSubString(line_txt,shot,109);
 				line_txt = addSubString(line_txt,height,115);
 				line_txt = addSubString(line_txt,wagonX,120);
