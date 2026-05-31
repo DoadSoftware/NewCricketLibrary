@@ -132,6 +132,9 @@ public class Player implements Comparable<Player>
   @Column(name = "Category")
   private String category;
   
+  @Column(name = "Retained")
+  private String retained;
+  
   @Transient
   private Integer playerPosition;
 
@@ -668,6 +671,14 @@ public String getTeluguTickerName() {
 
 public void setTeluguTickerName(String teluguTickerName) {
 	this.teluguTickerName = teluguTickerName;
+}
+
+public String getRetained() {
+	return retained;
+}
+
+public void setRetained(String retained) {
+	this.retained = retained;
 }
 
 @Override
