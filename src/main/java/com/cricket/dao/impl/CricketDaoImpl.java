@@ -128,6 +128,7 @@ public class CricketDaoImpl implements CricketDao {
 
     @Override
     public StatsType getStatsType(int statsTypeId) {
+    	System.out.println("statsTypeId = " + statsTypeId);
         return getById(StatsType.class, "statsId", statsTypeId);
     }
 }

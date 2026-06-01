@@ -630,12 +630,12 @@ public class CricketFunctions {
     }
     
     public static Statistics getStatsByType(int playerId,String statsShortName,List<StatsType> statsTypes,List<Statistics> statistics) {
-	    StatsType statsType = statsTypes.stream().filter(st -> st.getStats_short_name().equalsIgnoreCase(statsShortName))
+	    StatsType statsType = statsTypes.stream().filter(st -> st.getStatsShortName().equalsIgnoreCase(statsShortName))
 	            .findAny().orElse(null);
 	    if (statsType == null) {
 	        return null;
 	    }
-	    return statistics.stream().filter(st -> st.getPlayer_id() == playerId && st.getStats_type_id() == statsType.getStats_id())
+	    return statistics.stream().filter(st -> st.getPlayer_id() == playerId && st.getStats_type_id() == statsType.getStatsId())
 	            .findAny().orElse(null);
 	}
     public static int[] parseBestFigures(String bestFigures) {
@@ -5542,7 +5542,8 @@ public class CricketFunctions {
 		List<Statistics> stats = cricketService.getAllStats();
 		for(Statistics s : stats) {
 			for(StatsType st : cricketService.getAllStatsType()) {
-				if(st.getStats_id() == s.getStats_type_id()) {
+				if(st.getStatsId() == s.getStats_type_id()) {
+					
 					s.setStats_type(st);
 					break;
 				}
@@ -6495,7 +6496,7 @@ public class CricketFunctions {
 		for(HeadToHeadPlayer match : headToHead_matches) {
 			//System.out.println(match.getMatch().getMatchFileName());
 			if(!match.getMatchFileName().equalsIgnoreCase(currentMatch.getMatch().getMatchFileName())) {
-				if(stat.getStats_type().getStats_short_name().contains(currentMatch.getSetup().getMatchType())) {
+				if(stat.getStats_type().getStatsShortName().contains(currentMatch.getSetup().getMatchType())) {
 //					TimeUnit.MILLISECONDS.sleep(500);
 					
 					switch (teamNameType) {
@@ -6769,7 +6770,7 @@ public class CricketFunctions {
 		for(MatchAllData match : tournament_matches) {
 			//System.out.println(match.getMatch().getMatchFileName());
 			if(!match.getMatch().getMatchFileName().equalsIgnoreCase(currentMatch.getMatch().getMatchFileName())) {
-				if(stat.getStats_type().getStats_short_name().contains(match.getSetup().getMatchType())) {
+				if(stat.getStats_type().getStatsShortName().contains(match.getSetup().getMatchType())) {
 //					TimeUnit.MILLISECONDS.sleep(500);
 					for(Inning inn : match.getMatch().getInning()) {
 						switch (teamNameType) {
@@ -7071,7 +7072,7 @@ public class CricketFunctions {
 		ObjectMapper objectMapper = new ObjectMapper();    
 		Statistics stat = objectMapper.readValue(objectMapper.writeValueAsString(statsdata), Statistics.class);
 		
-		if(stat.getStats_type().getStats_short_name().contains(match.getSetup().getMatchType())) {
+		if(stat.getStats_type().getStatsShortName().contains(match.getSetup().getMatchType())) {
 			stat.setTournament_fours(stat.getTournament_fours() + match.getMatch().getInning().get(0).getTotalFours());
 			stat.setTournament_fours(stat.getTournament_fours() + match.getMatch().getInning().get(1).getTotalFours());
 			for(Inning inn : match.getMatch().getInning()) {

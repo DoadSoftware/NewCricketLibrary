@@ -15,42 +15,44 @@ public class StatsType {
 
   @Id
   @Column(name = "STATSID")
-  private int stats_id;
+  private Integer statsId;
 	
   @Column(name = "STATSFULLNAME")
-  private String stats_full_name;
+  private String statsFullName;
 
   @Column(name = "STATSSHORTNAME")
-  private String stats_short_name;
+  private String statsShortName;
 
-public int getStats_id() {
-	return stats_id;
-}
+  public Integer getStatsId() {
+	return statsId;
+  }
 
-public void setStats_id(int stats_id) {
-	this.stats_id = stats_id;
-}
+  public void setStatsId(Integer statsId) {
+	this.statsId = statsId;
+  }
 
-public String getStats_full_name() {
-	return stats_full_name;
-}
+  public String getStatsFullName() {
+	return statsFullName;
+  }
 
-public void setStats_full_name(String stats_full_name) {
-	this.stats_full_name = stats_full_name;
-}
+  public void setStatsFullName(String statsFullName) {
+	this.statsFullName = statsFullName;
+  }
 
-public String getStats_short_name() {
-	return stats_short_name;
-}
+  public String getStatsShortName() {
+	return statsShortName;
+  }
 
-public void setStats_short_name(String stats_short_name) {
-	this.stats_short_name = stats_short_name;
-}
+  public void setStatsShortName(String statsShortName) {
+	this.statsShortName = statsShortName;
+  }
 
-@Override
-public String toString() {
-	return "StatsType [stats_id=" + stats_id + ", stats_full_name=" + stats_full_name + ", stats_short_name="
-			+ stats_short_name + "]";
-}
+  @Override
+  public String toString() {
+	return "StatsType [statsId=" + statsId + ", statsFullName=" + statsFullName + ", statsShortName=" + statsShortName
+			+ "]";
+  }
+
+
 
 }
