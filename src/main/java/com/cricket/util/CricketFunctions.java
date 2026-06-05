@@ -9003,10 +9003,11 @@ public class CricketFunctions {
 								if(targetData.getRemaningBall() > 0) {
 									if(targetData.getRemaningBall() > 120) {
 										resultToShow = resultToShow + " with " + CricketFunctions.OverBalls(0, targetData.getRemaningBall()) 
-											+ " overs remaining";
+											+ (broadcaster.equalsIgnoreCase("T20_MUMBAI") ? " overs to spare":" overs remaining");
 									} else {
-										resultToShow = resultToShow + " with " + targetData.getRemaningBall() 
-											+ " ball" + CricketFunctions.Plural(targetData.getRemaningBall()) + " remaining";
+										resultToShow = resultToShow + " with " + targetData.getRemaningBall() + " ball" + 
+												CricketFunctions.Plural(targetData.getRemaningBall()) + 
+												(broadcaster.equalsIgnoreCase("T20_MUMBAI") ? " to spare":" remaining");
 									}
 								}
 							}
@@ -13330,10 +13331,12 @@ public class CricketFunctions {
 										if(targetData.getRemaningBall() > 0) {
 											if(targetData.getRemaningBall() <= 120) {
 												targetData.setTargetOrResult(targetData.getTargetOrResult() + " with " + targetData.getRemaningBall() 
-													+ " ball" + CricketFunctions.Plural(targetData.getRemaningBall()) + " remaining");
+													+ " ball" + CricketFunctions.Plural(targetData.getRemaningBall()) + 
+													(broadcaster.equalsIgnoreCase("T20_MUMBAI") ? " to spare":" remaining"));
 											}else {
 												targetData.setTargetOrResult(targetData.getTargetOrResult() + " with " + 
-													CricketFunctions.OverBalls(0, targetData.getRemaningBall()) + " overs remaining");
+													CricketFunctions.OverBalls(0, targetData.getRemaningBall()) + 
+													(broadcaster.equalsIgnoreCase("T20_MUMBAI") ? " overs to spare":" overs remaining"));
 											}
 										}
 									}
@@ -14245,7 +14248,7 @@ public class CricketFunctions {
 		}
 		return ahead_behind;
 	}
-	public static List<DuckWorthLewis> populateDuckWorthLewis(MatchAllData match) throws InterruptedException 
+	public static List<DuckWorthLewis> populateDuckWorthLewis(MatchAllData match, String directory) throws InterruptedException 
 	{
 		int noOfWicket = 0;
 		Document htmlFile = null; 
@@ -14263,7 +14266,7 @@ public class CricketFunctions {
 //					}
 //				}
 //			}
-			htmlFile = Jsoup.parse(new File("C:\\Sports\\Cricket\\ParScores BB.html"), "ISO-8859-1");
+			htmlFile = Jsoup.parse(new File(directory + "ParScores BB.html"), "ISO-8859-1");
 			
 		} catch (IOException e) {  
 			e.printStackTrace(); 
@@ -18028,7 +18031,7 @@ public class CricketFunctions {
 	    double fastest = Double.MIN_VALUE , slowest = Double.MAX_VALUE ,totalSpeed = 0;
 	    int count = 0;
 	    for (Speed speed : speeds) {
-	        double speedValue =Double.valueOf(speed.getSpeedValue().substring(1));
+	        double speedValue =Double.valueOf(speed.getSpeedValue());
 	        if (speedValue > fastest) {
 	            fastest = speedValue;
 	        }
