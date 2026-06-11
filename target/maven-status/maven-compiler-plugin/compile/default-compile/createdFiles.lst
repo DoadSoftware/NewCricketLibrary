@@ -32,6 +32,7 @@ com\cricket\model\HeadToHeadPlayer.class
 com\cricket\archive\Archive.class
 com\cricket\util\CricketFunctions$BatsmanFoursComparator.class
 com\Ae_Third_Party_Xml\AE_Toss.class
+com\cricket\util\CricketFunctions$BowlerDotsComparator.class
 com\cricket\model\StatsType.class
 com\WTV\BowlerStats.class
 com\Ae_Third_Party_Xml\AE_Player_Info.class
@@ -62,6 +63,7 @@ com\cricket\model\Player.class
 com\Ae_Third_Party_Xml\AE_SessionDetails.class
 com\cricket\util\CricketFunctions$BestBowlerEconomyComparator.class
 com\Ae_Third_Party_Xml\AE_Partnership.class
+com\cricket\model\BattingBuzzer.class
 com\cricket\model\Weather.class
 com\cricket\service\CricketService.class
 com\cricket\model\EverestBugs.class
@@ -140,6 +142,7 @@ com\cricket\model\Tournament.class
 com\cricket\model\Gfx$PlayerStat.class
 com\cricket\model\PerformanceBug.class
 com\cricket\dao\CricketDao.class
+com\cricket\model\BattingBuzzer$Player.class
 com\cricket\util\CricketFunctions$PlayerBestStatsComparator.class
 com\Ae_Third_Party_Xml\AE_Bowler.class
 com\Ae_Third_Party_Xml\AE_CurrentPosition.class

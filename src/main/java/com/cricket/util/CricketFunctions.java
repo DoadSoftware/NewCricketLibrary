@@ -8181,12 +8181,23 @@ public class CricketFunctions {
 
 		    Map<Integer, Tournament> tournamentMap = new HashMap<>();
 
-		    for (Tournament t : past_tournament_stat) {
-		        try {
-		            Tournament clone = t.clone();
-		            tournamentMap.put(clone.getPlayer().getPlayerId(), clone);
-		        } catch (CloneNotSupportedException e) {
-		            throw new RuntimeException(e);
+//		    for (Tournament t : past_tournament_stat) {
+//		        try {
+//		            Tournament clone = t.clone();
+//		            tournamentMap.put(clone.getPlayer().getPlayerId(), clone);
+//		        } catch (CloneNotSupportedException e) {
+//		            throw new RuntimeException(e);
+//		        }
+//		    }
+		    
+		    if (past_tournament_stat != null && !past_tournament_stat.isEmpty()) {
+		        for (Tournament t : past_tournament_stat) {
+		            try {
+		                Tournament clone = t.clone();
+		                tournamentMap.put(clone.getPlayer().getPlayerId(), clone);
+		            } catch (CloneNotSupportedException e) {
+		                throw new RuntimeException(e);
+		            }
 		        }
 		    }
 		    
@@ -8224,7 +8235,7 @@ public class CricketFunctions {
 
 		                t.setRunsConceded(t.getRunsConceded() + boc.getRuns());
 		                t.setWickets(t.getWickets() + boc.getWickets());
-		                t.setDots(t.getDots() + boc.getDots());
+		                t.setDots(t.getDots() + boc.getDots()); 
 		                t.setBallsBowled(t.getBallsBowled() +
 		                        (6 * boc.getOvers() + boc.getBalls()));
 
@@ -9202,6 +9213,18 @@ public class CricketFunctions {
 	    		return Integer.compare(bc2.getRuns(), bc1.getRuns());
 	    	}else {
 	    		return Integer.compare(bc2.getBatsmanSixesSortData(), bc1.getBatsmanSixesSortData());
+	    	}
+	    }
+	}
+	
+	public static class BowlerDotsComparator implements Comparator<Tournament> {
+	    @Override
+	    public int compare(Tournament bc1, Tournament bc2) {
+	    	if(bc2.getBowlerDotsSortData() == bc1.getBowlerDotsSortData()) {
+	    		//return Integer.compare(bc2.getBatsmanStrikeRateSortData(), bc1.getBatsmanStrikeRateSortData());
+	    		return Integer.compare(bc2.getRuns(), bc1.getRuns());
+	    	}else {
+	    		return Integer.compare(bc2.getBowlerDotsSortData(), bc1.getBowlerDotsSortData());
 	    	}
 	    }
 	}
@@ -12429,7 +12452,7 @@ public class CricketFunctions {
 		      break;
 		    case CricketUtil.LOG_ANY_BALL:
 		    	if (events.get(i).getEventExtra() != null && !events.get(i).getEventExtra().isEmpty()) {
-		    		if(!events.get(i).getEventSubExtra().isEmpty()&& events.get(i).getEventSubExtra() != null && events.get(i).getEventSubExtraRuns() > 0) {
+		    		if(events.get(i).getEventSubExtra() != null && !events.get(i).getEventSubExtra().isEmpty() && events.get(i).getEventSubExtraRuns() > 0) {
 		    			if(events.get(i).getEventSubExtra().equalsIgnoreCase(CricketUtil.WIDE)) {
 		    				this_ball_data = String.valueOf(events.get(i).getEventRuns() + events.get(i).getEventExtraRuns() + events.get(i).getEventSubExtraRuns());
 		    			}
@@ -12443,7 +12466,7 @@ public class CricketFunctions {
 		    				this_ball_data =events.get(i).getEventExtraRuns()+ events.get(i).getEventExtra();
 		    			}
 		    			else if(events.get(i).getEventExtra().equalsIgnoreCase(CricketUtil.NO_BALL)) {
-		    				if(!events.get(i).getEventSubExtra().isEmpty() && events.get(i).getEventSubExtra() != null && events.get(i).getEventSubExtraRuns() > 0) {
+		    				if(events.get(i).getEventSubExtra() != null && !events.get(i).getEventSubExtra().isEmpty() && events.get(i).getEventSubExtraRuns() > 0) {
 		    					if(events.get(i).getEventRuns()>0) {
 				    				this_ball_data = events.get(i).getEventExtra() + "+" + events.get(i).getEventRuns() + "+" + 
 				    						events.get(i).getEventSubExtraRuns() + events.get(i).getEventSubExtra();
@@ -12452,7 +12475,7 @@ public class CricketFunctions {
 				    				this_ball_data = events.get(i).getEventExtra() + "+" + 
 				    						events.get(i).getEventSubExtraRuns() + events.get(i).getEventSubExtra();
 				    			}
-		    				}else if(!events.get(i).getEventSubExtra().isEmpty()&& events.get(i).getEventSubExtra() != null 
+		    				}else if(events.get(i).getEventSubExtra() != null  && !events.get(i).getEventSubExtra().isEmpty()
 		    						&& events.get(i).getEventSubExtraRuns() <= 0) {
 		    					if(events.get(i).getEventRuns()>0) {
 				    				this_ball_data = events.get(i).getEventExtra() + "+" + events.get(i).getEventRuns() +
@@ -15765,7 +15788,7 @@ public class CricketFunctions {
 
 						if(matchStats.getBowlingCard().getLastBowlerId() > 0 &&
 							events.get(i).getEventBowlerNo() == matchStats.getBowlingCard().getLastBowlerId()) {
-							
+							System.out.println("events.get(i).getEventType() = " + events.get(i).getEventType());
 							switch(events.get(i).getEventType()) {
 							case CricketUtil.BYE: case CricketUtil.LEG_BYE: 
 								matchStats.getLastOverData().setTotalRuns(matchStats.getLastOverData().getTotalRuns() +
@@ -15781,6 +15804,10 @@ public class CricketFunctions {
 								matchStats.getLastOverData().setTotalRuns(matchStats.getLastOverData().getTotalRuns() +
 									events.get(i).getEventRuns() + events.get(i).getEventExtraRuns() + events.get(i).getEventSubExtraRuns());
 								break;
+							case CricketUtil.WIDE:case CricketUtil.NO_BALL:
+								matchStats.getLastOverData().setTotalRuns(matchStats.getLastOverData().getTotalRuns() +
+										events.get(i).getEventRuns() + events.get(i).getEventSubExtraRuns());
+					    		break;
 							default:
 								matchStats.getLastOverData().setTotalRuns(matchStats.getLastOverData().getTotalRuns() +
 									events.get(i).getEventRuns() + events.get(i).getEventExtraRuns() + events.get(i).getEventSubExtraRuns());

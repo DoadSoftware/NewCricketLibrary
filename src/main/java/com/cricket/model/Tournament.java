@@ -234,6 +234,10 @@ public int getBatsmanSixesSortData() {
 	return 1000 * this.getSixes() - this.getInnings();
 }
 
+public int getBowlerDotsSortData() {
+	return 1000 * this.getDots() - this.getInnings();
+}
+
 public List<BestStats> getBatsman_best_Stats() {
 	return batsman_best_Stats;
 }
