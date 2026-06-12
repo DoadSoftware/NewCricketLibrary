@@ -7004,19 +7004,23 @@ public class CricketFunctions {
 					}							
 				}
 			}
-			for(Player hs : match.getSetup().getHomeSubstitutes()) {
-//				if(hs.getImpactPlayer().equalsIgnoreCase(CricketUtil.YES)) {
-					if(hs.getPlayerId() == stat.getPlayer_id()) {
-						impact_player_found = true;
-					}
-//				}
+			if(match.getSetup().getHomeSubstitutes() != null) {
+				for(Player hs : match.getSetup().getHomeSubstitutes()) {
+//					if(hs.getImpactPlayer().equalsIgnoreCase(CricketUtil.YES)) {
+						if(hs.getPlayerId() == stat.getPlayer_id()) {
+							impact_player_found = true;
+						}
+//					}
+				}
 			}
-			for(Player as : match.getSetup().getAwaySubstitutes()) {
-//				if(as.getImpactPlayer().equalsIgnoreCase(CricketUtil.YES)) {
-					if(as.getPlayerId() == stat.getPlayer_id()) {
-						impact_player_found = true;
-					}
-//				}
+			if(match.getSetup().getAwaySubstitutes() != null) {
+				for(Player as : match.getSetup().getAwaySubstitutes()) {
+//					if(as.getImpactPlayer().equalsIgnoreCase(CricketUtil.YES)) {
+						if(as.getPlayerId() == stat.getPlayer_id()) {
+							impact_player_found = true;
+						}
+//					}
+				}
 			}
 			if(player_found == true && impact_player_found == false){
 				player_found = false;
