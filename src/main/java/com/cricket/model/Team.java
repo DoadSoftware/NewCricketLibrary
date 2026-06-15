@@ -61,18 +61,11 @@ public class Team implements Comparable<Team> {
   @Column(name = "ShortTamilTeamName")
   private String ShortTamilTeamName;
   
-  @Column(name = "TeluguTeamName1")
-  private String teluguTeamName1;
+  @Column(name = "FullTeluguTeamName")
+  private String FullTeluguTeamName;
   
-  @Column(name = "TeluguTeamName2")
-  private String teluguTeamName2;
-  
-  @Column(name = "TeluguTeamName3")
-  private String teluguTeamName3;
-  
-  @Column(name = "TeluguTeamName4")
-  private String teluguTeamName4;
-  
+  @Column(name = "ShortTeluguTeamName")
+  private String ShortTeluguTeamName;
   
 //public Team(String string, Integer valueOf, Integer valueOf2, Integer valueOf3, String string2, String string3,
 //		String string4, Integer valueOf4, Integer valueOf5, Integer valueOf6) {
@@ -248,36 +241,20 @@ public void setOnlineId(String onlineId) {
 	this.onlineId = onlineId;
 }
 
-public String getTeluguTeamName1() {
-	return teluguTeamName1;
+public String getFullTeluguTeamName() {
+	return FullTeluguTeamName;
 }
 
-public void setTeluguTeamName1(String teluguTeamName1) {
-	this.teluguTeamName1 = teluguTeamName1;
+public void setFullTeluguTeamName(String fullTeluguTeamName) {
+	FullTeluguTeamName = fullTeluguTeamName;
 }
 
-public String getTeluguTeamName2() {
-	return teluguTeamName2;
+public String getShortTeluguTeamName() {
+	return ShortTeluguTeamName;
 }
 
-public void setTeluguTeamName2(String teluguTeamName2) {
-	this.teluguTeamName2 = teluguTeamName2;
-}
-
-public String getTeluguTeamName3() {
-	return teluguTeamName3;
-}
-
-public void setTeluguTeamName3(String teluguTeamName3) {
-	this.teluguTeamName3 = teluguTeamName3;
-}
-
-public String getTeluguTeamName4() {
-	return teluguTeamName4;
-}
-
-public void setTeluguTeamName4(String teluguTeamName4) {
-	this.teluguTeamName4 = teluguTeamName4;
+public void setShortTeluguTeamName(String shortTeluguTeamName) {
+	ShortTeluguTeamName = shortTeluguTeamName;
 }
 
 public String getTeamBadge() {
@@ -319,9 +296,8 @@ public String toString() {
 			+ ", captains=" + captains + ", teamColor=" + teamColor + ", gender=" + gender + ", onlineId=" + onlineId
 			+ ", FullHindiTeamName=" + FullHindiTeamName + ", FullTamilTeamName=" + FullTamilTeamName
 			+ ", ShortHindiTeamName=" + ShortHindiTeamName + ", ShortTamilTeamName=" + ShortTamilTeamName
-			+ ", teluguTeamName1=" + teluguTeamName1 + ", teluguTeamName2=" + teluguTeamName2 + ", teluguTeamName3="
-			+ teluguTeamName3 + ", teluguTeamName4=" + teluguTeamName4 + ", one=" + one + ", two=" + two + ", three="
-			+ three + ", five=" + five + ", player=" + player + "]";
+			+ ", FullTeluguTeamName=" + FullTeluguTeamName + ", ShortTeluguTeamName=" + ShortTeluguTeamName + ", one="
+			+ one + ", two=" + two + ", three=" + three + ", five=" + five + ", player=" + player + "]";
 }
 
 @Override

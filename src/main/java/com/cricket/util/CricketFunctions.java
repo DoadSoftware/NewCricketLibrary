@@ -4861,13 +4861,13 @@ public class CricketFunctions {
 					}
 					hindiTxt = tm.getShortHindiTeamName();
 					tamilTxt = tm.getShortTamilTeamName();
-					teluguTxt = tm.getTeluguTeamName4();
+					teluguTxt = tm.getShortTeluguTeamName();
 					break;
 				default:
             		englishTxt = tm.getTeamName1();
 					hindiTxt = tm.getFullHindiTeamName();
 					tamilTxt = tm.getFullTamilTeamName();
-					teluguTxt = tm.getTeluguTeamName1();
+					teluguTxt = tm.getFullTeluguTeamName();
 					break;
 				}
 			}
@@ -4910,6 +4910,11 @@ public class CricketFunctions {
 					}
 				}
 				
+			}else {
+				englishTxt = foreignTextToProcess;
+				hindiTxt = foreignTextToProcess;
+				tamilTxt = foreignTextToProcess;
+				teluguTxt = foreignTextToProcess;
 			}
 			
 			break;
