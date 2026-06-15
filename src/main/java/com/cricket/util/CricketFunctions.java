@@ -4861,13 +4861,13 @@ public class CricketFunctions {
 					}
 					hindiTxt = tm.getShortHindiTeamName();
 					tamilTxt = tm.getShortTamilTeamName();
-					teluguTxt = tm.getShortTeluguTeamName();
+					teluguTxt = tm.getTeluguTeamName4();
 					break;
 				default:
             		englishTxt = tm.getTeamName1();
 					hindiTxt = tm.getFullHindiTeamName();
 					tamilTxt = tm.getFullTamilTeamName();
-					teluguTxt = tm.getFullTeluguTeamName();
+					teluguTxt = tm.getTeluguTeamName1();
 					break;
 				}
 			}

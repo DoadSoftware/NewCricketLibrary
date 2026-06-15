@@ -77,6 +77,9 @@ public class Player implements Comparable<Player>
   
   @Column(name = "TeluguShortName")
   private String teluguTickerName;
+  
+  @Column(name = "TeluguFirstName")
+  private String teluguFirstName;
 
   @Column(name = "ROLE")
   private String role;
@@ -681,6 +684,14 @@ public void setRetained(String retained) {
 	this.retained = retained;
 }
 
+public String getTeluguFirstName() {
+	return teluguFirstName;
+}
+
+public void setTeluguFirstName(String teluguFirstName) {
+	this.teluguFirstName = teluguFirstName;
+}
+
 @Override
 public String toString() {
 	return "Player [playerId=" + playerId + ", full_name=" + full_name + ", ae_Id=" + ae_Id + ", firstname=" + firstname
@@ -689,16 +700,17 @@ public String toString() {
 			+ ", hindifull_name=" + hindifull_name + ", tamilfull_name=" + tamilfull_name + ", telugufull_name="
 			+ telugufull_name + ", hindi_surname=" + hindi_surname + ", tamil_surname=" + tamil_surname
 			+ ", telugu_surname=" + telugu_surname + ", hindiTickerName=" + hindiTickerName + ", tamilTickerName="
-			+ tamilTickerName + ", teluguTickerName=" + teluguTickerName + ", role=" + role + ", zone=" + zone
-			+ ", squad=" + squad + ", debut=" + debut + ", bowlingStyle=" + bowlingStyle + ", battingStyle="
-			+ battingStyle + ", teamId=" + teamId + ", overseasPlayer=" + overseasPlayer + ", Photo=" + Photo
-			+ ", Nationality=" + Nationality + ", text1=" + text1 + ", text2=" + text2 + ", text3=" + text3
-			+ ", question1=" + question1 + ", question2=" + question2 + ", question3=" + question3 + ", gender="
-			+ gender + ", category=" + category + ", playerPosition=" + playerPosition + ", captainWicketKeeper="
-			+ captainWicketKeeper + ", BatBall=" + BatBall + ", playerPos=" + playerPos + ", substitutionType="
-			+ substitutionType + ", one=" + one + ", two=" + two + ", three=" + three + ", five=" + five + ", six="
-			+ six + ", four=" + four + ", nine=" + nine + ", dot=" + dot + ", catches=" + catches + ", runs=" + runs
-			+ ", balls=" + balls + ", wickets=" + wickets + "]";
+			+ tamilTickerName + ", teluguTickerName=" + teluguTickerName + ", teluguFirstName=" + teluguFirstName
+			+ ", role=" + role + ", zone=" + zone + ", squad=" + squad + ", debut=" + debut + ", bowlingStyle="
+			+ bowlingStyle + ", battingStyle=" + battingStyle + ", teamId=" + teamId + ", overseasPlayer="
+			+ overseasPlayer + ", Photo=" + Photo + ", Nationality=" + Nationality + ", text1=" + text1 + ", text2="
+			+ text2 + ", text3=" + text3 + ", question1=" + question1 + ", question2=" + question2 + ", question3="
+			+ question3 + ", gender=" + gender + ", category=" + category + ", retained=" + retained
+			+ ", playerPosition=" + playerPosition + ", captainWicketKeeper=" + captainWicketKeeper + ", BatBall="
+			+ BatBall + ", playerPos=" + playerPos + ", substitutionType=" + substitutionType + ", one=" + one
+			+ ", two=" + two + ", three=" + three + ", five=" + five + ", six=" + six + ", four=" + four + ", nine="
+			+ nine + ", dot=" + dot + ", catches=" + catches + ", runs=" + runs + ", balls=" + balls + ", wickets="
+			+ wickets + "]";
 }
 
 }
