@@ -4788,13 +4788,13 @@ public class CricketFunctions {
 			        	if(englishTxt.contains(" ")) {
 							englishTxt = englishTxt.split(" ")[0];
 					    }
-						if(hindiTxt.contains(" ")) {
+						if(hindiTxt != null && hindiTxt.contains(" ")) {
 							hindiTxt = hindiTxt.split(" ")[0];
 					    }
-						if(tamilTxt.contains(" ")) {
+						if(tamilTxt != null && tamilTxt.contains(" ")) {
 							tamilTxt = tamilTxt.split(" ")[0];
 					    }
-						if(teluguTxt.contains(" ")) {
+						if(teluguTxt != null && teluguTxt.contains(" ")) {
 							teluguTxt = teluguTxt.split(" ")[0];
 					    }
 	  	                break;
@@ -4802,13 +4802,13 @@ public class CricketFunctions {
 			        	if(englishTxt.contains(" ")) {
 							englishTxt = englishTxt.split(" ")[1];
 					    }
-						if(hindiTxt.contains(" ")) {
+						if(hindiTxt != null && hindiTxt.contains(" ")) {
 							hindiTxt = hindiTxt.split(" ")[1];
 					    }
-						if(tamilTxt.contains(" ")) {
+						if(tamilTxt != null && tamilTxt.contains(" ")) {
 							tamilTxt = tamilTxt.split(" ")[1];
 					    }
-						if(teluguTxt.contains(" ")) {
+						if(teluguTxt != null && teluguTxt.contains(" ")) {
 							teluguTxt = teluguTxt.split(" ")[1];
 					    }
 	  	                break;
