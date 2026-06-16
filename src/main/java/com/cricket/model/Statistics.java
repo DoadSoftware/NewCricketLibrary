@@ -15,86 +15,86 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Statistics
 {
   @Id
-  @Column(name="STATISTICSID")
-  private Integer statistics_id;
+  @Column(name="StatisticsId")
+  private Integer statisticsId;
   
-  @Column(name="PLAYERID")
-  private Integer player_id;
+  @Column(name="PlayerID")
+  private Integer playerID;
   
-  @Column(name="STATSTYPEID")
-  private Integer stats_type_id;
+  @Column(name="StatsTypeId")
+  private Integer statsTypeId;
   
-  @Column(name="MATCHES")
+  @Column(name="Matches")
   private Integer matches;
   
-  @Column(name="INNINGS")
+  @Column(name="Innings")
   private Integer innings;
   
-  @Column(name="BOWLERINNING")
-  private Integer bowler_inning;
+  @Column(name="BowlerInning")
+  private Integer bowlerInning;
 
-  @Column(name="NOTOUT")
-  private Integer not_out;
+  @Column(name="NotOut")
+  private Integer notOut;
   
-  @Column(name="RUNS")
+  @Column(name="Runs")
   private Integer runs;
   
-  @Column(name="BALLSFACED")
-  private Integer balls_faced;
+  @Column(name="BallsFaced")
+  private Integer ballsFaced;
   
-  @Column(name="BESTSCORE")
-  private String best_score;
+  @Column(name="BestScore")
+  private String bestScore;
   
   @Column(name="BestScoreAgainst")
-  private String best_score_against;
+  private String bestScoreAgainst;
   
   @Column(name="BestScoreVenue")
-  private String best_score_venue;
+  private String bestScoreVenue;
   
-  @Column(name="100s")
+  @Column(name="Hundreds")
   private Integer hundreds;
   
-  @Column(name="50s")
+  @Column(name="Fifties")
   private Integer fifties;
   
-  @Column(name="30s")
+  @Column(name="Thirties")
   private Integer thirties;
   
-  @Column(name="4s")
+  @Column(name="Fours")
   private Integer fours;
   
-  @Column(name="6s")
+  @Column(name="Sixes")
   private Integer sixes;
   
-  @Column(name="BALLSBOWLED")
-  private Integer balls_bowled;
+  @Column(name="BallsBowled")
+  private Integer ballsBowled;
   
-  @Column(name="RUNSCONCEDED")
-  private Integer runs_conceded;
+  @Column(name="RunsConceded")
+  private Integer runsConceded;
   
-  @Column(name="3Plus")
-  private Integer plus_3;
+  @Column(name="Plus3")
+  private Integer plus3;
   
-  @Column(name="5Plus")
-  private Integer plus_5;
+  @Column(name="Plus5")
+  private Integer plus5;
   
   @Column(name="DotBowled")
-  private Integer dotbowled;
+  private Integer dotBowled;
   
-  @Column(name="WICKETS")
+  @Column(name="Wickets")
   private Integer wickets;
   
   @Column(name="CATCHES")
   private Integer catches;
   
-  @Column(name="BESTFIGURES")
-  private String best_figures;
+  @Column(name="BestFigures")
+  private String bestFigures;
   
   @Column(name="BestFiguresAgainst")
-  private String best_figures_against;
+  private String bestFiguresAgainst;
   
   @Column(name="BestFiguresVenue")
-  private String best_figures_venue;
+  private String bestFiguresVenue;
   
   @Transient
   private StatsType stats_type;
@@ -104,269 +104,260 @@ public class Statistics
   
   @Transient
   private int tournament_sixes;
-  
-  public Integer getStatistics_id()
-  {
-    return statistics_id;
-  }
-  
-  public void setStatistics_id(Integer statistics_id)
-  {
-    this.statistics_id = statistics_id;
-  }
-  
-  public Integer getPlayer_id()
-  {
-    return player_id;
-  }
-  
-  public void setPlayer_id(Integer player_id)
-  {
-    this.player_id = player_id;
-  }
-  
-  public Integer getStats_type_id()
-  {
-    return stats_type_id;
-  }
-  
-  public void setStats_type_id(Integer stats_type_id)
-  {
-    this.stats_type_id = stats_type_id;
-  }
-  
-  public StatsType getStats_type()
-  {
-    return stats_type;
-  }
-  
-  public void setStats_type(StatsType stats_type)
-  {
-    this.stats_type = stats_type;
-  }
-  
-  public Integer getMatches()
-  {
-    return matches;
-  }
-  
-  public void setMatches(Integer matches)
-  {
-    this.matches = matches;
+
+  public Integer getStatisticsId() {
+	return statisticsId;
   }
 
-public Integer getInnings() {
+  public void setStatisticsId(Integer statisticsId) {
+	this.statisticsId = statisticsId;
+  }
+
+  public Integer getPlayerID() {
+	return playerID;
+  }
+
+  public void setPlayerID(Integer playerID) {
+	this.playerID = playerID;
+  }
+
+  public Integer getStatsTypeId() {
+	return statsTypeId;
+  }
+
+  public void setStatsTypeId(Integer statsTypeId) {
+	this.statsTypeId = statsTypeId;
+  }
+
+  public Integer getMatches() {
+	return matches;
+  }
+
+  public void setMatches(Integer matches) {
+	this.matches = matches;
+  }
+
+  public Integer getInnings() {
 	return innings;
-}
+  }
 
-public void setInnings(Integer innings) {
+  public void setInnings(Integer innings) {
 	this.innings = innings;
-}
+  }
 
-public Integer getNot_out() {
-	return not_out == null ? 0 : not_out;
-}
+  public Integer getBowlerInning() {
+	return bowlerInning;
+  }
 
-public void setNot_out(Integer not_out) {
-	this.not_out = not_out;
-}
+  public void setBowlerInning(Integer bowlerInning) {
+	this.bowlerInning = bowlerInning;
+  }
 
-public Integer getRuns() {
-	return runs == null ? 0 : runs;
-}
+  public Integer getNotOut() {
+	return notOut;
+  }
 
-public void setRuns(Integer runs) {
+  public void setNotOut(Integer notOut) {
+	this.notOut = notOut;
+  }
+
+  public Integer getRuns() {
+	return runs;
+  }
+
+  public void setRuns(Integer runs) {
 	this.runs = runs;
-}
+  }
 
-public Integer getBalls_faced() {
-	return balls_faced == null ? 0 : balls_faced;
-}
+  public Integer getBallsFaced() {
+	return ballsFaced;
+  }
 
-public void setBalls_faced(Integer balls_faced) {
-	this.balls_faced = balls_faced;
-}
+  public void setBallsFaced(Integer ballsFaced) {
+	this.ballsFaced = ballsFaced;
+  }
 
-public String getBest_score() {
-	return best_score == null ? "" : best_score;
-}
+  public String getBestScore() {
+	return bestScore;
+  }
 
-public void setBest_score(String best_score) {
-	this.best_score = best_score;
-}
+  public void setBestScore(String bestScore) {
+	this.bestScore = bestScore;
+  }
 
-public String getBest_score_against() {
-	return best_score_against == null ? "" : best_score_against;
-}
+  public String getBestScoreAgainst() {
+	return bestScoreAgainst;
+  }
 
-public void setBest_score_against(String best_score_against) {
-	this.best_score_against = best_score_against;
-}
+  public void setBestScoreAgainst(String bestScoreAgainst) {
+	this.bestScoreAgainst = bestScoreAgainst;
+  }
 
-public String getBest_score_venue() {
-	return best_score_venue == null ? "" : best_score_venue;
-}
+  public String getBestScoreVenue() {
+	return bestScoreVenue;
+  }
 
-public void setBest_score_venue(String best_score_venue) {
-	this.best_score_venue = best_score_venue;
-}
+  public void setBestScoreVenue(String bestScoreVenue) {
+	this.bestScoreVenue = bestScoreVenue;
+  }
 
-public Integer getHundreds() {
-	return hundreds == null ? 0 : hundreds;
-}
+  public Integer getHundreds() {
+	return hundreds;
+  }
 
-public void setHundreds(Integer hundreds) {
+  public void setHundreds(Integer hundreds) {
 	this.hundreds = hundreds;
-}
+  }
 
-public Integer getFifties() {
-	return fifties == null ? 0 : fifties;
-}
+  public Integer getFifties() {
+	return fifties;
+  }
 
-public void setFifties(Integer fifties) {
+  public void setFifties(Integer fifties) {
 	this.fifties = fifties;
-}
+  }
 
-public Integer getThirties() {
-	return thirties == null ? 0 : thirties;
-}
+  public Integer getThirties() {
+	return thirties;
+  }
 
-public void setThirties(Integer thirties) {
+  public void setThirties(Integer thirties) {
 	this.thirties = thirties;
-}
+  }
 
-public Integer getFours() {
-	return fours == null ? 0 : fours;
-}
+  public Integer getFours() {
+	return fours;
+  }
 
-public void setFours(Integer fours) {
+  public void setFours(Integer fours) {
 	this.fours = fours;
-}
+  }
 
-public Integer getSixes() {
-	return sixes == null ? 0 : sixes;
-}
+  public Integer getSixes() {
+	return sixes;
+  }
 
-public void setSixes(Integer sixes) {
+  public void setSixes(Integer sixes) {
 	this.sixes = sixes;
-}
+  }
 
-public Integer getBalls_bowled() {
-	return balls_bowled == null ? 0 : balls_bowled;
-}
+  public Integer getBallsBowled() {
+	return ballsBowled;
+  }
 
-public void setBalls_bowled(Integer balls_bowled) {
-	this.balls_bowled = balls_bowled;
-}
+  public void setBallsBowled(Integer ballsBowled) {
+	this.ballsBowled = ballsBowled;
+  }
 
-public Integer getRuns_conceded() {
-	return runs_conceded == null ? 0 : runs_conceded;
-}
+  public Integer getRunsConceded() {
+	return runsConceded;
+  }
 
-public void setRuns_conceded(Integer runs_conceded) {
-	this.runs_conceded = runs_conceded;
-}
+  public void setRunsConceded(Integer runsConceded) {
+	this.runsConceded = runsConceded;
+  }
 
-public Integer getPlus_3() {
-	return plus_3 == null ? 0 : plus_3;
-}
+  public Integer getPlus3() {
+	return plus3;
+  }
 
-public void setPlus_3(Integer plus_3) {
-	this.plus_3 = plus_3;
-}
+  public void setPlus3(Integer plus3) {
+	this.plus3 = plus3;
+  }
 
-public Integer getPlus_5() {
-	return plus_5 == null ? 0 : plus_5;
-}
+  public Integer getPlus5() {
+	return plus5;
+  }
 
-public void setPlus_5(Integer plus_5) {
-	this.plus_5 = plus_5;
-}
+  public void setPlus5(Integer plus5) {
+	this.plus5 = plus5;
+  }
 
-public Integer getDotbowled() {
-	return dotbowled == null ? 0 : dotbowled;
-}
+  public Integer getDotBowled() {
+	return dotBowled;
+  }
 
-public void setDotbowled(Integer dotbowled) {
-	this.dotbowled = dotbowled;
-}
+  public void setDotBowled(Integer dotBowled) {
+	this.dotBowled = dotBowled;
+  }
 
-public Integer getWickets() {
-	return wickets == null ? 0 : wickets;
-}
+  public Integer getWickets() {
+	return wickets;
+  }
 
-public void setWickets(Integer wickets) {
+  public void setWickets(Integer wickets) {
 	this.wickets = wickets;
-}
+  }
 
-public String getBest_figures() {
-	return best_figures == null ? "" : best_figures;
-}
-
-public void setBest_figures(String best_figures) {
-	this.best_figures = best_figures;
-}
-
-public String getBest_figures_against() {
-	return best_figures_against == null ? "" : best_figures_against;
-}
-
-public void setBest_figures_against(String best_figures_against) {
-	this.best_figures_against = best_figures_against;
-}
-
-public String getBest_figures_venue() {
-	return best_figures_venue == null ? "" : best_figures_venue;
-}
-
-public void setBest_figures_venue(String best_figures_venue) {
-	this.best_figures_venue = best_figures_venue;
-}
-
-public int getTournament_fours() {
-	return tournament_fours;
-}
-
-public void setTournament_fours(int tournament_fours) {
-	this.tournament_fours = tournament_fours;
-}
-
-public int getTournament_sixes() {
-	return tournament_sixes;
-}
-
-public void setTournament_sixes(int tournament_sixes) {
-	this.tournament_sixes = tournament_sixes;
-}
-
-public Integer getBowler_inning() {
-	return bowler_inning;
-}
-
-public void setBowler_inning(Integer bowler_inning) {
-	this.bowler_inning = bowler_inning;
-}
-
-public Integer getCatches() {
+  public Integer getCatches() {
 	return catches;
-}
+  }
 
-public void setCatches(Integer catches) {
+  public void setCatches(Integer catches) {
 	this.catches = catches;
-}
+  }
 
-@Override
-public String toString() {
-	return "Statistics [statistics_id=" + statistics_id + ", player_id=" + player_id + ", stats_type_id="
-			+ stats_type_id + ", matches=" + matches + ", innings=" + innings + ", bowler_inning=" + bowler_inning
-			+ ", not_out=" + not_out + ", runs=" + runs + ", balls_faced=" + balls_faced + ", best_score=" + best_score
-			+ ", best_score_against=" + best_score_against + ", best_score_venue=" + best_score_venue + ", hundreds="
-			+ hundreds + ", fifties=" + fifties + ", thirties=" + thirties + ", fours=" + fours + ", sixes=" + sixes
-			+ ", balls_bowled=" + balls_bowled + ", runs_conceded=" + runs_conceded + ", plus_3=" + plus_3 + ", plus_5="
-			+ plus_5 + ", dotbowled=" + dotbowled + ", wickets=" + wickets + ", catches=" + catches + ", best_figures="
-			+ best_figures + ", best_figures_against=" + best_figures_against + ", best_figures_venue="
-			+ best_figures_venue + ", stats_type=" + stats_type + ", tournament_fours=" + tournament_fours
-			+ ", tournament_sixes=" + tournament_sixes + "]";
-}
+  public String getBestFigures() {
+	return bestFigures;
+  }
 
-}
+  public void setBestFigures(String bestFigures) {
+	this.bestFigures = bestFigures;
+  }
+
+  public String getBestFiguresAgainst() {
+	return bestFiguresAgainst;
+  }
+
+  public void setBestFiguresAgainst(String bestFiguresAgainst) {
+	this.bestFiguresAgainst = bestFiguresAgainst;
+  }
+
+  public String getBestFiguresVenue() {
+	return bestFiguresVenue;
+  }
+
+  public void setBestFiguresVenue(String bestFiguresVenue) {
+	this.bestFiguresVenue = bestFiguresVenue;
+  }
+
+  public StatsType getStats_type() {
+	return stats_type;
+  }
+
+  public void setStats_type(StatsType stats_type) {
+	this.stats_type = stats_type;
+  }
+
+  public int getTournament_fours() {
+	return tournament_fours;
+  }
+
+  public void setTournament_fours(int tournament_fours) {
+	this.tournament_fours = tournament_fours;
+  }
+
+  public int getTournament_sixes() {
+	return tournament_sixes;
+  }
+
+  public void setTournament_sixes(int tournament_sixes) {
+	this.tournament_sixes = tournament_sixes;
+  }
+
+  @Override
+  public String toString() {
+	return "Statistics [statisticsId=" + statisticsId + ", playerID=" + playerID + ", statsTypeId=" + statsTypeId
+			+ ", matches=" + matches + ", innings=" + innings + ", bowlerInning=" + bowlerInning + ", notOut=" + notOut
+			+ ", runs=" + runs + ", ballsFaced=" + ballsFaced + ", bestScore=" + bestScore + ", bestScoreAgainst="
+			+ bestScoreAgainst + ", bestScoreVenue=" + bestScoreVenue + ", hundreds=" + hundreds + ", fifties="
+			+ fifties + ", thirties=" + thirties + ", fours=" + fours + ", sixes=" + sixes + ", ballsBowled="
+			+ ballsBowled + ", runsConceded=" + runsConceded + ", plus3=" + plus3 + ", plus5=" + plus5 + ", dotBowled="
+			+ dotBowled + ", wickets=" + wickets + ", catches=" + catches + ", bestFigures=" + bestFigures
+			+ ", bestFiguresAgainst=" + bestFiguresAgainst + ", bestFiguresVenue=" + bestFiguresVenue + ", stats_type="
+			+ stats_type + ", tournament_fours=" + tournament_fours + ", tournament_sixes=" + tournament_sixes + "]";
+  }
+  
+  
+
+  }

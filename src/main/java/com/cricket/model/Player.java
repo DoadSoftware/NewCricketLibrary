@@ -54,26 +54,26 @@ public class Player implements Comparable<Player>
   @Column(name = "HindiFullName")
   private String hindifull_name;
   
-  @Column(name = "TamilFullName")
-  private String tamilfull_name;
-  
-  @Column(name = "TeluguFullName")
-  private String telugufull_name;
-  
   @Column(name = "HindiSurName")
   private String hindi_surname;
-  
-  @Column(name = "TamilSurName")
-  private String tamil_surname;
-  
-  @Column(name = "TeluguSurName")
-  private String telugu_surname;
   
   @Column(name = "HindiShortName")
   private String hindiTickerName;
   
+  @Column(name = "TamilFullName")
+  private String tamilfull_name;
+  
+  @Column(name = "TamilSurName")
+  private String tamil_surname;
+  
   @Column(name = "TamilShortName")
   private String tamilTickerName;
+  
+  @Column(name = "TeluguFullName")
+  private String telugufull_name;
+  
+  @Column(name = "TeluguSurName")
+  private String telugu_surname;
   
   @Column(name = "TeluguShortName")
   private String teluguTickerName;
