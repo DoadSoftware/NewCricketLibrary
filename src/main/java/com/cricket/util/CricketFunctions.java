@@ -4821,12 +4821,14 @@ public class CricketFunctions {
 			         }
 		        	break;
 				case CricketUtil.SURNAME:
-					if(foreignTextToProcess.equalsIgnoreCase(plyr.getSurname())) {
-				   	 	englishTxt = foreignTextToProcess;
-			        	hindiTxt = plyr.getHindi_surname();
-			        	tamilTxt = plyr.getTamil_surname();
-			        	teluguTxt = plyr.getTelugu_surname();
-					}
+					englishTxt = (plyr.getSurname() != null ? plyr.getSurname() : "");
+		        	hindiTxt = (plyr.getHindi_surname() != null ? plyr.getHindi_surname() : "");
+		        	tamilTxt = (plyr.getTamil_surname() != null ? plyr.getTamil_surname() : "");
+		        	teluguTxt = (plyr.getTelugu_surname() != null ? plyr.getTelugu_surname() : "");
+					break;
+				case CricketUtil.FIRSTNAME:
+					englishTxt = plyr.getFirstname();
+		        	teluguTxt = plyr.getTeluguFirstName();
 					break;
 				case CricketUtil.TICKERNAME:
 					englishTxt = plyr.getTicker_name();
