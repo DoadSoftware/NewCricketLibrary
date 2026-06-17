@@ -4740,12 +4740,29 @@ public class CricketFunctions {
 	    this_fd.setTeluguText(nullSafe(foreignLanguageDataList.get(0).getTeluguText()));
 
 	    for (int fd = 1; fd <= foreignLanguageDataList.size() - 1; fd++) {
-	        this_fd.setEnglishText(this_fd.getEnglishText() + " " + nullSafe(foreignLanguageDataList.get(fd).getEnglishText()));
-	        this_fd.setHindiText(this_fd.getHindiText()   + " " + nullSafe(foreignLanguageDataList.get(fd).getHindiText()));
-	        this_fd.setTamilText(this_fd.getTamilText()   + " " + nullSafe(foreignLanguageDataList.get(fd).getTamilText()));
-	        this_fd.setTeluguText(this_fd.getTeluguText() + " " + nullSafe(foreignLanguageDataList.get(fd).getTeluguText()));
+	        this_fd.setEnglishText(appendWithSmartSpacing(this_fd.getEnglishText(), foreignLanguageDataList.get(fd).getEnglishText()));
+	        this_fd.setHindiText(appendWithSmartSpacing(this_fd.getHindiText(), foreignLanguageDataList.get(fd).getHindiText()));
+	        this_fd.setTamilText(appendWithSmartSpacing(this_fd.getTamilText(), foreignLanguageDataList.get(fd).getTamilText()));
+	        this_fd.setTeluguText(appendWithSmartSpacing(this_fd.getTeluguText(), foreignLanguageDataList.get(fd).getTeluguText()));
 	    }
 	    return this_fd;
+	}
+
+	private static String appendWithSmartSpacing(String existing, String next) {
+	    String n = nullSafe(next);
+	    if (n.isEmpty()) {
+	        return existing;
+	    }
+	    if (existing == null || existing.isEmpty()) {
+	        return n;
+	    }
+	    // Don't put a space before these punctuation marks
+	    char firstChar = n.charAt(0);
+	    if (firstChar == ':' || firstChar == ',' || firstChar == '.' 
+	            || firstChar == ';' || firstChar == '%' || firstChar == ')') {
+	        return existing + n;
+	    }
+	    return existing + " " + n;
 	}
 
 	// Helper to avoid NullPointerException on .trim()
