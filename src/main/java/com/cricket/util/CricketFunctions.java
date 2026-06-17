@@ -4767,6 +4767,16 @@ public class CricketFunctions {
 				.filter(player -> foreignTextToProcess.equalsIgnoreCase(player.getTicker_name()))
 				.findAny().orElse(null);
 				break;
+			case CricketUtil.FIRSTNAME:
+				plyr = multiLanguage.getPlayers().stream()
+				.filter(player -> foreignTextToProcess.equalsIgnoreCase(player.getFirstname()))
+				.findAny().orElse(null);
+				break;
+			case CricketUtil.SURNAME:
+				plyr = multiLanguage.getPlayers().stream()
+				.filter(player -> foreignTextToProcess.equalsIgnoreCase(player.getSurname()))
+				.findAny().orElse(null);
+				break;	
 			default:
 				plyr = multiLanguage.getPlayers().stream()
 					.filter(player -> foreignTextToProcess.equalsIgnoreCase(player.getFull_name()))
