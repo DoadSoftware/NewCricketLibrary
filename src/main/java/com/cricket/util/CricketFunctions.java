@@ -4416,6 +4416,480 @@ public class CricketFunctions {
 //            }
 //        }
     }
+	public static ForeignLanguageData GenerateMatchResultForeignLanguage(MatchAllData match, String teamNameType, String broadcaster, 
+			String splitResultTxt, boolean ballsRemaining, MultiLanguageDatabase multiLanguageDb)
+	{
+		List<ForeignLanguageData> resultToShow = new ArrayList<ForeignLanguageData>();
+//		List<ForeignLanguageData> opponentTeamName = new ArrayList<ForeignLanguageData>();
+		List<String> insertTxt = new ArrayList<String>();
+		
+		if(match.getMatch().getMatchResult() != null) {
+			if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DRAWN)
+					|| match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.ABANDONED)) {
+				if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DRAWN) 
+						&& !match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.TEST)) { // For limited over match use match tied
+					switch (broadcaster) {
+					case "ICC-U19-2023":
+						if(splitResultTxt.isEmpty()) {
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+									CricketUtil.MATCH + " " + CricketUtil.TIED, "", null, 1, resultToShow);
+						} else {
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+									CricketUtil.MATCH.toLowerCase() + splitResultTxt + CricketUtil.TIED.toLowerCase(), "", null, 1, resultToShow);
+						}
+						break;
+					default:
+						resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+								CricketUtil.MATCH + " " + CricketUtil.TIED, "", null, 1, resultToShow);
+						break;
+					}
+				} else {
+					if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DRAWN)) {
+						switch (broadcaster) {
+						case "ICC-U19-2023":
+							if(splitResultTxt.isEmpty()) {
+								resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+										CricketUtil.MATCH + " " + CricketUtil.DRAWN, "", null, 1, resultToShow);
+							} else {
+								resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+										CricketUtil.MATCH + splitResultTxt + CricketUtil.DRAWN, "", null, 1, resultToShow);
+							}
+							break;
+						default:
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+									CricketUtil.MATCH + " " + CricketUtil.DRAWN, "", null, 1, resultToShow);
+							break;
+						}
+					} else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.ABANDONED)) {
+						switch (broadcaster) {
+						case "ICC-U19-2023":
+							if(splitResultTxt.isEmpty()) {
+								resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+										CricketUtil.MATCH + " " + CricketUtil.ABANDONED, "", null, 1, resultToShow);
+							} else {
+								resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+										CricketUtil.MATCH + splitResultTxt + CricketUtil.ABANDONED, "", null, 1, resultToShow);
+							}
+							break;
+						default:
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+									CricketUtil.MATCH + " " + CricketUtil.ABANDONED, "", null, 1, resultToShow);
+							break;
+						}
+					}
+				}
+			} else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.NO_RESULT)) {
+				resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+						CricketUtil.NO_RESULT.replace("_", " "), "", null, 1, resultToShow);
+			} else {
+				if(match.getMatch().getMatchResult().contains(",")) {
+					switch (teamNameType) {
+					case CricketUtil.TEAMNAME_4:
+						if(Integer.valueOf(match.getMatch().getMatchResult().split(",")[0]) == match.getSetup().getHomeTeamId()) {
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, CricketUtil.TEAMNAME_4, multiLanguageDb, 
+									match.getSetup().getHomeTeam().getTeamName1(), "", null, 1, resultToShow);
+//							opponentTeamName = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, CricketUtil.TEAMNAME_4, multiLanguageDb, 
+//									match.getSetup().getAwayTeam().getTeamName1(), "", null, 1, opponentTeamName);
+						} else {
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, CricketUtil.TEAMNAME_4, multiLanguageDb, 
+									match.getSetup().getAwayTeam().getTeamName1(), "", null, 1, resultToShow);
+//							opponentTeamName = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, CricketUtil.TEAMNAME_4, multiLanguageDb, 
+//									match.getSetup().getHomeTeam().getTeamName1(), "", null, 1, opponentTeamName);
+						}
+					    break;
+					default:
+						if(Integer.valueOf(match.getMatch().getMatchResult().split(",")[0]) == match.getSetup().getHomeTeamId()) {
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
+									match.getSetup().getHomeTeam().getTeamName1(), "", null, 1, resultToShow);
+//							opponentTeamName = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
+//									match.getSetup().getAwayTeam().getTeamName1(), "", null, 1, opponentTeamName);
+						} else {
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
+									match.getSetup().getAwayTeam().getTeamName1(), "", null, 1, resultToShow);
+//							opponentTeamName = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
+//									match.getSetup().getHomeTeam().getTeamName1(), "", null, 1, opponentTeamName);
+						}
+					    break;
+					}
+					if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.SUPER_OVER)) {
+						resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+								"WIN THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
+					} else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.INNING + "_LEAD")) {
+						resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+								"WIN ON FIRST INNING LEAD", "", null, resultToShow.size() + 1, resultToShow);
+					} else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.INNING) 
+						&& match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.RUN)) {
+						insertTxt.add(match.getMatch().getMatchResult().split(",")[1]);
+						resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+								"WON BY AN INNINGS AND RUN" + Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1])), 
+								"", insertTxt, resultToShow.size() + 1, resultToShow);
+					} else if (match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.RUN)) {
+						switch (broadcaster) {
+						case "ICC-U19-2023":
+//							if(splitResultTxt.isEmpty()) {
+//								resultToShow = resultToShow + " beat " + opponentTeamName + " by " + Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]) 
+//									+ " run" + Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]));
+//							} else {
+//								resultToShow = resultToShow + " beat " + opponentTeamName + splitResultTxt + "by " + Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]) 
+//									+ " run" + Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]));
+//							}
+							break;
+						default:
+							resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, match.getMatch().getMatchResult().split(",")[1], 
+									"", null, resultToShow.size() + 1, resultToShow);
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY RUN" + 
+									Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1])), "", null, resultToShow.size() + 1, resultToShow);
+							break;
+						}
+					} else if (match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.WICKET)) {
+						
+						switch (broadcaster) {
+						case "ICC-U19-2023":
+//							if(splitResultTxt.isEmpty()) {
+//								resultToShow = resultToShow + " beat " + opponentTeamName + " by " + Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]) 
+//									+ " wicket" + Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]));
+//							} else {
+//								resultToShow = resultToShow + " beat " + opponentTeamName + splitResultTxt + "by " + Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]) 
+//									+ " wicket" + Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]));
+//							}
+							break;
+						default:
+							resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, match.getMatch().getMatchResult().split(",")[1], 
+									"", null, resultToShow.size() + 1, resultToShow);
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY WICKET" 
+									+ Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1])), "", null, resultToShow.size() + 1, resultToShow);
+							if(ballsRemaining) {
+//								TargetData targetData = GetTargetData(match);
+//								if(targetData.getRemaningBall() > 0) {
+//									switch(broadcaster) {
+//									case "T20_MUMBAI":
+//										if(targetData.getRemaningBall() > 18) {
+//											resultToShow = resultToShow + " with " + CricketFunctions.OverBalls(0, targetData.getRemaningBall()) 
+//												+ " overs to spare";
+//										} else {
+//											resultToShow = resultToShow + " with " + targetData.getRemaningBall() + " ball" + 
+//													CricketFunctions.Plural(targetData.getRemaningBall()) + " to spare";
+//										}
+//										break;
+//									default:
+//										if(targetData.getRemaningBall() > 120) {
+//											resultToShow = resultToShow + " with " + CricketFunctions.OverBalls(0, targetData.getRemaningBall()) 
+//												+ " overs remaining";
+//										} else {
+//											resultToShow = resultToShow + " with " + targetData.getRemaningBall() + " ball" + 
+//													CricketFunctions.Plural(targetData.getRemaningBall()) + " remaining";
+//										}
+//										break;
+//									}
+//								}
+							}
+							break;
+						}
+					}
+					if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DLS)) {
+						resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, " (" + CricketUtil.DLS + ")", 
+								"", null, resultToShow.size() + 1, resultToShow);
+					}else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.VJD)) {
+						resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, " (" + CricketUtil.VJD + ")", 
+								"", null, resultToShow.size() + 1, resultToShow);
+					}
+				}
+			}
+		}
+		if(resultToShow.size() > 0) {
+			return MergeForeignLanguageDataListToSingleObject(resultToShow);
+		} else {
+			return null;
+		}
+	}
+	
+	public static ForeignLanguageData GenerateMatchSummaryStatusForeignLanguage(int whichInning, MatchAllData match, String teamNameType, 
+		String SplitSummaryText, String broadcaster, boolean ballsRemaining, MultiLanguageDatabase multiLanguageDb) 
+		{
+			TargetData targetData = new TargetData();
+			List<ForeignLanguageData> resultToShow = new ArrayList<ForeignLanguageData>();
+			List<String> insertTxt = new ArrayList<String>();
+			String unit = "";
+			
+			if(match.getMatch().getInning().get(0).getTotalRuns() > 0 || (6 * match.getMatch().getInning().get(0).getTotalOvers() 
+				+ match.getMatch().getInning().get(0).getTotalBalls()) > 0) 
+			{
+				resultToShow.add(GenerateMatchResultForeignLanguage(match, teamNameType, broadcaster, SplitSummaryText, ballsRemaining, multiLanguageDb));
+				if(resultToShow.get(0) != null) {
+					System.out.println(resultToShow);
+					targetData = new TargetData(resultToShow.get(0).getEnglishText());
+				}
+				if(!targetData.getTargetOrResult().trim().isEmpty()) {
+					targetData.setMatchFinished(true);
+				} else {
+			    	int lead_by = GetTeamRunsAhead(whichInning,match);
+		    		targetData = GetTargetData(match);
+					String batTeamNm = "", bowlTeamNm = "";
+					switch (teamNameType) {
+				    case CricketUtil.SHORT:
+				    	batTeamNm = match.getMatch().getInning().get(whichInning - 1).getBatting_team().getTeamName4();
+				    	bowlTeamNm = match.getMatch().getInning().get(whichInning - 1).getBowling_team().getTeamName4();
+				    	break;
+				    case CricketUtil.MIDDLE: 
+				    	batTeamNm = match.getMatch().getInning().get(whichInning - 1).getBatting_team().getTeamName3();
+				    	bowlTeamNm = match.getMatch().getInning().get(whichInning - 1).getBowling_team().getTeamName3();
+				    	break;
+				    default: 
+				    	batTeamNm = (match.getMatch().getInning().get(whichInning - 1)).getBatting_team().getTeamName1();
+				    	bowlTeamNm = (match.getMatch().getInning().get(whichInning - 1)).getBowling_team().getTeamName1();
+				    	break;
+				    }
+					
+				    switch (whichInning) {
+				    case 1:
+				    	if ((match.getMatch().getInning().get(whichInning - 1).getTotalRuns() > 0) || 
+				  		      (match.getMatch().getInning().get(whichInning - 1).getTotalOvers() > 0) || 
+				  		      (match.getMatch().getInning().get(whichInning - 1).getTotalBalls() > 0)) {
+				    		
+				    		resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+				    				"CURRENT RUN RATE", "", null, 1, resultToShow);
+				    		resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, 
+				    				match.getMatch().getInning().get(0).getRunRate(), "", null, resultToShow.size() + 1, resultToShow);
+				  		    }
+				    	else {
+				    		targetData.setTargetOrResult(CricketFunctions.generateTossResult(match, CricketUtil.FULL, 
+				    			CricketUtil.FIELD, CricketUtil.FULL, CricketUtil.CHOSE));
+				    	}
+				    	break;
+				    	
+				    case 2: case 3:
+				    	
+				    	if(match.getSetup().getMaxOvers() <= 0) { //Test & FC matches
+
+//				    		if(lead_by >= 0) {
+//					    		if(lead_by > 0) {
+//					    			targetData.setTargetOrResult(batTeamNm + " lead by " + lead_by + " run" + Plural(lead_by));
+//					    		} else if(lead_by == 0) {
+//					    			targetData.setTargetOrResult("Scores are level");
+//					    		}
+//				    		} else {
+//				    			if(whichInning == 3 && CricketFunctions.getWicketsLeft(match,whichInning) <= 0) {
+//				    				targetData.setTargetOrResult(bowlTeamNm + " win by innings & " + (-1 * lead_by) 
+//				    					+ " run" + Plural(-1 * lead_by));
+//				    				targetData.setMatchFinished(true);
+//				    			} else {
+//				    				targetData.setTargetOrResult(batTeamNm + " trail by " + (-1 * lead_by) 
+//				    					+ " run" + Plural(-1 * lead_by));
+//				    			}
+//				    		}
+					    		
+				    	} else { //Limited overs matches
+				    		
+						    if (targetData.getRemaningRuns() > 0 && targetData.getRemaningBall() > 0 && (CricketFunctions.getWicketsLeft(match,whichInning) > 0)) {
+						    	
+						    	switch (broadcaster) {
+						    	case "ICC-U19-2023":
+//						    		if(targetData.getRemaningRuns() == 1) {
+//						    			targetData.setTargetOrResult(batTeamNm + " need " + targetData.getRemaningRuns() + 
+//									        " run" + CricketFunctions.Plural(targetData.getRemaningRuns()) + " to win from ");
+//							    	}else {
+//							    		targetData.setTargetOrResult(batTeamNm + " need " + targetData.getRemaningRuns() + 
+//									        " more run" + CricketFunctions.Plural(targetData.getRemaningRuns()) + " to win from ");
+//							    	}
+						    		break;
+						    	default:
+						    		if (targetData.getRemaningBall() > 120) {
+						    			insertTxt.add(CricketFunctions.OverBalls(0,targetData.getRemaningBall()));
+						    			unit = "OVERS";
+									} else {
+										insertTxt.add(String.valueOf(targetData.getRemaningBall()));
+										unit = "BALL" + CricketFunctions.Plural(targetData.getRemaningBall()).toUpperCase();
+									}
+						    		insertTxt.add(String.valueOf(targetData.getRemaningRuns()));
+						    		
+						    		resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
+						    				batTeamNm, "", null, 1, resultToShow);
+						    		resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+						    				"NEED RUN" + CricketFunctions.Plural(targetData.getRemaningRuns()).toUpperCase() + " TO WIN FROM " 
+						    						+ unit, "", insertTxt, resultToShow.size() + 1, resultToShow);
+						    		break;
+						    	}
+						    } 
+						    else if (targetData.getRemaningRuns() <= 0) 
+						    {
+						    	switch (broadcaster) {
+								case "ICC-U19-2023":
+//									if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
+//										if(SplitSummaryText.isEmpty()) {
+//											targetData.setTargetOrResult(batTeamNm + " beat " + bowlTeamNm + " in the super over");
+//										} else {
+//											targetData.setTargetOrResult(batTeamNm + " beat " + bowlTeamNm 
+//												+ SplitSummaryText + "in the super over");
+//										}
+//									}else {
+//										if(SplitSummaryText.isEmpty()) {
+//											targetData.setTargetOrResult(batTeamNm + " beat " + bowlTeamNm + " by " + CricketFunctions.getWicketsLeft(match,whichInning) + 
+//										    		" wicket" + CricketFunctions.Plural(CricketFunctions.getWicketsLeft(match,whichInning)));
+//										} else {
+//											targetData.setTargetOrResult(batTeamNm + " beat " + bowlTeamNm + SplitSummaryText 
+//												+ "by " + CricketFunctions.getWicketsLeft(match,whichInning) + " wicket" 
+//												+ CricketFunctions.Plural(CricketFunctions.getWicketsLeft(match,whichInning)));
+//										}
+//									}
+									targetData.setMatchFinished(true);
+									break;
+								default:
+									if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
+							    				batTeamNm, "", null, 1, resultToShow);
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+												"WIN THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
+									} else {
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, batTeamNm, "", null, 1, resultToShow);
+										resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, String.valueOf(CricketFunctions.getWicketsLeft(match,whichInning)), 
+												"", null, resultToShow.size() + 1, resultToShow);
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY WICKET" 
+												+ CricketFunctions.Plural(CricketFunctions.getWicketsLeft(match,whichInning)), "", null, resultToShow.size() + 1, resultToShow);
+										
+//										if(ballsRemaining) {
+//											if(targetData.getRemaningBall() > 0) {
+//												switch(broadcaster) {
+//												case "T20_MUMBAI":
+//													if(targetData.getRemaningBall() <= 18) {
+//														targetData.setTargetOrResult(targetData.getTargetOrResult() + " with " + targetData.getRemaningBall() 
+//															+ " ball" + CricketFunctions.Plural(targetData.getRemaningBall()) + " to spare");
+//													}else {
+//														targetData.setTargetOrResult(targetData.getTargetOrResult() + " with " + 
+//															CricketFunctions.OverBalls(0, targetData.getRemaningBall()) + " overs to spare");
+//													}
+//													break;
+//												default:
+//													if(targetData.getRemaningBall() <= 120) {
+//														targetData.setTargetOrResult(targetData.getTargetOrResult() + " with " + targetData.getRemaningBall() 
+//															+ " ball" + CricketFunctions.Plural(targetData.getRemaningBall()) + " remaining");
+//													}else {
+//														targetData.setTargetOrResult(targetData.getTargetOrResult() + " with " + 
+//															CricketFunctions.OverBalls(0, targetData.getRemaningBall()) + " overs remaining");
+//													}
+//													break;
+//												}
+//											}
+//										}
+									}
+									targetData.setMatchFinished(true);
+									break;
+								}
+						    }
+						    else if (targetData.getRemaningRuns() == 1 && (targetData.getRemaningBall() <= 0 
+						    	|| CricketFunctions.getWicketsLeft(match,whichInning) <= 0)) {
+						    	switch (broadcaster) {
+								case "ICC-U19-2023": case "NPL": case "BENGAL-T20": case "ISPL":
+//									if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
+//										targetData.setTargetOrResult("Super Over tied - Another super over to follow");
+//									}else {
+//										if(SplitSummaryText.isEmpty()) {
+//											targetData.setTargetOrResult("Match tied - super over to follow");
+//										} else {
+//											targetData.setTargetOrResult("Match tied" + SplitSummaryText + "super over to follow");
+//										}
+//									}
+									break;
+								default:
+									if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "SUPER OVER TIED - MATCH DRAWN", 
+												"", null, resultToShow.size() + 1, resultToShow);
+									}else {
+										if(SplitSummaryText.isEmpty()) {
+											resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+													"MATCH TIED - WINNER WILL BE DECIDED BY SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
+										} else {
+											resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+													"MATCH TIED " + SplitSummaryText + " WINNER WILL BE DECIDED BY SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
+										}
+									}
+									break;
+								}
+								targetData.setMatchFinished(true);
+						    } 
+						    else 
+						    {
+						    	switch (broadcaster) {
+								case "ICC-U19-2023":
+//									if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
+//										if(SplitSummaryText.isEmpty()) {
+//											targetData.setTargetOrResult(bowlTeamNm + " beat " + batTeamNm + " in the super over");
+//										} else {
+//											targetData.setTargetOrResult(bowlTeamNm + " beat " + batTeamNm + SplitSummaryText + "in the super over");
+//										}
+//									}else {
+//										if(SplitSummaryText.isEmpty()) {
+//											targetData.setTargetOrResult(bowlTeamNm + " beat " + batTeamNm + " by " + (targetData.getRemaningRuns() - 1) + 
+//									    		" run" + CricketFunctions.Plural(targetData.getRemaningRuns() - 1));
+//										} else {
+//											targetData.setTargetOrResult(bowlTeamNm + " beat " + batTeamNm + SplitSummaryText + "by " + (targetData.getRemaningRuns() - 1) + 
+//									    		" run" + CricketFunctions.Plural(targetData.getRemaningRuns() - 1));
+//										}
+//									}
+									targetData.setMatchFinished(true);
+									break;
+								default:
+									if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
+							    				batTeamNm, "", null, 1, resultToShow);
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
+												"WIN THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
+									} else {
+										resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, match.getMatch().getMatchResult().split(",")[1], 
+												"", null, resultToShow.size() + 1, resultToShow);
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY RUN" + 
+												Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1])), "", null, resultToShow.size() + 1, resultToShow);
+									}
+									targetData.setMatchFinished(true);
+									break;
+								}
+						    }
+						    if(match.getSetup().getTargetType() != null) {
+								if(match.getSetup().getTargetType().equalsIgnoreCase(CricketUtil.DLS)) {
+									resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, " (" + CricketUtil.DLS + ")", 
+											"", null, resultToShow.size() + 1, resultToShow);
+								}else if(match.getSetup().getTargetType().equalsIgnoreCase(CricketUtil.VJD)) {
+									resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, " (" + CricketUtil.VJD + ")", 
+											"", null, resultToShow.size() + 1, resultToShow);
+								}
+						    }
+				    	}
+				    	break;
+				    case 4:
+//				    	if((1 - lead_by) <= 0) {
+//				    		targetData.setTargetOrResult(batTeamNm + " win by " + CricketFunctions.getWicketsLeft(match,whichInning) 
+//				    			+ " wicket" + CricketFunctions.Plural(CricketFunctions.getWicketsLeft(match,whichInning)));
+//							targetData.setMatchFinished(true);
+//				    	} else {
+//				    		if(CricketFunctions.getWicketsLeft(match,whichInning) <= 0) {
+//				    			if(targetData.getRemaningRuns() == 1) {
+//				    				targetData.setTargetOrResult("match tied");
+//				    			} else {
+//				    				targetData.setTargetOrResult(bowlTeamNm + " win by " + (targetData.getRemaningRuns() - 1) + 
+//							    		" run" + CricketFunctions.Plural(targetData.getRemaningRuns() - 1));
+//				    			}
+//				    			targetData.setMatchFinished(true);
+//				    		} else {
+//					    		if(match.getMatch().getInning().get(whichInning - 1).getTotalRuns() == 0) {
+//					    			targetData.setTargetOrResult(batTeamNm + " need " + (1 - lead_by) + " run" + CricketFunctions.Plural((1 - lead_by)) + " to win");
+//					    		} else {
+//					    			targetData.setTargetOrResult(batTeamNm + " need " + (1 - lead_by) + " run" + CricketFunctions.Plural((1 - lead_by)) + " to win");
+//					    		}
+//				    		}
+//				    	}		    	
+				    	break;
+				    }
+				}
+			} else {
+	    		targetData.setTargetOrResult(CricketFunctions.generateTossResult(match, CricketUtil.FULL, 
+	       			CricketUtil.FIELD, CricketUtil.FULL, CricketUtil.CHOSE));
+			}
+			if(resultToShow.size() > 0) {
+				return MergeForeignLanguageDataListToSingleObject(resultToShow);
+			} else {
+				return null;
+			}
+		}
+	
 	public static ForeignLanguageData generateMatchResultForeignLanguage(MatchAllData match, String teamNameType, MultiLanguageDatabase multiLanguageDb)
 	{
 		List<ForeignLanguageData> resultToShow = new ArrayList<ForeignLanguageData>();
@@ -9095,68 +9569,6 @@ public class CricketFunctions {
 		}
 		return resultToShow;
 	}
-//	public static String generateMatchResult(MatchAllData match, String teamNameType)
-//	{
-//		String resultToShow = "";
-//		if(match.getMatch().getMatchResult() != null) {
-//			if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DRAWN)
-//					|| match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.ABANDONED)) {
-//				if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DRAWN) 
-//						&& !match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.TEST)) { // For limited over match use match tied
-//					resultToShow = CricketUtil.MATCH.toLowerCase() + " " + CricketUtil.TIED.toLowerCase();
-//				} else {
-//					resultToShow = CricketUtil.MATCH.toLowerCase();
-//					if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DRAWN)) {
-//						resultToShow = resultToShow + " " + CricketUtil.DRAWN.toLowerCase();
-//					} else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.ABANDONED)) {
-//						resultToShow = resultToShow + " " + CricketUtil.ABANDONED.toLowerCase();
-//					}
-//				}
-//			} else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.NO_RESULT)) {
-//				resultToShow = CricketUtil.NO_RESULT.toLowerCase().replace("_", " ");
-//			} else {
-//				if(match.getMatch().getMatchResult().contains(",")) {
-//					switch (teamNameType) {
-//					case CricketUtil.SHORT:
-//						if(Integer.valueOf(match.getMatch().getMatchResult().split(",")[0]) == match.getSetup().getHomeTeamId()) {
-//							resultToShow = match.getSetup().getHomeTeam().getTeamName4();
-//						} else {
-//							resultToShow = match.getSetup().getAwayTeam().getTeamName4();
-//						}
-//					    break;
-//					default:
-//						if(Integer.valueOf(match.getMatch().getMatchResult().split(",")[0]) == match.getSetup().getHomeTeamId()) {
-//							resultToShow = match.getSetup().getHomeTeam().getTeamName1();
-//						} else {
-//							resultToShow = match.getSetup().getAwayTeam().getTeamName1();
-//						}
-//					    break;
-//					}
-//					if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.SUPER_OVER)) {
-//						resultToShow = resultToShow + " win by super over";
-//					} else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.INNING + "_LEAD")) {
-//						resultToShow = resultToShow + " win on first inning lead";
-//					} else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.INNING) 
-//							&& match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.RUN)) {
-//						resultToShow = resultToShow + " win by an inning and " + Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]) 
-//							+ " run" + Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]));
-//					} else if (match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.RUN)) {
-//						resultToShow = resultToShow + " win by " + Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]) 
-//							+ " run" + Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]));
-//					} else if (match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.WICKET)) {
-//						resultToShow = resultToShow + " win by " + Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]) 
-//							+ " wicket" + Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1]));
-//					}
-//					if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DLS)) {
-//						resultToShow = resultToShow + " (" + CricketUtil.DLS + ")";
-//					}else if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.VJD)) {
-//						resultToShow = resultToShow + " (" + CricketUtil.VJD + ")";
-//					}
-//				}
-//			}
-//		}
-//		return resultToShow;
-//	}
 	
 	public static String getOnlineCurrentDate() throws MalformedURLException, IOException
 	{
@@ -13133,159 +13545,7 @@ public class CricketFunctions {
 		}
 		return teamTotalRuns;
 	}
-	
-//	public static String generateMatchSummaryStatus(int whichInning, MatchAllData match, String teamNameType, String broadcaster) 
-//	{
-//		String matchSummaryStatus = generateMatchResult(match, teamNameType);
-//		System.out.println("match.getMatch().getMatchResult() = " + match.getMatch().getMatchResult());
-//
-//	    if(matchSummaryStatus.trim().isEmpty()) {
-//	    	
-//	    	int lead_by = GetTeamRunsAhead(whichInning,match);
-//			String batTeamNm = "", bowlTeamNm = "";
-//
-//			switch (teamNameType) {
-//			case CricketUtil.TEAMNAME_3:
-//				batTeamNm = match.getMatch().getInning().get(whichInning - 1).getBatting_team().getTeamName3();
-//		    	bowlTeamNm = match.getMatch().getInning().get(whichInning - 1).getBowling_team().getTeamName3();
-//		    	break;
-//		    case CricketUtil.SHORT: 
-//		    	batTeamNm = match.getMatch().getInning().get(whichInning - 1).getBatting_team().getTeamName4();
-//		    	bowlTeamNm = match.getMatch().getInning().get(whichInning - 1).getBowling_team().getTeamName4();
-//		    	break;
-//		    default: 
-//		    	batTeamNm = (match.getMatch().getInning().get(whichInning - 1)).getBatting_team().getTeamName1();
-//		    	bowlTeamNm = (match.getMatch().getInning().get(whichInning - 1)).getBowling_team().getTeamName1();
-//		    	break;
-//		    }
-//	    	
-//		    switch (whichInning) {
-//		    case 1: 
-//		    	if (((match.getMatch().getInning().get(whichInning - 1)).getTotalRuns() > 0) || 
-//		  		      ((match.getMatch().getInning().get(whichInning - 1)).getTotalOvers() > 0) || 
-//		  		      ((match.getMatch().getInning().get(whichInning - 1)).getTotalBalls() > 0)) {
-//		  		      return "Current Run Rate " + match.getMatch().getInning().get(whichInning - 1).getRunRate();
-//		  		    }
-//		    	else {
-//		    		return CricketFunctions.generateTossResult(match, CricketUtil.FULL, CricketUtil.FIELD, CricketUtil.FULL, CricketUtil.CHOSE);
-//		    	}
-//		    case 2: case 3:
-//		    	
-//		    	if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.TEST) 
-//		    		|| match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.FC)) {
-//
-//		    		if(lead_by >= 0) {
-//			    		if(lead_by > 0) {
-//					    	matchSummaryStatus = batTeamNm + " lead by " + lead_by + " run" + Plural(lead_by);
-//			    		} else if(lead_by == 0) {
-//					    	matchSummaryStatus = "Scores are level";
-//			    		}
-//		    		} else {
-//		    			if(whichInning == 3 && CricketFunctions.getWicketsLeft(match,whichInning) <= 0) {
-//		    				matchSummaryStatus = batTeamNm + " win by innings & " + (-1 * lead_by) + " run" + Plural(-1 * lead_by);
-//		    			} else {
-//					    	matchSummaryStatus = batTeamNm + " trail by " + (-1 * lead_by) + " run" + Plural(-1 * lead_by);
-//		    			}
-//		    		}
-//		    		
-//		    	} else {
-//		    		
-//				    if ((CricketFunctions.getRequiredRuns(match) > 0) && (CricketFunctions.getRequiredBalls(match) > 0) 
-//				    		&& (CricketFunctions.getWicketsLeft(match,whichInning) > 0)) {
-//
-//				    	switch (broadcaster.toUpperCase()) {
-//						case "ICC_BIGSCREEN_DOAD_SCORING":
-//							matchSummaryStatus = "need " + CricketFunctions.getRequiredRuns(match) + 
-//				        		" run" + CricketFunctions.Plural(CricketFunctions.getRequiredRuns(match)) + " off ";
-//							break;
-//
-//						default:
-//							matchSummaryStatus = batTeamNm + " need " + CricketFunctions.getRequiredRuns(match) + 
-//				        	" run" + CricketFunctions.Plural(CricketFunctions.getRequiredRuns(match)) + " to win from ";
-//							break;
-//						}
-//				    	
-//				    	if (CricketFunctions.getRequiredBalls(match) > 120) {
-//				    		matchSummaryStatus = matchSummaryStatus + CricketFunctions.OverBalls(0,CricketFunctions.getRequiredBalls(match)) + " overs";
-//						} else {
-//							if(match.getSetup().getReducedOvers() != 0) {
-//								matchSummaryStatus = matchSummaryStatus + (match.getSetup().getReducedOvers()*6) + 
-//										" ball" + CricketFunctions.Plural((match.getSetup().getReducedOvers()*6));
-//							}else {
-//								matchSummaryStatus = matchSummaryStatus + CricketFunctions.getRequiredBalls(match) + 
-//										" ball" + CricketFunctions.Plural(CricketFunctions.getRequiredBalls(match));
-//							}
-//						}
-//				    } else if (CricketFunctions.getRequiredRuns(match) <= 0)
-//				    {
-//				    	if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
-//				    		matchSummaryStatus = batTeamNm + " win by super over";
-//						}else {
-//							matchSummaryStatus = batTeamNm + " win by " + CricketFunctions.getWicketsLeft(match,whichInning) + 
-//						    	" wicket" + CricketFunctions.Plural(CricketFunctions.getWicketsLeft(match,whichInning));
-//						}
-//				    }
-//				    else if (CricketFunctions.getRequiredRuns(match) == 1 && (CricketFunctions.getRequiredBalls(match) <= 0 
-//				    	|| CricketFunctions.getWicketsLeft(match,whichInning) <= 0)) 
-//				    {
-//				    	switch (broadcaster) {
-//						case "ICC_BIG_SCREEN":
-//							matchSummaryStatus = "Match tied - winner will be decided by super over";
-//							break;
-//						case "DOAD_LLC":
-//							matchSummaryStatus = "Match tied - super over to follow";
-//							break;
-//						default:
-//					    	matchSummaryStatus = "Match tied - winner will be decided by super over";
-//							break;
-//						}
-//				    } 
-//				    else 
-//				    {
-//				    	matchSummaryStatus = bowlTeamNm + " win by " + (CricketFunctions.getRequiredRuns(match) - 1) + 
-//				    		" run" + CricketFunctions.Plural(CricketFunctions.getRequiredRuns(match) - 1);
-//				    }
-//				    
-//				    if(!matchSummaryStatus.contains("Match tied -")) {
-//				    	if(match.getSetup().getTargetType() != null) {
-//							if(match.getSetup().getTargetType().equalsIgnoreCase(CricketUtil.DLS)) {
-//								matchSummaryStatus = matchSummaryStatus + " (" + CricketUtil.DLS + ")";
-//							}else if(match.getSetup().getTargetType().equalsIgnoreCase(CricketUtil.VJD)) {
-//								matchSummaryStatus = matchSummaryStatus + " (" + CricketUtil.VJD + ")";
-//							}
-//					    }
-//				    }
-//		    	}
-//		    	break;
-//		    	
-//		    case 4:
-//		    	
-//		    	if((1 - lead_by) <= 0) {
-//		    		matchSummaryStatus = batTeamNm + " win by " + CricketFunctions.getWicketsLeft(match,whichInning) 
-//		    			+ " wicket" + CricketFunctions.Plural(CricketFunctions.getWicketsLeft(match,whichInning));
-//		    	} else {
-//		    		if(CricketFunctions.getWicketsLeft(match,whichInning) <= 0) {
-//		    			if(CricketFunctions.getRequiredRuns(match) == 1) {
-//		    				matchSummaryStatus = "match tied";
-//		    			} else {
-//		    				matchSummaryStatus = bowlTeamNm + " win by " + (CricketFunctions.getRequiredRuns(match) - 1) + 
-//					    		" run" + CricketFunctions.Plural(CricketFunctions.getRequiredRuns(match) - 1);
-//		    			}
-//		    		} else {
-//			    		if(match.getMatch().getInning().get(whichInning - 1).getTotalRuns() == 0) {
-//					    	matchSummaryStatus = batTeamNm + " need " + (1 - lead_by) + " run" + CricketFunctions.Plural((1 - lead_by)) + " to win";
-//			    		} else {
-//					    	matchSummaryStatus = batTeamNm + " need " + (1 - lead_by) + " run" + CricketFunctions.Plural((1 - lead_by)) + " to win";
-//			    		}
-//		    		}
-//		    	}
-//		    	break;
-//		    }
-//	    }
-//		System.out.println("matchSummaryStatus AFTER = " + matchSummaryStatus);
-//	    return matchSummaryStatus;
-//	}
-	
+		
 	public static TargetData GenerateMatchSummaryStatus(int whichInning, MatchAllData match, String teamNameType, 
 		String SplitSummaryText, String broadcaster, boolean ballsRemaining) 
 	{
@@ -13294,8 +13554,7 @@ public class CricketFunctions {
 		if(match.getMatch().getInning().get(0).getTotalRuns() > 0 || (6 * match.getMatch().getInning().get(0).getTotalOvers() 
 			+ match.getMatch().getInning().get(0).getTotalBalls()) > 0) 
 		{
-			targetData = new TargetData(GenerateMatchResult(match, teamNameType, broadcaster, 
-				SplitSummaryText, ballsRemaining));
+			targetData = new TargetData(GenerateMatchResult(match, teamNameType, broadcaster, SplitSummaryText, ballsRemaining));
 			if(!targetData.getTargetOrResult().trim().isEmpty()) {
 				
 				targetData.setMatchFinished(true);
