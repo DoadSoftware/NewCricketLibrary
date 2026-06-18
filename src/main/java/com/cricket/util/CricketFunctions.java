@@ -4416,8 +4416,7 @@ public class CricketFunctions {
 //            }
 //        }
     }
-	public static ForeignLanguageData generateMatchResultForeignLanguage(MatchAllData match, String teamNameType, 
-			MultiLanguageDatabase multiLanguageDb)
+	public static ForeignLanguageData generateMatchResultForeignLanguage(MatchAllData match, String teamNameType, MultiLanguageDatabase multiLanguageDb)
 	{
 		List<ForeignLanguageData> resultToShow = new ArrayList<ForeignLanguageData>();
 		List<String> insertTxt = new ArrayList<String>();
@@ -4606,6 +4605,33 @@ public class CricketFunctions {
 		}
 		
 		if(resultToShow.size() > 0) {
+			return MergeForeignLanguageDataListToSingleObject(resultToShow);
+		} else {
+			return null;
+		}
+	}
+	
+	public static ForeignLanguageData generateTargetAndEquationForeignLanguage(String teamName, String summary, String unit, String targetType,
+			MultiLanguageDatabase multilanguagedata) {
+		
+		List<ForeignLanguageData> resultToShow = new ArrayList<ForeignLanguageData>();
+		List<ForeignLanguageData> foreignLanguageDataList = null;
+		
+		String runs = summary.split("NEED")[1].trim().split("RUNS")[0].trim();
+	    String unitValue = summary.split("FROM")[1].trim().split(unit)[0].trim();
+	    
+	    foreignLanguageDataList = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multilanguagedata, teamName, "", null, 1, foreignLanguageDataList);
+	    foreignLanguageDataList = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multilanguagedata, "NEED RUNS TO WIN FROM " + unit, "", 
+	    		Arrays.asList(unitValue, runs), 2, foreignLanguageDataList);
+
+	    ForeignLanguageData merged = CricketFunctions.MergeForeignLanguageDataListToSingleObject(foreignLanguageDataList);
+	    if(targetType != null) {
+	        merged.setTeluguText(merged.getTeluguText() + " (" + targetType + ")");
+	    }
+	    merged.setEnglishText(teamName + " " + summary);
+
+	    resultToShow.add(merged);
+	    if(resultToShow.size() > 0) {
 			return MergeForeignLanguageDataListToSingleObject(resultToShow);
 		} else {
 			return null;
