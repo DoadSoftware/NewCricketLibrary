@@ -14394,7 +14394,7 @@ public class CricketFunctions {
 	    // @2, @4, @6
 	    for (int i = 2; i <= 6; i += 2) {
 	        double rrb = baseRR + i;
-	        projectedScoreResult.add(String.format("%.2f", rrb));
+	        projectedScoreResult.add(String.valueOf((int) rrb));
 	        projectedScoreResult.add(String.valueOf(Math.round(runs + (remaining / 6.0) * rrb)));
 	    }
 
