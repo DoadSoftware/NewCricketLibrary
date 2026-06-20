@@ -4836,10 +4836,10 @@ public class CricketFunctions {
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
 												"WIN THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
 									} else {
-										resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, match.getMatch().getMatchResult().split(",")[1], 
+										resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, String.valueOf((targetData.getRemaningRuns() - 1)), 
 												"", null, resultToShow.size() + 1, resultToShow);
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY RUN" + 
-												Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1])), "", null, resultToShow.size() + 1, resultToShow);
+												Plural(Integer.valueOf((targetData.getRemaningRuns() - 1))), "", null, resultToShow.size() + 1, resultToShow);
 									}
 									targetData.setMatchFinished(true);
 									break;
@@ -13796,7 +13796,8 @@ public class CricketFunctions {
 								break;
 							default:
 								if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
-									targetData.setTargetOrResult("Super Over tied - Another super over to follow");
+									targetData.setTargetOrResult("Super Over tied - match drawn");
+									//targetData.setTargetOrResult("Super Over tied - Another super over to follow");
 								}else {
 									if(SplitSummaryText.isEmpty()) {
 										targetData.setTargetOrResult("Match tied - winner will be decided by super over");
