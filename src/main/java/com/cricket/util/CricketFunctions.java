@@ -4836,6 +4836,7 @@ public class CricketFunctions {
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
 												"WIN THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
 									} else {
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, bowlTeamNm, "", null, 1, resultToShow);
 										resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, String.valueOf((targetData.getRemaningRuns() - 1)), 
 												"", null, resultToShow.size() + 1, resultToShow);
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY RUN" + 
