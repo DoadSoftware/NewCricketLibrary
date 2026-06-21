@@ -14736,7 +14736,7 @@ public class CricketFunctions {
 		
 		return this_dls;
 	}
-	public static String populateDls(MatchAllData match,String teamNameType,int dlsRuns) throws InterruptedException 
+	public static String populateDls(MatchAllData match, String teamNameType, int dlsRuns) throws InterruptedException 
 	{
 		String team="",ahead_behind="";
 		int runs = 0;
@@ -14773,7 +14773,7 @@ public class CricketFunctions {
 				
 				if(runs < 0)
                 {
-                    ahead_behind = team + " are " + (Math.abs(runs)) + " run" + Plural(runs) + " behind";
+					ahead_behind = team + " are " + (Math.abs(runs)) + " run" + Plural(Math.abs(runs)) + " behind";
                 }
 
                 if (runs > 0)
