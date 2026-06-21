@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cricket</groupId>
     <artifactId>NewCricketLibrary</artifactId>
-	<version>4.18</version>
+	<version>4.19</version>
     <properties>
 
         <java.version>17</java.version>
