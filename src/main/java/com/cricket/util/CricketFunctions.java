@@ -4990,7 +4990,7 @@ public class CricketFunctions {
 					englishTxt = plyr.getFull_name().trim();
 				}
 				resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-						englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+						englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 				
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, ")", 
 						"", null, resultToShow.size() + 1, resultToShow);
@@ -5005,7 +5005,7 @@ public class CricketFunctions {
 					englishTxt = plyrs.getFull_name();
 				}
 				resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-						englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+						englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 			}else {
 				String englishTxt = "";
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, howOut1.split(" ")[0].trim()+"|", 
@@ -5018,7 +5018,7 @@ public class CricketFunctions {
 					englishTxt = plyr.getFull_name().trim();
 				}
 				resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-						englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+						englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 				
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "|" + howOut2.split(" ")[0].trim()+ "|", 
 						"", null, resultToShow.size() + 1, resultToShow);
@@ -5030,7 +5030,7 @@ public class CricketFunctions {
 					englishTxt = plyrs.getFull_name();
 				}
 				resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-						englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+						englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 			}
 		}else if(whichdata1.toUpperCase().equalsIgnoreCase(CricketUtil.LBW)){
 			String englishTxt = "";
@@ -5047,7 +5047,7 @@ public class CricketFunctions {
 				englishTxt = plyr.getFull_name();
 			}
 			resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-					englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+					englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 		}else if(whichdata1.toUpperCase().equalsIgnoreCase(CricketUtil.CAUGHT_AND_BOWLED)){
 			String englishTxt = "";
 			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "| |"+howOut1.trim()+"|", 
@@ -5059,7 +5059,7 @@ public class CricketFunctions {
 				englishTxt = plyr.getFull_name();
 			}
 			resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-					englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+					englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 		}else if(whichdata1.toUpperCase().equalsIgnoreCase(CricketUtil.BOWLED)){
 			String englishTxt = "";
 			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "| |" + howOut2.split(" ")[0].trim() + "|", 
@@ -5071,7 +5071,7 @@ public class CricketFunctions {
 				englishTxt = plyr.getFull_name();
 			}
 			resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-					englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+					englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 		}else if(whichdata1.toUpperCase().equalsIgnoreCase(CricketUtil.RUN_OUT) || whichdata1.toUpperCase().equalsIgnoreCase(CricketUtil.MANKAD)){
 			if(!howOut3.isEmpty() && howOut3.trim() != null ) {
 				String englishTxt = "";
@@ -5091,7 +5091,7 @@ public class CricketFunctions {
 					englishTxt = plyr.getFull_name();
 				}
 				resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-						englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+						englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 				
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, ")", 
 						"", null, resultToShow.size() + 1, resultToShow);
@@ -5110,7 +5110,7 @@ public class CricketFunctions {
 					englishTxt = plyr.getFull_name();
 				}
 				resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-						englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+						englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 				
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, ")", 
 						"", null, resultToShow.size() + 1, resultToShow);
@@ -5141,7 +5141,7 @@ public class CricketFunctions {
 				englishTxt = plyrs.getFull_name();
 			}
 			resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
-					englishTxt, CricketUtil.FIRSTNAME, null, resultToShow.size() + 1, resultToShow);
+					englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 		}
 		
 		if(resultToShow.size() > 0) {
@@ -5427,6 +5427,12 @@ public class CricketFunctions {
 				   	 	tamilTxt = plyr.getTamil_surname();
 				   	 	teluguTxt = plyr.getTelugu_surname();
 		                break;
+					case CricketUtil.TICKERNAME:
+						englishTxt = plyr.getTicker_name();
+			        	hindiTxt = plyr.getHindiTickerName();
+			        	tamilTxt = plyr.getTamilTickerName();
+			        	teluguTxt = plyr.getTeluguTickerName();
+						break;
 			         }
 		        	break;
 				case CricketUtil.SURNAME:
