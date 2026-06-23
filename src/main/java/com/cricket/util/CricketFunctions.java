@@ -4974,7 +4974,7 @@ public class CricketFunctions {
 		if(whichdata1.toUpperCase().equalsIgnoreCase(CricketUtil.CAUGHT) || whichdata1.toUpperCase().equalsIgnoreCase(CricketUtil.STUMPED)){
 			if(!howOut3.isEmpty() && howOut3.trim() != null ) {
 				String englishTxt = "";
-				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, howOut1.split(" ")[0].trim()+"|", 
+				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, howOut1.substring(0, howOut1.indexOf(" ")).trim()+"|", 
 						"", null, resultToShow.size() + 1, resultToShow);
 				
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "(", 
@@ -4983,9 +4983,8 @@ public class CricketFunctions {
 						"sub", "", null, resultToShow.size() + 1, resultToShow);
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "-", 
 						"", null, resultToShow.size() + 1, resultToShow);
-				Player plyr = multiLanguageDb.getPlayers().stream()
-						.filter(player -> howOut1.split(" ")[1].trim().equalsIgnoreCase(player.getTicker_name()))
-						.findAny().orElse(null);
+				Player plyr = multiLanguageDb.getPlayers().stream().filter(player -> howOut1.substring(howOut1.indexOf(" ") + 1).trim()
+						.equalsIgnoreCase(player.getTicker_name())).findAny().orElse(null);
 				if(plyr != null) {
 					englishTxt = plyr.getFull_name().trim();
 				}
@@ -4995,11 +4994,11 @@ public class CricketFunctions {
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, ")", 
 						"", null, resultToShow.size() + 1, resultToShow);
 				
-				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "|" + howOut2.split(" ")[0].trim()+ "|", 
+				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "|" + howOut2.substring(0, howOut2.indexOf(" ")).trim()+ "|", 
 						"", null, resultToShow.size() + 1, resultToShow);
 				
 				Player plyrs = multiLanguageDb.getPlayers().stream()
-						.filter(player -> howOut2.split(" ")[1].trim().equalsIgnoreCase(player.getTicker_name()))
+						.filter(player -> howOut2.substring(howOut2.indexOf(" ") + 1).trim().equalsIgnoreCase(player.getTicker_name()))
 						.findAny().orElse(null);
 				if(plyrs != null) {
 					englishTxt = plyrs.getFull_name();
@@ -5008,23 +5007,22 @@ public class CricketFunctions {
 						englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 			}else {
 				String englishTxt = "";
-				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, howOut1.split(" ")[0].trim()+"|", 
+				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, howOut1.substring(0, howOut1.indexOf(" ")).trim()+"|", 
 						"", null, resultToShow.size() + 1, resultToShow);
 				
-				Player plyr = multiLanguageDb.getPlayers().stream()
-						.filter(player -> howOut1.split(" ")[1].trim().equalsIgnoreCase(player.getTicker_name()))
-						.findAny().orElse(null);
+				Player plyr = multiLanguageDb.getPlayers().stream().filter(player -> howOut1.substring(howOut1.indexOf(" ") + 1).trim()
+						.equalsIgnoreCase(player.getTicker_name())).findAny().orElse(null);
 				if(plyr != null) {
 					englishTxt = plyr.getFull_name().trim();
 				}
 				resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.PLAYER, CricketUtil.FULLNAME, multiLanguageDb, 
 						englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 				
-				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "|" + howOut2.split(" ")[0].trim()+ "|", 
-						"", null, resultToShow.size() + 1, resultToShow);
+				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "|" + howOut2.substring(0, howOut2.indexOf(" ")).trim()
+						+ "|", "", null, resultToShow.size() + 1, resultToShow);
 				
 				Player plyrs = multiLanguageDb.getPlayers().stream()
-						.filter(player -> howOut2.split(" ")[1].trim().equalsIgnoreCase(player.getTicker_name()))
+						.filter(player -> howOut2.substring(howOut2.indexOf(" ") + 1).trim().equalsIgnoreCase(player.getTicker_name()))
 						.findAny().orElse(null);
 				if(plyrs != null) {
 					englishTxt = plyrs.getFull_name();
@@ -5037,11 +5035,11 @@ public class CricketFunctions {
 			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, howOut1.trim()+"| |", 
 					"", null, resultToShow.size() + 1, resultToShow);
 			
-			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, howOut2.split(" ")[0].trim()+ "|", 
+			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, howOut2.substring(0, howOut2.indexOf(" ")).trim()+ "|", 
 					"", null, resultToShow.size() + 1, resultToShow);
 			
 			Player plyr = multiLanguageDb.getPlayers().stream()
-					.filter(player -> howOut2.split(" ")[1].trim().equalsIgnoreCase(player.getTicker_name()))
+					.filter(player -> howOut2.substring(howOut2.indexOf(" ") + 1).trim().equalsIgnoreCase(player.getTicker_name()))
 					.findAny().orElse(null);
 			if(plyr != null) {
 				englishTxt = plyr.getFull_name();
@@ -5062,10 +5060,10 @@ public class CricketFunctions {
 					englishTxt, CricketUtil.TICKERNAME, null, resultToShow.size() + 1, resultToShow);
 		}else if(whichdata1.toUpperCase().equalsIgnoreCase(CricketUtil.BOWLED)){
 			String englishTxt = "";
-			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "| |" + howOut2.split(" ")[0].trim() + "|", 
-					"", null, resultToShow.size() + 1, resultToShow);
+			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "| |" + howOut2.substring(0, howOut2.indexOf(" ")).trim() 
+					+ "|", "", null, resultToShow.size() + 1, resultToShow);
 			Player plyr = multiLanguageDb.getPlayers().stream()
-					.filter(player -> howOut2.split(" ")[1].trim().equalsIgnoreCase(player.getTicker_name()))
+					.filter(player -> howOut2.substring(howOut2.indexOf(" ") + 1).trim().equalsIgnoreCase(player.getTicker_name()))
 					.findAny().orElse(null);
 			if(plyr != null) {
 				englishTxt = plyr.getFull_name();
@@ -5085,7 +5083,7 @@ public class CricketFunctions {
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "-", 
 						"", null, resultToShow.size() + 1, resultToShow);
 				Player plyr = multiLanguageDb.getPlayers().stream()
-						.filter(player -> howOut2.split(" ")[0].trim().equalsIgnoreCase(player.getTicker_name()))
+						.filter(player -> howOut2.substring(0, howOut2.indexOf(" ")).trim().equalsIgnoreCase(player.getTicker_name()))
 						.findAny().orElse(null);
 				if(plyr != null) {
 					englishTxt = plyr.getFull_name();
@@ -5131,11 +5129,11 @@ public class CricketFunctions {
 			String englishTxt = "";
 			resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
 					howOut1, "", null, resultToShow.size() + 1, resultToShow);
-			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "|" + howOut2.split(" ")[0].trim()+ "|", 
-					"", null, resultToShow.size() + 1, resultToShow);
+			resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "|" + howOut2.substring(0, howOut2.indexOf(" ")).trim()
+					+ "|", "", null, resultToShow.size() + 1, resultToShow);
 			
 			Player plyrs = multiLanguageDb.getPlayers().stream()
-					.filter(player -> howOut2.split(" ")[1].trim().equalsIgnoreCase(player.getTicker_name()))
+					.filter(player -> howOut2.substring(howOut2.indexOf(" ") + 1).trim().equalsIgnoreCase(player.getTicker_name()))
 					.findAny().orElse(null);
 			if(plyrs != null) {
 				englishTxt = plyrs.getFull_name();
