@@ -4983,8 +4983,8 @@ public class CricketFunctions {
 						"sub", "", null, resultToShow.size() + 1, resultToShow);
 				resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, "-", 
 						"", null, resultToShow.size() + 1, resultToShow);
-				Player plyr = multiLanguageDb.getPlayers().stream().filter(player -> howOut1.substring(howOut1.indexOf(" ") + 1).trim()
-						.equalsIgnoreCase(player.getTicker_name())).findAny().orElse(null);
+				Player plyr = multiLanguageDb.getPlayers().stream().filter(player -> howOut1.substring(howOut1.indexOf(" ") + 1)
+						.replace("(SUB)", "").trim().equalsIgnoreCase(player.getTicker_name())).findAny().orElse(null);
 				if(plyr != null) {
 					englishTxt = plyr.getFull_name().trim();
 				}
