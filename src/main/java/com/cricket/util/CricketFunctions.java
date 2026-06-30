@@ -3583,8 +3583,9 @@ public class CricketFunctions {
 		lineByLineData.add("| 133 - 135     Catches");
 		lineByLineData.add("| 136 - 138     Stumpings");
 		lineByLineData.add("| 139 - 141     Nines");
+		lineByLineData.add("| 143 - 146     Imp");
 		lineByLineData.add("|");
-		lineByLineData.add("| <Match File Name   >< Venue Name       >< Team name        >< Opponent Name    ><BAT><R><B><4><6><F><H><I><D><TN><ON><D><1><2><3><C><S><9>");
+		lineByLineData.add("| <Match File Name   >< Venue Name       >< Team name        >< Opponent Name    ><BAT><R><B><4><6><F><H><I><D><TN><ON><D><1><2><3><C><S><9><IMP>");
 		
 		//Batting Card
 		
@@ -3640,6 +3641,19 @@ public class CricketFunctions {
 			    matchDataTxt.insert(132, Count[0]);
 			    matchDataTxt.insert(135, Count[1]);
 			    matchDataTxt.insert(138, bc.getNines());
+			    
+			    if(!CricketFunctions.checkBatAndBallImpactInOutPlayer(match.getEventFile().getEvents(),bc.getPlayerId()).isEmpty()) {
+					switch(CricketFunctions.checkBatAndBallImpactInOutPlayer(match.getEventFile().getEvents(),bc.getPlayerId())) {
+					case "IMP_IN":
+						matchDataTxt.insert(143, "Y");
+						break;
+					default:
+						matchDataTxt.insert(143, "N");
+						break;
+					}
+				}else {
+					matchDataTxt.insert(143, "N");
+				}
 			    
 			    lineByLineData.add(matchDataTxt.toString());
 			}
@@ -4113,6 +4127,19 @@ public class CricketFunctions {
 					String[] Count = caughtAndStumpedCount(match.getEventFile().getEvents(), bc.getPlayerId()).split("-");
 					line_txt = addSubString(line_txt,Count[0],148);
 					line_txt = addSubString(line_txt,Count[1],152);
+					
+					if(!CricketFunctions.checkBatAndBallImpactInOutPlayer(match.getEventFile().getEvents(),bc.getPlayerId()).isEmpty()) {
+						switch(CricketFunctions.checkBatAndBallImpactInOutPlayer(match.getEventFile().getEvents(),bc.getPlayerId())) {
+						case "IMP_IN":
+							line_txt = addSubString(line_txt,"Y",153);
+							break;
+						default:
+							line_txt = addSubString(line_txt,"N",153);
+							break;
+						}
+					}else {
+						line_txt = addSubString(line_txt,"N",153);
+					}
 					
 					Files.write(Paths.get(CricketUtil.CRICKET_SERVER_DIRECTORY + CricketUtil.HEADTOHEAD_DIRECTORY + match.getMatch().
 							getMatchFileName().replace(".json", ".txt")), Arrays.asList(line_txt), StandardOpenOption.APPEND);
