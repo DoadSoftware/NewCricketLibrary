@@ -112,6 +112,9 @@ public class Configuration {
 	
 	@XmlElement(name="showSubs")
 	private String showSubs;
+		
+	@XmlElement(name="ShowName")
+	private String ShowName;
 
 	@XmlElement(name="generateInteractiveFile")
 	private String generateInteractiveFile;
@@ -581,6 +584,14 @@ public class Configuration {
 
 	public static void setCurrentConfig(Configuration currentConfig) {
 		Configuration.currentConfig = currentConfig;
+	}
+
+	public String getShowName() {
+		return ShowName;
+	}
+
+	public void setShowName(String showName) {
+		ShowName = showName;
 	}
 
 	@Override
