@@ -3655,6 +3655,7 @@ public class CricketFunctions {
 					matchDataTxt.insert(143, "N");
 				}
 			    
+			    System.out.println("PLayerID = " + bc.getPlayerId() + "    ");
 			    lineByLineData.add(matchDataTxt.toString());
 			}
 		}
@@ -3677,8 +3678,9 @@ public class CricketFunctions {
 		lineByLineData.add("| 104 - 107     Team ticker name");
 		lineByLineData.add("| 108 - 111     Opponent ticker name");
 		lineByLineData.add("| 112 - 115     Last wicket ball count");
+		lineByLineData.add("| 116 - 120     Imp");
 		lineByLineData.add("|");
-		lineByLineData.add("| <Match File Name   >< Venue Name       >< Team name        >< Opponent Name    ><BWL><B><M><R><W><D><TN><ON><LW>");
+		lineByLineData.add("| <Match File Name   >< Venue Name       >< Team name        >< Opponent Name    ><BWL><B><M><R><W><D><TN><ON><LW><IMP>");
 		
 		for(Inning inn : match.getMatch().getInning()) {
 			matchDataTxt = new StringBuilder();
@@ -3710,6 +3712,19 @@ public class CricketFunctions {
 								lastWicketBallCount(match.getEventFile().getEvents(), inn.getInningNumber(), boc.getPlayerId()));
 					}else {
 						matchDataTxt.insert(113, "0");
+					}
+					
+					if(!CricketFunctions.checkBatAndBallImpactInOutPlayer(match.getEventFile().getEvents(),boc.getPlayerId()).isEmpty()) {
+						switch(CricketFunctions.checkBatAndBallImpactInOutPlayer(match.getEventFile().getEvents(),boc.getPlayerId())) {
+						case "IMP_IN":
+							matchDataTxt.insert(117, "Y");
+							break;
+						default:
+							matchDataTxt.insert(117, "N");
+							break;
+						}
+					}else {
+						matchDataTxt.insert(117, "N");
 					}
 				    
 				    lineByLineData.add(matchDataTxt.toString());
@@ -4174,6 +4189,19 @@ public class CricketFunctions {
 						line_txt = addSubString(line_txt,"0",125);
 					}
 					
+					if(!CricketFunctions.checkBatAndBallImpactInOutPlayer(match.getEventFile().getEvents(),boc.getPlayerId()).isEmpty()) {
+						switch(CricketFunctions.checkBatAndBallImpactInOutPlayer(match.getEventFile().getEvents(),boc.getPlayerId())) {
+						case "IMP_IN":
+							line_txt = addSubString(line_txt,"Y",127);
+							break;
+						default:
+							line_txt = addSubString(line_txt,"N",127);
+							break;
+						}
+					}else {
+						line_txt = addSubString(line_txt,"N",127);
+					}
+					
 					Files.write(Paths.get(CricketUtil.CRICKET_SERVER_DIRECTORY + CricketUtil.HEADTOHEAD_DIRECTORY + match.getMatch().
 							getMatchFileName().replace(".json", ".txt")), Arrays.asList(line_txt), StandardOpenOption.APPEND);
 				}
@@ -4223,7 +4251,7 @@ public class CricketFunctions {
 							cricketService.getTeams().stream().filter(team -> team.getTeamName4().equalsIgnoreCase(TeamName.get(0))).findAny().orElse(null),
 							cricketService.getTeams().stream().filter(team -> team.getTeamName4().equalsIgnoreCase(TeamName.get(1))).findAny().orElse(null),
 							headToHead.get(i).substring(106,108).trim(),headToHead.get(i).substring(109,111).trim(),headToHead.get(i).substring(23,42).trim(),
-							Integer.valueOf(headToHead.get(i).substring(137,140).trim())));
+							Integer.valueOf(headToHead.get(i).substring(137,140).trim()),headToHead.get(i).substring(142,145).trim()));
 					} catch (Exception e) {
 					
 				}
@@ -4259,7 +4287,7 @@ public class CricketFunctions {
 							Integer.valueOf(headToHead.get(i).substring(99,102).trim()), headToHead.get(i).substring(2,22).trim(), 
 							cricketService.getTeams().stream().filter(team -> team.getTeamName4().equalsIgnoreCase(TeamName.get(0))).findAny().orElse(null),
 							cricketService.getTeams().stream().filter(team -> team.getTeamName4().equalsIgnoreCase(TeamName.get(1))).findAny().orElse(null),
-							"Y", "-", headToHead.get(i).substring(23,42),0));
+							"Y", "-", headToHead.get(i).substring(23,42),0,headToHead.get(i).substring(116,119)));
 					
 					TeamName.clear();
 				}
@@ -17233,6 +17261,9 @@ public class CricketFunctions {
 	 		                        }
 	 		                    }
 	 		                }
+	 	                }else {
+	 	                		ThisOverTxt = ThisOverTxt + (events.getEventRuns() + events.getEventExtraRuns() + events.getEventSubExtraRuns()) +
+ 		                            events.getEventExtra();
 	 	                }
 	 	            }
 	            }

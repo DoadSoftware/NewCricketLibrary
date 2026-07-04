@@ -31,6 +31,7 @@ public class HeadToHeadPlayer implements Cloneable {
   
   private String inningStarted;
   private String dismissed;
+  private String imp;
   
   private int tapeBall_balls;
   private int tapeBall_runs;
@@ -47,7 +48,7 @@ public class HeadToHeadPlayer implements Cloneable {
 
 public HeadToHeadPlayer(int playerId, int runs, int ballsFaced, int batdots, int ones, int twos, int threes, int fours,
 		int sixes, int wickets, int runsConceded, int ballsBowled, int maidens, int balldots, String matchFileName,
-		com.cricket.model.Team team, com.cricket.model.Team opponentTeam, String inningStarted, String dismissed, String venue, int nines) {
+		com.cricket.model.Team team, com.cricket.model.Team opponentTeam, String inningStarted, String dismissed, String venue, int nines,String imp) {
 	super();
 	this.playerId = playerId;
 	this.runs = runs;
@@ -70,6 +71,7 @@ public HeadToHeadPlayer(int playerId, int runs, int ballsFaced, int batdots, int
 	this.dismissed = dismissed;
 	this.venue = venue;
 	this.nines = nines;
+	this.imp = imp;
 }
 
 public int getPlayerId() {
@@ -409,6 +411,15 @@ public boolean isTeamVsTeam() {
 
 public void setTeamVsTeam(boolean isTeamVsTeam) {
 	this.isTeamVsTeam = isTeamVsTeam;
+}
+
+
+public String getImp() {
+	return imp;
+}
+
+public void setImp(String imp) {
+	this.imp = imp;
 }
 
 @Override
