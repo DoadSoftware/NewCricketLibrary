@@ -7104,7 +7104,7 @@ public class CricketFunctions {
 	}
 	
 	public static String hundredsTensUnits(String number) {
-		String hundReds ="0",tens="0",units="0";
+		String thousand="0", hundReds ="0",tens="0",units="0";
 		
 		switch (number.length()) {
 		case 1:
@@ -7119,9 +7119,15 @@ public class CricketFunctions {
 			tens = String.valueOf(number.charAt(1));
 			units = String.valueOf(number.charAt(2));
 			break;
+		case 4:
+			thousand = String.valueOf(number.charAt(0));
+			hundReds = String.valueOf(number.charAt(1));
+			tens = String.valueOf(number.charAt(2));
+			units = String.valueOf(number.charAt(3));
+			break;
 		}
 		
-		return hundReds + "," + tens + "," + units;
+		return thousand + "," + hundReds + "," + tens + "," + units;
 	}
 	
 	public static String hundredsTensUnitsTeamScore(String number) {
