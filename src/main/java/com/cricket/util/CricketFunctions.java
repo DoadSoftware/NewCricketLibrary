@@ -14782,7 +14782,7 @@ public class CricketFunctions {
 					break;
 				}
 			}
-			if(match.getMatch() != null) {
+			if(match.getMatch() != null && match.getMatch().getInning() != null) {
 				for(Inning inn : match.getMatch().getInning()) {
 					if (inn.getIsCurrentInning().toUpperCase().equalsIgnoreCase(CricketUtil.YES)) {
 						if(inn.getTotalWickets() < 10) {
