@@ -13862,8 +13862,8 @@ public class CricketFunctions {
 								break;
 							default:
 								if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
-									targetData.setTargetOrResult("Super Over tied - match drawn");
-									//targetData.setTargetOrResult("Super Over tied - Another super over to follow");
+									//targetData.setTargetOrResult("Super Over tied - match drawn");
+									targetData.setTargetOrResult("Super Over tied - Another super over to follow");
 								}else {
 									if(SplitSummaryText.isEmpty()) {
 										targetData.setTargetOrResult("Match tied - winner will be decided by super over");
@@ -14318,7 +14318,9 @@ public class CricketFunctions {
 
 	public static String getScoreTypeData(String whatToProcess, MatchAllData match, int inning_number, int player_id, String seperator, List<Event> events) 
 	{
-		int dots = 0, ones = 0, twos = 0, threes = 0, fours = 0, fives = 0, sixes = 0,nines = 0;
+		int dots = 0, ones = 0, twos = 0, threes = 0, fours = 0, fives = 0, sixes = 0,nines = 0,outBowlerId=0,
+				inBowlerId=0,outBowlerFour=0,outBowlerSix=0;
+		String OutBowlerData = "";
 		boolean go_ahead = false;
 		if((events != null) && (events.size() > 0)) {
 			for (Event evnt : events) {
@@ -14334,6 +14336,10 @@ public class CricketFunctions {
 						if(evnt.getEventBowlerNo() == player_id) {
 							go_ahead = true;
 						}
+						
+						if(evnt.getEventBowlerNo() == 0 && evnt.getEventType().equalsIgnoreCase("LOG_OVERWRITE_BOWLER_FIGURES")) {
+							go_ahead = true;
+						}
 						break;
 					case "TEAM":
 						go_ahead = true;
@@ -14341,6 +14347,49 @@ public class CricketFunctions {
 					}
 					if(go_ahead == true) {
 						switch (evnt.getEventType()) {
+						case "LOG_OVERWRITE_BOWLER_FIGURES":
+							if(evnt.getEventExtra().contains("yes")) {
+								outBowlerId = Integer.valueOf(evnt.getEventExtra().split(",")[0]);
+								
+								// Don't recurse if we're already processing this bowler
+							    if (player_id != outBowlerId) {
+							    	for (Event evntOut : events) {
+							    		if(evntOut.getEventBowlerNo() == outBowlerId && evntOut.getEventInningNumber() == inning_number) {
+							    			switch (evntOut.getEventType()) {
+								    		case CricketUtil.FOUR:
+									        	if(evntOut.getEventWasABoundary() != null && evntOut.getEventWasABoundary().equalsIgnoreCase(CricketUtil.YES)) {
+									        		outBowlerFour++;
+						                    	}
+									        	break;
+									        case CricketUtil.SIX:
+									        	if(evntOut.getEventWasABoundary() != null && evntOut.getEventWasABoundary().equalsIgnoreCase(CricketUtil.YES)) {
+									        		outBowlerSix++;
+						                    	}
+									        	break;
+								    		}
+							    		}
+							    		if(evntOut.getEventBowlerNo() == 0 && evntOut.getEventType().equalsIgnoreCase("LOG_OVERWRITE_BOWLER_FIGURES")) {
+											break;
+										}
+							    	}
+//							    	OutBowlerData = getScoreTypeData(CricketUtil.BOWLER,match,inning_number,outBowlerId,"-",
+//							        		match.getEventFile().getEvents());
+//							        outBowlerFour = Integer.parseInt(OutBowlerData.split("-")[4]);					
+//							        outBowlerSix = Integer.parseInt(OutBowlerData.split("-")[6]);
+							    }
+							    else if(player_id == outBowlerId) {
+							    	fours = 0;
+									sixes = 0;
+							    }
+							}else if(evnt.getEventExtra().contains("no")){
+								inBowlerId = Integer.valueOf(evnt.getEventExtra().split(",")[0]);
+								
+								if (player_id == inBowlerId) {
+									fours = fours + outBowlerFour;
+									sixes = sixes + outBowlerSix;
+							    }
+							}
+							break;
 						case CricketUtil.ONE :
 							ones++;
 				          break;
