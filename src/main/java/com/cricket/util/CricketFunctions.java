@@ -14799,6 +14799,58 @@ public class CricketFunctions {
 		}
 		return ahead_behind;
 	}
+	public static List<DuckWorthLewis> populateVJD(MatchAllData match,String directory) throws IOException {
+
+	    List<DuckWorthLewis> dlsList = new ArrayList<>();
+
+	    int wickets = 0;
+
+	    for (Inning inn : match.getMatch().getInning()) {
+	        if (CricketUtil.YES.equalsIgnoreCase(inn.getIsCurrentInning())) {
+	            wickets = Math.min(inn.getTotalWickets(), 9);
+	            break;
+	        }
+	    }
+
+	    File file = new File(directory + "PARBALL");
+
+	    BufferedReader br = new BufferedReader(new FileReader(file));
+
+	    String line;
+	    int headerLines = 3;
+
+	    while ((line = br.readLine()) != null) {
+
+	        if (headerLines > 0) {
+	            headerLines--;
+	            continue;
+	        }
+
+	        line = line.trim();
+
+	        if (line.isEmpty()) {
+	            continue;
+	        }
+
+	        String[] data = line.split("\\s+");
+
+	        // overs balls w0 w1 w2 w3 w4 w5 w6 w7 w8 w9
+
+	        if (data.length < 12) {
+	            continue;
+	        }
+
+	        String overBall = data[0] + "." + data[1];
+
+	        String parScore = data[wickets + 2];
+
+	        dlsList.add(new DuckWorthLewis(overBall, parScore));
+	    }
+
+	    br.close();
+
+	    return dlsList;
+	}
 	public static List<DuckWorthLewis> populateDuckWorthLewis(MatchAllData match, String directory) throws InterruptedException 
 	{
 		int noOfWicket = 0;
