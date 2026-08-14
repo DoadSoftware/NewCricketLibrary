@@ -95,7 +95,6 @@ public class Inning {
   
   private InningStats inningStats;
 
-  @JsonIgnore
   private Map<String, String> stats;
   
 public Inning() {

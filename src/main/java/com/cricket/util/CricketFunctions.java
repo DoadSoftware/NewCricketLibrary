@@ -15943,7 +15943,57 @@ public class CricketFunctions {
 		return new MatchStats();
 	}
 	
-	
+	public static String ballsSinceLastBoundary(List<Event> events, int inningNumber) {
+	    int count = 0;
+	    if (events == null || events.isEmpty()) {
+	        return "0";
+	    }
+	    // events are newest-first: index 0 is the most recent ball
+	    for (int i = 0; i < events.size(); i++) {
+	        Event evnt = events.get(i);
+	        if (evnt.getEventInningNumber() != inningNumber) {
+	            continue;
+	        }
+
+	        boolean isBoundary = (evnt.getEventType().equalsIgnoreCase(CricketUtil.SIX)
+	                || evnt.getEventType().equalsIgnoreCase(CricketUtil.FOUR)
+	                || evnt.getEventType().equalsIgnoreCase(CricketUtil.NINE)
+	                || evnt.getEventType().equalsIgnoreCase(CricketUtil.LOG_ANY_BALL))
+	                && (evnt.getEventWasABoundary() != null
+	                    && evnt.getEventWasABoundary().equalsIgnoreCase(CricketUtil.YES));
+
+	        if (isBoundary) {
+	            break; // found it — stop counting, this is the boundary
+	        }
+
+	        switch (evnt.getEventType()) {
+	            case CricketUtil.DOT: case CricketUtil.ONE: case CricketUtil.TWO: case CricketUtil.THREE:
+	            case CricketUtil.FOUR: case CricketUtil.SIX: case CricketUtil.NINE: case CricketUtil.FIVE:
+	            case CricketUtil.BYE: case CricketUtil.LEG_BYE: case CricketUtil.LOG_WICKET:
+	                count++;
+	                break;
+	            case CricketUtil.LOG_ANY_BALL:
+	                if (evnt.getEventExtra() != null) {
+	                    if (!evnt.getEventExtra().equalsIgnoreCase(CricketUtil.WIDE)
+	                            && !evnt.getEventExtra().equalsIgnoreCase(CricketUtil.NO_BALL)) {
+	                        if (evnt.getEventSubExtra() == null
+	                                || (!evnt.getEventSubExtra().equalsIgnoreCase(CricketUtil.PENALTY)
+	                                    && !evnt.getEventSubExtra().equalsIgnoreCase(CricketUtil.NO_BALL)
+	                                    && !evnt.getEventSubExtra().equalsIgnoreCase(CricketUtil.WIDE))) {
+	                            count++;
+	                        }
+	                    }
+	                } else {
+	                    count++;
+	                }
+	                break;
+	            // anything else (CHANGE BOWLER, end over, etc.) — not a ball, skip without counting or breaking
+	            default:
+	                break;
+	        }
+	    }
+	    return String.valueOf(count);
+	}
 	
 	
 	public static MatchStats getAllEventsStatsMASTER(MatchStats matchStats,Match match, List<Event> events) 
