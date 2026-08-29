@@ -257,6 +257,21 @@ public class CricketFunctions {
 		return match;
 	}
 
+	public static String fbPlayerName(Player player) {
+	    if (player == null) {
+	        return "";
+	    }
+
+	    String full_Name = player.getFull_name();
+	    String abbreviated = player.getAbbrv_Name();
+
+	    if (full_Name.length() > 18 && !abbreviated.isEmpty()) {
+	        return abbreviated;
+	    }
+
+	    return full_Name;
+	}
+	
 	public static boolean genderMatches(String category, String playerGender) {
 	    if (category == null || playerGender == null) {
 	        return false;
