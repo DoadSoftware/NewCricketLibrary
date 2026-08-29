@@ -257,7 +257,7 @@ public class CricketFunctions {
 		return match;
 	}
 
-	public static String fbPlayerName(Player player) {
+	public static String fbPlayerName(Player player,int Char) {
 	    if (player == null) {
 	        return "";
 	    }
@@ -265,7 +265,7 @@ public class CricketFunctions {
 	    String full_Name = player.getFull_name();
 	    String abbreviated = player.getAbbrv_Name();
 
-	    if (full_Name.length() > 18 && !abbreviated.isEmpty()) {
+	    if (full_Name.length() > Char && !abbreviated.isEmpty()) {
 	        return abbreviated;
 	    }
 
