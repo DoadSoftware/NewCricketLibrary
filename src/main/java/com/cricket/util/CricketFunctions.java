@@ -52,6 +52,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import jakarta.xml.bind.JAXBContext;
@@ -122,6 +123,16 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.InputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 public class CricketFunctions {
 	
@@ -14639,6 +14650,91 @@ public class CricketFunctions {
 		
 		return this_dls;
 	}
+	private static final Pattern BALL_ROW_PATTERN =
+    Pattern.compile(
+            "^(\\d{1,2}\\.[0-5])\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)\\s+" +
+            "(\\d+)$"
+    );
+	public static List<DuckWorthLewis> populateVJD(
+	        MatchAllData match,String directory) throws InterruptedException {
+
+	    List<DuckWorthLewis> this_dls = new ArrayList<>();
+
+	    int noOfWicket = 0;
+
+	    // Get current innings wickets
+	    if (match != null
+	            && match.getMatch() != null
+	            && match.getMatch().getInning() != null) {
+
+	        for (Inning inn : match.getMatch().getInning()) {
+
+	            if (inn.getIsCurrentInning() != null
+	                    && inn.getIsCurrentInning()
+	                    .equalsIgnoreCase(CricketUtil.YES)) {
+
+	                noOfWicket = Math.min(inn.getTotalWickets(), 9);
+	                break;
+	            }
+	        }
+	    }
+
+	    try (PDDocument document = Loader.loadPDF(new File(directory + "BALLDATA.pdf"))) {
+
+	        PDFTextStripper stripper = new PDFTextStripper();
+
+	        String text = stripper.getText(document);
+
+	        String[] lines = text.split("\\r?\\n");
+
+	        for (String line : lines) {
+
+	            line = line.trim();
+
+	            Matcher matcher = BALL_ROW_PATTERN.matcher(line);
+
+	            // Skip EVERYTHING which is not a ball-by-ball row
+	            if (!matcher.matches()) {
+	                continue;
+	            }
+
+	            // -------------------------------------------------
+	            // Group 1 = over/ball
+	            // Group 2 = wicket 0
+	            // Group 3 = wicket 1
+	            // ...
+	            // Group 11 = wicket 9
+	            // -------------------------------------------------
+
+	            String over = matcher.group(1);
+
+	            String parScore =
+	                    matcher.group(2 + noOfWicket);
+
+	            this_dls.add(
+	                    new DuckWorthLewis(
+	                            over,
+	                            parScore
+	                    )
+	            );
+	        }
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return this_dls;
+	}
+	
 	public static String populateDlsAe(AE_Cricket match,String teamNameType,int dlsRuns) throws InterruptedException 
 	{
 		String team="",ahead_behind="";
@@ -14672,7 +14768,7 @@ public class CricketFunctions {
 		}
 		return ahead_behind;
 	}
-	public static List<DuckWorthLewis> populateVJD(MatchAllData match,String directory) throws IOException {
+	public static List<DuckWorthLewis> populateVJDOld(MatchAllData match,String directory) throws IOException {
 
 	    List<DuckWorthLewis> dlsList = new ArrayList<>();
 
