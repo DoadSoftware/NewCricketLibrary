@@ -1,5 +1,7 @@
 package com.cricket.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -43,6 +45,8 @@ public class HeadToHeadPlayer implements Cloneable {
   private int cr_wickets;
   private int cr_bouns;
   private String cr_bouns_type;
+  
+  private List<Integer> sixDistance;
   
   private boolean isTeamVsTeam = false;
 
@@ -422,6 +426,14 @@ public void setImp(String imp) {
 	this.imp = imp;
 }
 
+public List<Integer> getSixDistance() {
+	return sixDistance;
+}
+
+public void setSixDistance(List<Integer> sixDistance) {
+	this.sixDistance = sixDistance;
+}
+
 @Override
 public HeadToHeadPlayer clone() throws CloneNotSupportedException {
     HeadToHeadPlayer clone = null;
@@ -438,8 +450,16 @@ public HeadToHeadPlayer clone() throws CloneNotSupportedException {
 
 @Override
 public String toString() {
-	return "HeadToHead [playerId=" + playerId + ", tapeBall_balls=" + tapeBall_balls + ", tapeBall_runs=" + tapeBall_runs
-			+ ", tapeBall_wickets=" + tapeBall_wickets + ", tapeBall_dotsBall=" + tapeBall_dotsBall + "]";
+	return "HeadToHeadPlayer [playerId=" + playerId + ", runs=" + runs + ", ballsFaced=" + ballsFaced + ", batdots="
+			+ batdots + ", ones=" + ones + ", twos=" + twos + ", threes=" + threes + ", fours=" + fours + ", sixes="
+			+ sixes + ", nines=" + nines + ", wickets=" + wickets + ", runsConceded=" + runsConceded + ", ballsBowled="
+			+ ballsBowled + ", maidens=" + maidens + ", balldots=" + balldots + ", MatchFileName=" + MatchFileName
+			+ ", Team=" + Team + ", OpponentTeam=" + OpponentTeam + ", venue=" + venue + ", inningStarted="
+			+ inningStarted + ", dismissed=" + dismissed + ", imp=" + imp + ", tapeBall_balls=" + tapeBall_balls
+			+ ", tapeBall_runs=" + tapeBall_runs + ", tapeBall_wickets=" + tapeBall_wickets + ", tapeBall_dotsBall="
+			+ tapeBall_dotsBall + ", cr_balls=" + cr_balls + ", cr_runs=" + cr_runs + ", cr_wickets=" + cr_wickets
+			+ ", cr_bouns=" + cr_bouns + ", cr_bouns_type=" + cr_bouns_type + ", sixDistance=" + sixDistance
+			+ ", isTeamVsTeam=" + isTeamVsTeam + "]";
 }
 
 }

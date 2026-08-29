@@ -56,6 +56,7 @@ com\Ae_Third_Party_Xml\AE_Player.class
 com\cricket\model\Spell.class
 com\cricket\model\Season.class
 com\cricket\util\CricketFunctions$BatsmenScoreComparator.class
+com\cricket\model\WagonWheel.class
 com\cricket\util\CricketFunctions$3.class
 com\cricket\model\MatchClock.class
 com\cricket\model\BatSpeed.class

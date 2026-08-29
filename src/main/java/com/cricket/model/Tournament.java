@@ -111,6 +111,8 @@ public class Tournament implements Cloneable {
   private List<BestStats> bowler_best_Stats;
   
   private List<BestStats> tapeBall_best_Stats;
+  
+  private List<WagonWheel> sixDistance;
 
 public Tournament() {
 	super();
@@ -859,6 +861,14 @@ public List<BestStats> getTapeBall_best_Stats() {
 
 public void setTapeBall_best_Stats(List<BestStats> tapeBall_best_Stats) {
 	this.tapeBall_best_Stats = tapeBall_best_Stats;
+}
+
+public List<WagonWheel> getSixDistance() {
+	return sixDistance;
+}
+
+public void setSixDistance(List<WagonWheel> sixDistance) {
+	this.sixDistance = sixDistance;
 }
 
 @Override
