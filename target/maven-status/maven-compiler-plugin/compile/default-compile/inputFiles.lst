@@ -1,3 +1,4 @@
+C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\MatchStatsData.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\WTV\BowlerStats.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\StatsType.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\WTV\BatsmanStats.java
@@ -15,6 +16,7 @@ C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\Ae_Third_Party_Xml\AE_Over.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\Team.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\MatchAllData.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\Player.java
+C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\PlayerMatchLog.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\EventFile.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\LeagueTeam.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\Setup.java
@@ -37,6 +39,7 @@ C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\Ae_Third_Party_Xml\AE_Distance.j
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\Ae_Third_Party_Xml\AE_Projection.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\Ae_Third_Party_Xml\AE_Team_name.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\InningStats.java
+C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\PlayerCareerBreakdown.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\Ae_Third_Party_Xml\AE_TopBowler.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\Event.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\Statistics.java
@@ -93,6 +96,7 @@ C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\Split.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\Ae_Third_Party_Xml\AE_Wicket.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\Venue.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\dao\impl\CricketDaoImpl.java
+C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\PlayerStatsBucket.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\Ae_Third_Party_Xml\AE_Target.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\BestStats.java
 C:\DOAD_NEW\NewCricketLibrary\src\main\java\com\cricket\model\Weather.java

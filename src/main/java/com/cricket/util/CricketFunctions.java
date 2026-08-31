@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,6 +36,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import com.cricket.model.Statistics;
 import java.time.Year;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -92,6 +94,7 @@ import com.cricket.model.Match;
 import com.cricket.model.MatchAllData;
 import com.cricket.model.MatchClock;
 import com.cricket.model.MatchStats;
+import com.cricket.model.MatchStatsData;
 import com.cricket.model.MatchStats.VariousStats;
 import com.cricket.model.MultiLanguageDatabase;
 import com.cricket.model.OverByOverData;
@@ -657,28 +660,660 @@ public class CricketFunctions {
         return speedList;
     }
     
-    public static Statistics getStatsByType(int playerId,String statsShortName,List<StatsType> statsTypes,List<Statistics> statistics) {
-	    StatsType statsType = statsTypes.stream().filter(st -> st.getStatsShortName().equalsIgnoreCase(statsShortName))
-	            .findAny().orElse(null);
-	    if (statsType == null) {
-	        return null;
-	    }
-	    return statistics.stream().filter(st -> st.getPlayerID() == playerId && st.getStatsTypeId() == statsType.getStatsId())
-	            .findAny().orElse(null);
-	}
+    
     public static int[] parseBestFigures(String bestFigures) {
-	    // Format: "W-R" e.g., "3-20"
-	    if (bestFigures == null || bestFigures.trim().isEmpty()) return new int[]{0, Integer.MAX_VALUE};
+	    if (bestFigures == null || bestFigures.trim().isEmpty())
+	    	return new int[]{0, Integer.MAX_VALUE};
 	    String[] parts = bestFigures.split("-");
 	    int wickets = Integer.parseInt(parts[0].trim());
 	    int runs    = Integer.parseInt(parts[1].trim());
 	    return new int[]{wickets, runs};
 	}
+    
 	
+  //temp2 ---------------------------------------------------------------------------
+ public static void readAllCricketStats( String directory, Map<Integer, MatchStatsData> dataMap) {
+	 
+     // 1. BATTING - BEST SCORES
+	File battingBestScoresFile = new File(directory + CricketUtil.BATTING_BEST_SCORES_FILE);
+	if (battingBestScoresFile.exists()) {
+	    try (
+	        BufferedReader br = new BufferedReader(new FileReader(battingBestScoresFile))
+	    ) {
+	        String headerLine = br.readLine();
+	        if (headerLine != null) {
+	            List<String> headers =  parseCsvLine(headerLine);
+	            String line;
+	            int rowNumber = 1;
+	            while ((line = br.readLine()) != null) {
+	                rowNumber++;
+	                if (line.trim().isEmpty()) {
+	                    continue;
+	                }
+	                List<String> values =  parseCsvLine(line);
+	                if (values.size() != headers.size()) {
+	                    System.out.println("[CRICKET STATS] WARNING: " + "BestScores row " + rowNumber + " has " + values.size() + " columns. Expected " + headers.size());
+	                    continue;
+	                }
+	                try {
+	                    int playerId = Integer.parseInt(values.get(0).trim());
+	                    MatchStatsData stats = dataMap.get(playerId);
+	                    if (stats == null) {
+	                        stats =  new MatchStatsData();
+	                        stats.setPlayerId(playerId);
+	                        dataMap.put(playerId, stats);
+	                    }
+	                    stats.setPlayer(values.get(1).trim());
+	                    stats.setTeamId(Integer.parseInt(values.get(2).trim()));
+	                    stats.setTeam(values.get(3).trim());
+	                    stats.getBattingBestScores().setCareerBest(values.get(4).trim());
+	                    stats.getBattingBestScores().setBestT20I(values.get(5).trim());
+	                    stats.getBattingBestScores().setBestODI(values.get(6).trim());
+	                    stats.getBattingBestScores().setBestTest(values.get(7).trim());
+	                    stats.getBattingBestScores().setCareerRuns(Integer.parseInt(values.get(8).trim()));
+	                    stats.getBattingBestScores().setT20iRuns(Integer.parseInt(values.get(9).trim()));
+	                    stats.getBattingBestScores().setOdiRuns(Integer.parseInt(values.get(10).trim()));
+	                    stats.getBattingBestScores().setTestRuns(Integer.parseInt(values.get(11).trim()));
+	                } catch (Exception e) {
+	                    System.out.println("[CRICKET STATS] WARNING: " + "Could not read BestScores row " + rowNumber  + " : "  + e.getMessage());
+	                }
+	            }
+	        }
+	    } catch (Exception e) {
+	        System.out.println("[CRICKET STATS] ERROR reading " + "Batting Best Scores: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	} else {
+	    System.out.println("[CRICKET STATS] ERROR: File does not exist: " + battingBestScoresFile.getAbsolutePath());
+	}
+
+     // 2. BATTING - BY POSITION
+     File battingByPositionFile = new File(directory + CricketUtil.BATTING_BY_POSITION_FILE);
+     if (battingByPositionFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(battingByPositionFile))) {
+             String headerLine = br.readLine();
+             if (headerLine != null) {
+                 List<String> headers = parseCsvLine(headerLine);
+                 String line;
+                 int rowNumber = 1;
+                 int loadedRows = 0;
+                 while ((line = br.readLine()) != null) {
+                     rowNumber++;
+                     if (line.trim().isEmpty()) {
+                         continue;
+                     }
+                     List<String> values =  parseCsvLine(line);
+                     if (values.size() != headers.size()) {
+                         System.out.println("[CRICKET STATS] WARNING: " + "ByPosition row " + rowNumber + " has " + values.size() + " columns. Expected " + headers.size());
+                         continue;
+                     }
+                     try {
+                         int playerId = Integer.parseInt(values.get(0).trim());
+                         MatchStatsData stats = dataMap.get(playerId);
+                         if (stats == null) {
+                             stats = new MatchStatsData();
+                             stats.setPlayerId(playerId);
+                             dataMap.put(playerId,stats);
+                         }
+                         MatchStatsData.ByPosition position =  new MatchStatsData.ByPosition();
+                         position.setPosition(values.get(4).trim());
+                         position.setMatches(Integer.parseInt(values.get(5).trim()));
+                         position.setRuns(Integer.parseInt(values.get(6).trim()));
+                         position.setBallsFaced(Integer.parseInt(values.get(7).trim()));
+                         position.setDismissals(Integer.parseInt(values.get(8).trim()));
+                         position.setStrikeRate(Double.parseDouble(values.get(9).trim()));
+                         position.setAverage(Double.parseDouble(values.get(10).trim()));
+                         stats.getBattingByPosition().add(position);
+                         loadedRows++;
+                     } catch (Exception e) {
+                         System.out.println("[CRICKET STATS] WARNING: " + "Could not read ByPosition row " + rowNumber + " : " + e.getMessage());
+                     }
+                 }
+                 System.out.println("[CRICKET STATS] ByPosition loaded rows: " + loadedRows);
+             }
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading ByPosition: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + battingByPositionFile.getAbsolutePath());
+     }
+     
+     // 3. BATTING - BY YEAR
+     File battingByYearFile =  new File(directory + CricketUtil.BATTING_BY_YEAR_FILE);
+     if (battingByYearFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(battingByYearFile))) {
+             String headerLine = br.readLine();
+             if (headerLine != null) {
+                 List<String> headers =  parseCsvLine(headerLine);
+                 String line;
+                 int rowNumber = 1;
+                 int loadedRows = 0;
+                 while ((line = br.readLine()) != null) {
+                     rowNumber++;
+                     if (line.trim().isEmpty()) {
+                         continue;
+                     }
+                     List<String> values =  parseCsvLine(line);
+                     if (values.size() != headers.size()) {
+                         continue;
+                     }
+                     try {
+                         int playerId = Integer.parseInt(values.get(0).trim());
+                         MatchStatsData stats = dataMap.get(playerId);
+                         if (stats == null) {
+                             stats = new MatchStatsData();
+                             stats.setPlayerId(playerId);
+                             dataMap.put(playerId, stats);
+                         }
+                         MatchStatsData.ByYear year = new MatchStatsData.ByYear();
+                         year.setYear(Integer.parseInt(values.get(4).trim()));
+                         year.setMatches(Integer.parseInt(values.get(5).trim()));
+                         year.setRuns(Integer.parseInt(values.get(6).trim()));
+                         year.setBallsFaced(Integer.parseInt(values.get(7).trim()));
+                         year.setDismissals(Integer.parseInt(values.get(8).trim()));
+                         year.setStrikeRate(Double.parseDouble(values.get(9).trim()));
+                         year.setAverage(Double.parseDouble(values.get(10).trim()));
+                         stats.getBattingByYear().add(year);
+                         loadedRows++;
+                     } catch (Exception e) {
+                         System.out.println("[CRICKET STATS] WARNING: " + "Could not read ByYear row " + rowNumber + " : " + e.getMessage());
+                     }
+                 }
+                 System.out.println("[CRICKET STATS] ByYear loaded rows: " + loadedRows);
+             }
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading ByYear: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + battingByYearFile.getAbsolutePath());
+     }
+
+     // 4. BATTING - MODES OF DISMISSAL
+      File modesFile = new File(directory + CricketUtil.BATTING_MODES_OF_DISMISSAL_FILE);
+     if (modesFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(modesFile))) {
+             String headerLine = br.readLine();
+             if (headerLine != null) {
+                 String line;
+                 int rowNumber = 1;
+                 while ((line = br.readLine()) != null) {
+                     rowNumber++;
+                     if (line.trim().isEmpty()) {
+                         continue;
+                     }
+                     List<String> values =  parseCsvLine(line);
+                     try {
+                         int playerId = Integer.parseInt(values.get(0).trim());
+                         MatchStatsData stats = dataMap.get(playerId);
+                         if (stats == null) {
+                             stats = new MatchStatsData();
+                             stats.setPlayerId(playerId);
+                             dataMap.put(playerId, stats);
+                         }
+                         MatchStatsData.ModesOfDismissal modes = stats.getBattingModesOfDismissal();
+                         modes.setCaught(Integer.parseInt(values.get(4).trim()));
+                         modes.setBowled(Integer.parseInt(values.get(5).trim()));
+                         modes.setLbw(Integer.parseInt(values.get(6).trim()));
+                         modes.setRunOut(Integer.parseInt(values.get(7).trim()));
+                         modes.setStumped(Integer.parseInt(values.get(8).trim()));
+                         modes.setCaughtAndBowled(Integer.parseInt(values.get(9).trim()));
+                         modes.setHitWicket(Integer.parseInt(values.get(10).trim()));
+                         modes.setTotalDismissals(Integer.parseInt(values.get(11).trim()));
+                     } catch (Exception e) {
+                    	  System.out.println("[CRICKET STATS] WARNING: " + "Could not read MODES OF DISMISSAL " + rowNumber + " : " + e.getMessage());
+                     }
+                 }
+             }
+
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading MODES OF DISMISSAL: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + modesFile.getAbsolutePath());
+     }
+
+     // 5. BATTING - VS OPPONENT
+     File vsOpponentFile = new File(directory + CricketUtil.BATTING_VS_OPPONENT_FILE);
+     if (vsOpponentFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(vsOpponentFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             int loadedRows = 0;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values =  parseCsvLine(line);
+                 try {
+                     int playerId =  Integer.parseInt(values.get(0).trim());
+                     MatchStatsData stats = dataMap.get(playerId);
+                     if (stats == null) {
+                         stats = new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put( playerId, stats);
+                     }
+                     MatchStatsData.VsOpponent opponent = new MatchStatsData.VsOpponent();
+                     opponent.setOppositionId(Integer.parseInt(values.get(4).trim()));
+                     opponent.setOpponent(values.get(5).trim());
+                     opponent.setMatches(Integer.parseInt(values.get(6).trim()));
+                     opponent.setRuns(Integer.parseInt(values.get(7).trim()));
+                     opponent.setBallsFaced(Integer.parseInt(values.get(8).trim()));
+                     opponent.setNotOuts(Integer.parseInt(values.get(9).trim()));
+                     opponent.setDismissals(Integer.parseInt(values.get(10).trim()));
+                     opponent.setStrikeRate(Double.parseDouble(values.get(11).trim()));
+                     opponent.setAverage(Double.parseDouble(values.get(12).trim()));
+                     stats.getBattingVsOpponent().add(opponent);
+                     loadedRows++;
+
+                 } catch (Exception e) {
+                	 System.out.println("[CRICKET STATS] WARNING: " + "Could not read VS OPPONENT " + rowNumber + " : " + e.getMessage());
+                 }
+                 System.out.println("[CRICKET STATS]OPPONENT loaded rows: " + loadedRows);
+             }
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading OPPONENT: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + vsOpponentFile.getAbsolutePath());
+     }
+     
+     // 6. BATTING - SCORE DISTRIBUTION
+     File scoreDistributionFile = new File(directory+ CricketUtil.BATTING_SCORE_DISTRIBUTION_FILE);
+     if (scoreDistributionFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(scoreDistributionFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             int loadedRows = 0;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values = parseCsvLine(line);
+                 try {
+                     int playerId = Integer.parseInt(values.get(0).trim());
+                     MatchStatsData stats =dataMap.get(playerId);
+                     if (stats == null) {
+                         stats =  new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put(playerId,stats);
+                     }
+                     MatchStatsData.ScoreDistribution distribution = new MatchStatsData.ScoreDistribution();
+                     distribution.setScoreBand(values.get(4).trim());
+                     distribution.setOccurrences(Integer.parseInt(values.get(5).trim()));
+                     distribution.setRuns(Integer.parseInt(values.get(6).trim()));
+                     distribution.setBallsFaced(Integer.parseInt(values.get(7).trim()));
+                     distribution.setNotOuts(Integer.parseInt(values.get(8).trim()));
+                     stats.getBattingScoreDistribution().add(distribution);
+                     loadedRows++;
+                 } catch (Exception e) {
+                	 System.out.println("[CRICKET STATS] WARNING: " + "Could not read SCORE DISTRIBUTION " + rowNumber + " : " + e.getMessage());
+                 }
+                 System.out.println("[CRICKET STATS] SCORE DISTRIBUTION loaded rows: " + loadedRows);
+             }
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading SCORE DISTRIBUTION: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + scoreDistributionFile.getAbsolutePath());
+     }
+
+     // 7. BATTING - BY COUNTRY
+     File battingCountryFile = new File( directory + CricketUtil.BATTING_BY_COUNTRY_FILE);
+     if (battingCountryFile.exists()) {
+         try (BufferedReader br =  new BufferedReader(new FileReader(battingCountryFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             int loadedRows = 0;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values =  parseCsvLine(line);
+                 try {
+                     int playerId = Integer.parseInt(values.get(0).trim());
+                     MatchStatsData stats = dataMap.get(playerId);
+                     if (stats == null) {
+                         stats = new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put( playerId,stats);
+                     }
+                     MatchStatsData.ByCountry country =  new MatchStatsData.ByCountry();
+                     country.setCountryId(Integer.parseInt(values.get(4).trim()));
+                     country.setCountry(values.get(5).trim());
+                     country.setMatches(Integer.parseInt( values.get(6).trim()));
+                     country.setRuns(Integer.parseInt( values.get(7).trim()));
+                     country.setBallsFaced(Integer.parseInt(values.get(8).trim()));
+                     country.setNotOuts(Integer.parseInt(values.get(9).trim()));
+                     country.setDismissals(Integer.parseInt(values.get(10).trim()));
+                     country.setStrikeRate(Double.parseDouble(values.get(11).trim()));
+                     country.setAverage(Double.parseDouble(values.get(12).trim()));
+                     stats.getBattingByCountry().add(country);
+                     loadedRows++;
+                 } catch (Exception e) {
+                	 System.out.println("[CRICKET STATS] WARNING: " + "Could not read BY COUNTRY " + rowNumber + " : " + e.getMessage());
+                 }
+                 System.out.println("[CRICKET STATS] COUNTRY loaded rows: " + loadedRows);
+             }
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading COUNTRY: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + battingCountryFile.getAbsolutePath());
+     }
+
+     // 8. BATTING - BY VENUE
+     File battingVenueFile = new File(directory + CricketUtil.BATTING_BY_VENUE_FILE);
+     if (battingVenueFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(battingVenueFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             int loadedRows = 0;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values =  parseCsvLine(line);
+                 try {
+                     int playerId = Integer.parseInt(values.get(0).trim());
+                     MatchStatsData stats = dataMap.get(playerId);
+                     if (stats == null) {
+                         stats = new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put(playerId,stats);
+                     }
+                     MatchStatsData.ByVenue venue = new MatchStatsData.ByVenue();
+                     venue.setVenueId(Integer.parseInt(values.get(4).trim()));
+                     venue.setVenue(values.get(5).trim());
+                     venue.setMatches(Integer.parseInt(values.get(6).trim()));
+                     venue.setRuns(Integer.parseInt(values.get(7).trim()));
+                     venue.setBallsFaced(Integer.parseInt(values.get(8).trim()));
+                     venue.setNotOuts(Integer.parseInt(values.get(9).trim()));
+                     venue.setDismissals(Integer.parseInt(values.get(10).trim()));
+                     venue.setStrikeRate(Double.parseDouble(values.get(11).trim()));
+                     venue.setAverage(Double.parseDouble(values.get(12).trim()));
+                     stats.getBattingByVenue().add(venue);
+                     loadedRows++;
+                 } catch (Exception e) {
+                	 System.out.println("[CRICKET STATS] WARNING: " + "Could not read BY VENUE " + rowNumber + " : " + e.getMessage());
+                 }
+                 System.out.println("[CRICKET STATS] VENUE loaded rows: " + loadedRows);
+             }
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading VENUE: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + battingVenueFile.getAbsolutePath());
+     }
+
+     // 9. BOWLING - BEST FIGURES
+     File bowlingBestFile = new File(directory + CricketUtil.BOWLING_BEST_FIGURES_FILE);
+     if (bowlingBestFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(bowlingBestFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values =  parseCsvLine(line);
+                 try {
+                     int playerId = Integer.parseInt( values.get(0).trim());
+                     MatchStatsData stats = dataMap.get(playerId);
+                     if (stats == null) {
+                         stats =  new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put(playerId,stats);
+                     }
+                     MatchStatsData.BowlingBestFigures best = stats.getBowlingBestFigures();
+                     best.setCareerBest(values.get(4).trim());
+                     best.setBestT20I(values.get(5).trim());
+                     best.setBestODI(values.get(6).trim());
+                     best.setBestTest(values.get(7).trim());
+                     best.setCareerWickets(Integer.parseInt(values.get(8).trim()));
+                     best.setT20iWickets(Integer.parseInt(values.get(9).trim()));
+                     best.setOdiWickets(Integer.parseInt(values.get(10).trim()));
+                     best.setTestWickets(Integer.parseInt(values.get(11).trim()));
+                 } catch (Exception e) {
+                	 System.out.println("[CRICKET STATS] WARNING: " + "Could not read BEST FIGURES " + rowNumber + " : " + e.getMessage());
+                 }
+             }
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading BEST FIGURES: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + bowlingBestFile.getAbsolutePath());
+     }
+
+     // 10. BOWLING - MODE OF WICKETS
+     File bowlingModeFile = new File(directory + CricketUtil.BOWLING_MODE_OF_WICKETS_FILE);
+     if (bowlingModeFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(bowlingModeFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values =  parseCsvLine(line);
+                 try {
+                     int playerId = Integer.parseInt(values.get(0).trim());
+                     MatchStatsData stats =dataMap.get(playerId);
+                     if (stats == null) {
+                         stats =  new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put(playerId, stats);
+                     }
+                     MatchStatsData.ModeOfWickets modes = stats.getBowlingModeOfWickets();
+                     modes.setCaught(Integer.parseInt(values.get(4).trim()));
+                     modes.setCaughtBehind(Integer.parseInt(values.get(5).trim()));
+                     modes.setCaughtBowled(Integer.parseInt(values.get(6).trim()));
+                     modes.setBowled(Integer.parseInt(values.get(7).trim()));
+                     modes.setLbw(Integer.parseInt(values.get(8).trim()));
+                     modes.setStumped(Integer.parseInt(values.get(9).trim()));
+                     modes.setHitWicket(Integer.parseInt(values.get(10).trim()));
+                     modes.setTotalWickets(Integer.parseInt(values.get(11).trim()));
+                 } catch (Exception e) {
+                     System.out.println("[CRICKET STATS] WARNING: " + "Could not read ModeOfWickets row " + rowNumber + " : " + e.getMessage());
+                 }
+             }
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading ModeOfWickets: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + bowlingModeFile.getAbsolutePath());
+     }
+
+     // 11. BOWLING - BY YEAR
+     File bowlingByYearFile = new File(directory + CricketUtil.BOWLING_BY_YEAR_FILE);
+     if (bowlingByYearFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(bowlingByYearFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             int loadedRows = 0;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values =  parseCsvLine(line);
+                 try {
+                     int playerId =  Integer.parseInt(values.get(0).trim());
+                     MatchStatsData stats = dataMap.get(playerId);
+                     if (stats == null) {
+                         stats = new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put(playerId,stats);
+                     }
+                     MatchStatsData.BowlingByYear year = new MatchStatsData.BowlingByYear();
+                     year.setYear(Integer.parseInt(values.get(4).trim()));
+                     year.setMatches(Integer.parseInt(values.get(5).trim()));
+                     year.setOvers(Double.parseDouble(values.get(6).trim()));
+                     year.setRunsConceded(Integer.parseInt(values.get(7).trim()));
+                     year.setWickets(Integer.parseInt(values.get(8).trim()));
+                     year.setEconomy(Double.parseDouble(values.get(9).trim()));
+                     year.setAverage(Double.parseDouble(values.get(10).trim()));
+                     stats.getBowlingByYear().add(year);
+                     loadedRows++;
+                 } catch (Exception e) {
+                     System.out.println("[CRICKET STATS] WARNING: " + "Could not read BowlingByYear row " + rowNumber + " : " + e.getMessage());
+                 }
+             }
+             System.out.println("[CRICKET STATS] BowlingByYear loaded rows: " + loadedRows);
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading BowlingByYear: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + bowlingByYearFile.getAbsolutePath());
+     }
+
+     // 12. BOWLING - BY COUNTRY
+     File bowlingCountryFile =  new File(directory + CricketUtil.BOWLING_BY_COUNTRY_FILE);
+     if (bowlingCountryFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(bowlingCountryFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             int loadedRows = 0;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values =  parseCsvLine(line);
+                 try {
+                     int playerId = Integer.parseInt(values.get(0).trim());
+                     MatchStatsData stats =  dataMap.get(playerId);
+                     if (stats == null) {
+                         stats =  new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put(playerId,stats);
+                     }
+                     MatchStatsData.BowlingByCountry country =  new MatchStatsData.BowlingByCountry();
+                     country.setCountryId(Integer.parseInt(values.get(4).trim()));
+                     country.setCountry(values.get(5).trim());
+                     country.setMatches(Integer.parseInt(values.get(6).trim()));
+                     country.setOvers(Double.parseDouble(values.get(7).trim()));
+                     country.setRunsConceded(Integer.parseInt(values.get(8).trim()));
+                     country.setWickets(Integer.parseInt(values.get(9).trim()));
+                     country.setEconomy(Double.parseDouble(values.get(10).trim()));
+                     country.setAverage(Double.parseDouble(values.get(11).trim()));
+                     stats.getBowlingByCountry().add(country);
+                     loadedRows++;
+                 } catch (Exception e) {
+                     System.out.println("[CRICKET STATS] WARNING: " + "Could not read BowlingByCountry row " + rowNumber + " : " + e.getMessage());
+                 }
+             }
+             System.out.println("[CRICKET STATS] BowlingByCountry loaded rows: " + loadedRows);
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading BowlingByCountry: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + bowlingCountryFile.getAbsolutePath());
+     }
+
+     // 13. BOWLING - BY VENUE
+     File bowlingVenueFile =  new File(directory  + CricketUtil.BOWLING_BY_VENUE_FILE);
+     if (bowlingVenueFile.exists()) {
+         try (BufferedReader br = new BufferedReader(new FileReader(bowlingVenueFile))) {
+             br.readLine();
+             String line;
+             int rowNumber = 1;
+             int loadedRows = 0;
+             while ((line = br.readLine()) != null) {
+                 rowNumber++;
+                 if (line.trim().isEmpty()) {
+                     continue;
+                 }
+                 List<String> values =  parseCsvLine(line);
+                 try {
+                     int playerId = Integer.parseInt(values.get(0).trim());
+                     MatchStatsData stats = dataMap.get(playerId);
+                     if (stats == null) {
+                         stats = new MatchStatsData();
+                         stats.setPlayerId(playerId);
+                         dataMap.put(playerId,stats);
+                     }
+                     MatchStatsData.BowlingByVenue venue =  new MatchStatsData.BowlingByVenue();
+                     venue.setVenueId(Integer.parseInt(values.get(4).trim()));
+                     venue.setVenue(values.get(5).trim());
+                     venue.setMatches(Integer.parseInt(values.get(6).trim()));
+                     venue.setOvers(Double.parseDouble(values.get(7).trim()));
+                     venue.setRunsConceded(Integer.parseInt(values.get(8).trim()));
+                     venue.setWickets(Integer.parseInt(values.get(9).trim()));
+                     venue.setEconomy(Double.parseDouble(values.get(10).trim()));
+                     venue.setAverage(Double.parseDouble(values.get(11).trim()));
+                     stats.getBowlingByVenue().add(venue);
+                     loadedRows++;
+                 } catch (Exception e) {
+                     System.out.println("[CRICKET STATS] WARNING: " + "Could not read BowlingByVenue row " + rowNumber + " : " + e.getMessage());
+                 }
+             }
+             System.out.println("[CRICKET STATS] BowlingByVenue loaded rows: " + loadedRows);
+         } catch (Exception e) {
+             System.out.println("[CRICKET STATS] ERROR reading BowlingByVenue: " + e.getMessage());
+             e.printStackTrace();
+         }
+     } else {
+         System.out.println("[CRICKET STATS] ERROR: File does not exist: " + bowlingVenueFile.getAbsolutePath());
+     }
+ }
+
+ // CSV LINE PARSER
+ private static List<String> parseCsvLine(String line) {
+
+     List<String> values = new ArrayList<>();
+     StringBuilder current = new StringBuilder();
+     boolean insideQuotes = false;
+     for (int i = 0; i < line.length(); i++) {
+         char c = line.charAt(i);
+         if (c == '"') {
+             if (insideQuotes && i + 1 < line.length() && line.charAt(i + 1) == '"') {
+                 current.append('"');
+                 i++;
+             } else {
+                 insideQuotes = !insideQuotes;
+             }
+         } else if (c == ','  && !insideQuotes) {
+             values.add(current.toString().trim());
+             current.setLength(0);
+         } else {
+             current.append(c);
+         }
+     }
+     values.add(current.toString().trim());
+     return values;
+ }
+
+ //temp2 ---------------------------------------------------------------------------
+    
     public static Statistics mergeIsplCareerStats(Statistics base, Statistics add) {
 	    if (add == null) return base;
 	    
-	    // Batting
+	    // Batting 
 	    base.setMatches(base.getMatches() + add.getMatches());
 	    base.setInnings(base.getInnings() + add.getInnings());
 	    base.setNotOut(base.getNotOut() + add.getNotOut());
@@ -8698,65 +9333,6 @@ public class CricketFunctions {
 		}
 		return null;
 	}
-
-    public static void extractBatscoreByPosition(List<Team> team) {
-        
-    	for (File file : new File(CricketUtil.CRICKET_SERVER_DIRECTORY + CricketUtil.HEADTOHEAD_DIRECTORY).listFiles()) {
-            if (file.isFile() && file.getName().endsWith(".txt")) {
-                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                    String line;
-                    int lineIndex = 0;
-                    while ((line = br.readLine()) != null) {
-                        if (line.startsWith("IS")) {
-                            String[] parts = line.split("\\s+");
-                            if (team == null || team.stream().noneMatch(tm -> tm.getTeamName1().equalsIgnoreCase(parts[4].trim()))) {
-                                team.add(new Team(parts[4].trim(), new ArrayList<Player>()));
-                            }
-                            if (lineIndex == 12) {
-                                lineIndex = 0;
-                            }
-                            lineIndex++;
-                            if (parts.length >= 10) {
-                                String teamName = parts[4].trim();
-                                for (Team tm : team) {
-                                    if (tm.getTeamName1().equals(teamName)) {
-
-                                        int batsmanId = Integer.parseInt(parts[6]);
-                                        int runs = Integer.parseInt(parts[7]);
-                                        int balls = Integer.parseInt(parts[8]);
-                                        
-                                        if (tm.getPlayer() == null || tm.getPlayer().stream().noneMatch(pl -> pl.getPlayerId() == batsmanId)) {
-                                            if (tm.getPlayer() == null) {
-                                                tm.setPlayer(new ArrayList<Player>());
-                                            }
-                                            tm.getPlayer().add(new Player(batsmanId, new ArrayList<>(Arrays.asList(
-                                                    new Player(1, 0, 0), new Player(2, 0, 0), new Player(3, 0, 0),
-                                                    new Player(4, 0, 0), new Player(5, 0, 0), new Player(6, 0, 0),
-                                                    new Player(7, 0, 0), new Player(8, 0, 0), new Player(9, 0, 0),
-                                                    new Player(10, 0, 0), new Player(11, 0, 0)))));
-                                        }
-
-                                        for (Player ply : tm.getPlayer()) {
-                                            if (ply.getPlayerId() == batsmanId) {
-                                                for (Player pos : ply.getPlayerPos()) {
-                                                    if (lineIndex == pos.getPlayerPosition()) {
-                                                        pos.setRuns((pos.getRuns() + runs));
-                                                        pos.setBalls((pos.getBalls() + balls));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
     
     @SuppressWarnings("unchecked")
 	public static <T> T deepCopy(T object) {
@@ -10110,7 +10686,6 @@ public class CricketFunctions {
 						bc.setHowOutText("c substitute");
 						bc.setHowOutPartOne("c substitute");
 					} else {
-						System.out.println("playerId - " + bc.getPlayerId());
 						bc.setHowOutText("c " + bc.getHowOutFielder().getTicker_name());
 						bc.setHowOutPartOne("c " + bc.getHowOutFielder().getTicker_name());
 						if(bc.getWasHowOutFielderSubstitute() != null && bc.getWasHowOutFielderSubstitute().equalsIgnoreCase(CricketUtil.YES)) {
@@ -15986,7 +16561,8 @@ public class CricketFunctions {
 	    }
 	    return String.valueOf(count);
 	}
-	
+		
+
 	
 	public static MatchStats getAllEventsStatsMASTER(MatchStats matchStats,Match match, List<Event> events) 
 	{
@@ -16410,7 +16986,6 @@ public class CricketFunctions {
 
 						if(matchStats.getBowlingCard().getLastBowlerId() > 0 &&
 							events.get(i).getEventBowlerNo() == matchStats.getBowlingCard().getLastBowlerId()) {
-							System.out.println("events.get(i).getEventType() = " + events.get(i).getEventType());
 							switch(events.get(i).getEventType()) {
 							case CricketUtil.BYE: case CricketUtil.LEG_BYE: 
 								matchStats.getLastOverData().setTotalRuns(matchStats.getLastOverData().getTotalRuns() +
