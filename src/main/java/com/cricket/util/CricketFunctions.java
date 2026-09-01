@@ -268,7 +268,7 @@ public class CricketFunctions {
 	    String full_Name = player.getFull_name();
 	    String abbreviated = player.getAbbrv_Name();
 
-	    if (full_Name.length() > Char && !abbreviated.isEmpty()) {
+	    if (full_Name.length() >= Char && !abbreviated.isEmpty()) {
 	        return abbreviated;
 	    }
 
