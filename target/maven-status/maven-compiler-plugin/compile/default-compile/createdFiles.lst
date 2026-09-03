@@ -53,7 +53,6 @@ com\cricket\model\MatchStatsData.class
 com\Ae_Third_Party_Xml\AE_Projection.class
 com\cricket\model\POTT.class
 com\cricket\model\BattingCard.class
-com\cricket\util\CricketFunctions$4.class
 com\cricket\model\Dictionary.class
 com\cricket\model\Split.class
 com\cricket\model\VariousText.class

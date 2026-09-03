@@ -7877,7 +7877,7 @@ public class CricketFunctions {
 		Statistics stat = objectMapper.readValue(objectMapper.writeValueAsString(statsdata), Statistics.class);
 		
 		for(HeadToHeadPlayer match : headToHead_matches) {
-			//System.out.println(match.getMatch().getMatchFileName());
+			System.out.println("FILENAME = " + match.getMatchFileName());
 			if(!match.getMatchFileName().equalsIgnoreCase(currentMatch.getMatch().getMatchFileName())) {
 				if(stat.getStats_type().getStatsShortName().contains(currentMatch.getSetup().getMatchType())) {
 //					TimeUnit.MILLISECONDS.sleep(500);
@@ -7925,7 +7925,7 @@ public class CricketFunctions {
 							}else if(match.getDismissed().equalsIgnoreCase("Y")) {
 								stat.setBestScore(String.valueOf(match.getRuns()));
 							}
-							stat.setBestScoreAgainst(ballTeamName);
+							stat.setBestScoreAgainst(batTeamName);
 							stat.setBestScoreVenue(match.getVenue() + ", " + Year.now());
 						}else {
 							if(stat.getBestScore().contains("*")) {
@@ -7941,7 +7941,7 @@ public class CricketFunctions {
 							}else {
 								if(Integer.valueOf(stat.getBestScore()) == match.getRuns() && match.getDismissed().equalsIgnoreCase("N")) {
 									stat.setBestScore(match.getRuns() + "*");
-									stat.setBestScoreAgainst(match.getOpponentTeam().getTeamName1());
+									stat.setBestScoreAgainst(batTeamName);
 									stat.setBestScoreVenue(match.getVenue() + ", " + Year.now());
 								}
 								else if(Integer.valueOf(stat.getBestScore()) < match.getRuns()) {
