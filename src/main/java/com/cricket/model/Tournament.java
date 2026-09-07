@@ -113,6 +113,8 @@ public class Tournament implements Cloneable {
   private List<BestStats> tapeBall_best_Stats;
   
   private List<WagonWheel> sixDistance;
+  
+  private List<BestStats> ballSpeed;
 
 public Tournament() {
 	super();
@@ -120,8 +122,8 @@ public Tournament() {
 
 public Tournament(int playerId, int runs, int fours, int sixes, int innings, int not_out, int thirty, int fifty, int hundreds, int wickets, int runsConceded,
 		int ballsBowled, int ballsFaced, int dots, int threeWicketHaul, int fiveWicketHaul, String notOut, int runs_against_pace, int balls_against_pace,
-		int runs_against_spin, int balls_against_spin, Player player, List<BestStats> batsman_best_Stats,
-		List<BestStats> bowler_best_Stats, List<BestStats> tapeBall_best_Stats) {
+		int runs_against_spin, int balls_against_spin, Player player, List<BestStats> batsman_best_Stats, List<BestStats> bowler_best_Stats, 
+		List<BestStats> tapeBall_best_Stats) {
 	super();
 	this.playerId = playerId;
 	this.runs = runs;
@@ -869,6 +871,14 @@ public List<WagonWheel> getSixDistance() {
 
 public void setSixDistance(List<WagonWheel> sixDistance) {
 	this.sixDistance = sixDistance;
+}
+
+public List<BestStats> getBallSpeed() {
+	return ballSpeed;
+}
+
+public void setBallSpeed(List<BestStats> ballSpeed) {
+	this.ballSpeed = ballSpeed;
 }
 
 @Override

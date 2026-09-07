@@ -27,11 +27,22 @@ public class BestStats implements Cloneable{
   private int matches;
   private int challengeRuns;
   
+  private double ballSpeed;
+  
   @Transient
   private Player player;
 
 public BestStats() {
 	super();
+}
+
+public BestStats(int playerId, Team opponentTeam, String matchNumber, double ballSpeed, Player player) {
+	super();
+	this.playerId = playerId;
+	this.opponentTeam = opponentTeam;
+	this.matchNumber = matchNumber;
+	this.ballSpeed = ballSpeed;
+	this.player = player;
 }
 
 public BestStats(int playerId, int bestEquation, int balls, Team opponentTeam, Ground whichVenue, String matchNumber, Player player ,String status) {
@@ -264,13 +275,21 @@ public void setWhichVenue(Ground whichVenue) {
 	this.whichVenue = whichVenue;
 }
 
+public double getBallSpeed() {
+	return ballSpeed;
+}
+
+public void setBallSpeed(double ballSpeed) {
+	this.ballSpeed = ballSpeed;
+}
+
 @Override
 public String toString() {
 	return "BestStats [playerId=" + playerId + ", bestEquation=" + bestEquation + ", opponentTeam=" + opponentTeam
 			+ ", whichVenue=" + whichVenue + ", matchNumber=" + matchNumber + ", runs=" + runs + ", fours=" + fours
 			+ ", sixes=" + sixes + ", wickets=" + wickets + ", balls=" + balls + ", status=" + status + ", not_out="
-			+ not_out + ", teamId=" + teamId + ", matches=" + matches + ", challengeRuns=" + challengeRuns + ", player="
-			+ player + "]";
+			+ not_out + ", playerName=" + playerName + ", teamId=" + teamId + ", matches=" + matches
+			+ ", challengeRuns=" + challengeRuns + ", ballSpeed=" + ballSpeed + ", player=" + player + "]";
 }
 
 @Override

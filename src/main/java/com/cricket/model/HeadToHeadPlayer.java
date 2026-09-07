@@ -47,6 +47,7 @@ public class HeadToHeadPlayer implements Cloneable {
   private String cr_bouns_type;
   
   private List<Integer> sixDistance;
+  private List<Double> ballSpeed;
   
   private boolean isTeamVsTeam = false;
 
@@ -432,6 +433,14 @@ public List<Integer> getSixDistance() {
 
 public void setSixDistance(List<Integer> sixDistance) {
 	this.sixDistance = sixDistance;
+}
+
+public List<Double> getBallSpeed() {
+	return ballSpeed;
+}
+
+public void setBallSpeed(List<Double> ballSpeed) {
+	this.ballSpeed = ballSpeed;
 }
 
 @Override
