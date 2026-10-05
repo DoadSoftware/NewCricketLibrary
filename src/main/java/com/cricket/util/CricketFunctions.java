@@ -14442,9 +14442,11 @@ public class CricketFunctions {
 									targetData.setTargetOrResult("Super Over tied - Another super over to follow");
 								}else {
 									if(SplitSummaryText.isEmpty()) {
-										targetData.setTargetOrResult("Match tied - winner will be decided by super over");
+//										targetData.setTargetOrResult("Match tied - winner will be decided by super over");
+										targetData.setTargetOrResult("Match tied - winner will be decided by bowl-out");
 									} else {
-										targetData.setTargetOrResult("Match tied" + SplitSummaryText + "winner will be decided by super over");
+//										targetData.setTargetOrResult("Match tied" + SplitSummaryText + "winner will be decided by super over");
+										targetData.setTargetOrResult("Match tied" + SplitSummaryText + "winner will be decided by bowl-out");
 									}
 								}
 								break;
