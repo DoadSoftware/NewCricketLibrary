@@ -28,6 +28,7 @@ com\cricket\model\TargetData.class
 com\cricket\util\CricketFunctions$2.class
 com\cricket\model\MatchStats$VariousStats.class
 com\cricket\model\Bugs.class
+com\cricket\model\SubsStatsType.class
 com\Ae_Third_Party_Xml\AE_ScheduledOvers.class
 com\cricket\model\MatchStatsData$ByVenue.class
 com\cricket\util\CricketFunctions$BowlerFiguresComparator.class

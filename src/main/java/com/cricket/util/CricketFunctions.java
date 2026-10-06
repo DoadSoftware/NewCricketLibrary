@@ -4437,7 +4437,7 @@ public class CricketFunctions {
 		}
 //		// POWERPLAY
 		
-		if(!match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.FC) || 
+		if(!match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.FC) && 
 				!match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.TEST)) {
 			
 			MatchStats matchStats = CricketFunctions.getpowerPlay(match);
@@ -7944,7 +7944,7 @@ public class CricketFunctions {
 		for(HeadToHeadPlayer match : headToHead_matches) {
 			System.out.println("FILENAME = " + match.getMatchFileName());
 			if(!match.getMatchFileName().equalsIgnoreCase(currentMatch.getMatch().getMatchFileName())) {
-				if(stat.getStats_type().getStatsShortName().contains(currentMatch.getSetup().getMatchType())) {
+				if(stat.getStats_type().getStatsShortName().toUpperCase().contains(currentMatch.getSetup().getMatchType().toUpperCase())) {
 //					TimeUnit.MILLISECONDS.sleep(500);
 					
 					switch (teamNameType) {
@@ -8524,7 +8524,7 @@ public class CricketFunctions {
 		ObjectMapper objectMapper = new ObjectMapper();    
 		Statistics stat = objectMapper.readValue(objectMapper.writeValueAsString(statsdata), Statistics.class);
 		
-		if(stat.getStats_type().getStatsShortName().contains(match.getSetup().getMatchType())) {
+		if(stat.getStats_type().getStatsShortName().toUpperCase().contains(match.getSetup().getMatchType().toUpperCase())) {
 			stat.setTournament_fours(stat.getTournament_fours() + match.getMatch().getInning().get(0).getTotalFours());
 			stat.setTournament_fours(stat.getTournament_fours() + match.getMatch().getInning().get(1).getTotalFours());
 			for(Inning inn : match.getMatch().getInning()) {
