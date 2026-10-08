@@ -5442,9 +5442,8 @@ public class CricketFunctions {
 	}
 	
 	public static TargetData GenerateBowlingTeamEquation(MatchAllData match, String teamNameType, String broadcaster, 
-			String SplitSummaryText, boolean ballsRemaining, boolean switchToBowlingTeam) 
+			String SplitSummaryText, boolean ballsRemaining, boolean switchToBowlingTeam, int whichInning) 
 		{
-			int whichInning = 4;
 			
 			if(!switchToBowlingTeam || match.getMatch().getInning().size() < whichInning 
 				|| !(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.TEST) || match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.FC))) {
