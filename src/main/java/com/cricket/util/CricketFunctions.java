@@ -11456,6 +11456,23 @@ public class CricketFunctions {
 			}
 		}
 	}
+	
+	public static String getBowlerAverage(int runsConceded, int wicketsTaken,
+	        int numberOfDecimals, String defaultValue) {
+
+	    if (wicketsTaken <= 0) {
+	        return defaultValue;
+	    } else {
+	        if (numberOfDecimals > 0) {
+	            return String.format(
+	                    "%.0" + numberOfDecimals + "f",
+	                    (float) runsConceded / (float) wicketsTaken
+	            );
+	        } else {
+	            return defaultValue;
+	        }
+	    }
+	}
 
 	public static String getEconomy(int totalRunsConceded, int totalBallsBowled, int numberOfDecimals, String defaultValue) 
 	{

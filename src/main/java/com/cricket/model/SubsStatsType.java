@@ -14,13 +14,13 @@ import jakarta.persistence.Column;
 public class SubsStatsType {
 
   @Id
-  @Column(name = "SUBSSTATSID")
+  @Column(name = "SubsStatsId")
   private Integer subsStatsId;
 	
-  @Column(name = "SUBSSTATSFULLNAME")
+  @Column(name = "SubsStatsFullName")
   private String subsStatsFullName;
 
-  @Column(name = "SUBSSTATSSHORTNAME")
+  @Column(name = "SubsStatsShortName")
   private String subsStatsShortName;
   
 
