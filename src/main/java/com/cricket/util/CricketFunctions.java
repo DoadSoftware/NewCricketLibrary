@@ -5441,6 +5441,76 @@ public class CricketFunctions {
 		}
 	}
 	
+	public static TargetData GenerateBowlingTeamEquation(MatchAllData match, String teamNameType, String broadcaster, 
+			String SplitSummaryText, boolean ballsRemaining, boolean switchToBowlingTeam) 
+		{
+			int whichInning = 4;
+			
+			if(!switchToBowlingTeam || match.getMatch().getInning().size() < whichInning 
+				|| !(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.TEST) || match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.FC))) {
+				return GenerateMatchSummaryStatus(whichInning, match, teamNameType, SplitSummaryText, broadcaster, ballsRemaining);
+			}
+			
+			TargetData targetData = new TargetData(GenerateMatchResult(match, teamNameType, broadcaster, SplitSummaryText, ballsRemaining));
+			
+			if(!targetData.getTargetOrResult().trim().isEmpty()) {
+				targetData.setMatchFinished(true);
+				return targetData;
+			}
+			
+			int lead_by = GetTeamRunsAhead(whichInning, match);
+			targetData = GetTargetData(match);
+			
+			String batTeamNm = "", bowlTeamNm = "";
+			switch (teamNameType) {
+		    case CricketUtil.SHORT:
+		    	batTeamNm = match.getMatch().getInning().get(whichInning - 1).getBatting_team().getTeamName4();
+		    	bowlTeamNm = match.getMatch().getInning().get(whichInning - 1).getBowling_team().getTeamName4();
+		    	break;
+		    case CricketUtil.MIDDLE: 
+		    	batTeamNm = match.getMatch().getInning().get(whichInning - 1).getBatting_team().getTeamName3();
+		    	bowlTeamNm = match.getMatch().getInning().get(whichInning - 1).getBowling_team().getTeamName3();
+		    	break;
+		    case "MIDDLE_2": 
+		    	batTeamNm = match.getMatch().getInning().get(whichInning - 1).getBatting_team().getTeamName2();
+		    	bowlTeamNm = match.getMatch().getInning().get(whichInning - 1).getBowling_team().getTeamName2();
+		    	break;
+		    default: 
+		    	batTeamNm = match.getMatch().getInning().get(whichInning - 1).getBatting_team().getTeamName1();
+		    	bowlTeamNm = match.getMatch().getInning().get(whichInning - 1).getBowling_team().getTeamName1();
+		    	break;
+		    }
+			
+			int wicketsLeft = CricketFunctions.getWicketsLeft(match, whichInning);
+			
+			if((1 - lead_by) <= 0) {
+				targetData.setTargetOrResult(batTeamNm + " win by " + wicketsLeft + " wicket" + CricketFunctions.Plural(wicketsLeft));
+				targetData.setMatchFinished(true);
+			} else if(wicketsLeft <= 0) {
+				if(targetData.getRemaningRuns() == 1) {
+					targetData.setTargetOrResult("match tied");
+				} else {
+					targetData.setTargetOrResult(bowlTeamNm + " win by " + (targetData.getRemaningRuns() - 1) + 
+			    		" run" + CricketFunctions.Plural(targetData.getRemaningRuns() - 1));
+				}
+				targetData.setMatchFinished(true);
+			} else {
+				targetData.setTargetOrResult(bowlTeamNm + " need " + wicketsLeft + " wicket" + CricketFunctions.Plural(wicketsLeft) + " to win");
+				
+				if(targetData.getRemaningBall() > 0) {
+					if (targetData.getRemaningBall() > 120) {
+			    		targetData.setTargetOrResult(targetData.getTargetOrResult() + " from " 
+			    			+ CricketFunctions.OverBalls(0, targetData.getRemaningBall()) + " overs");
+					} else {
+						targetData.setTargetOrResult(targetData.getTargetOrResult() + " from " + targetData.getRemaningBall() + 
+							" ball" + CricketFunctions.Plural(targetData.getRemaningBall()));
+					}
+				}
+			}
+			
+			return targetData;
+		}
+	
 	public static ForeignLanguageData GenerateMatchSummaryStatusForeignLanguage(int whichInning, MatchAllData match, String teamNameType, 
 		String SplitSummaryText, String broadcaster, boolean ballsRemaining, MultiLanguageDatabase multiLanguageDb) 
 		{
