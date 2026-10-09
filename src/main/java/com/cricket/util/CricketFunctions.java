@@ -257,6 +257,15 @@ public class CricketFunctions {
 		}
 		return match;
 	}
+	
+	public static String LocalTime() {
+		String formattedTime = "";
+	    Date dt = new Date();
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+
+	    formattedTime = dateFormat.format(dt).toUpperCase();
+	    return formattedTime;
+	}
 
 	public static String fbPlayerName(Player player,int Char) {
 	    if (player == null) {
