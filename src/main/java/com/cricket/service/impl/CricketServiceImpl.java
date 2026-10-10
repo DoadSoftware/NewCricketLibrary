@@ -27,6 +27,7 @@ import com.cricket.model.Sponsor;
 import com.cricket.model.Staff;
 import com.cricket.model.Statistics;
 import com.cricket.model.StatsType;
+import com.cricket.model.SubsStatsType;
 import com.cricket.model.Team;
 import com.cricket.model.VariousText;
 import com.cricket.model.Venue;
@@ -198,4 +199,11 @@ public List<LeaderBoard> getLeaderBoards() {
 public List<Player> getArchivePlayers() {
 	return cricketDao.getArchivePlayers();
 }
+
+@Override
+public List<SubsStatsType> getAllSubsStatsTypes() {
+	return cricketDao.getAllSubsStatsTypes();
+}
+
+
 }

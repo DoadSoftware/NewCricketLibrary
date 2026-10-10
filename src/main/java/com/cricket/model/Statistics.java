@@ -24,6 +24,9 @@ public class Statistics
   @Column(name="StatsTypeId")
   private Integer statsTypeId;
   
+  @Column(name="SubsStatsType")
+  private Integer subsStatsType;
+  
   @Column(name="Matches")
   private Integer matches;
   
@@ -100,6 +103,9 @@ public class Statistics
   private StatsType stats_type;
   
   @Transient
+  private SubsStatsType subs_stats_type;
+  
+  @Transient
   private int tournament_fours;
   
   @Transient
@@ -127,6 +133,14 @@ public class Statistics
 
   public void setStatsTypeId(Integer statsTypeId) {
 	this.statsTypeId = statsTypeId;
+  }
+
+  public Integer getSubsStatsType() {
+	return subsStatsType;
+  }
+
+  public void setSubsStatsType(Integer subsStatsType) {
+	this.subsStatsType = subsStatsType;
   }
 
   public Integer getMatches() {
@@ -329,6 +343,14 @@ public class Statistics
 	this.stats_type = stats_type;
   }
 
+  public SubsStatsType getSubs_stats_type() {
+	return subs_stats_type;
+  }
+
+  public void setSubs_stats_type(SubsStatsType subs_stats_type) {
+	this.subs_stats_type = subs_stats_type;
+  }
+
   public int getTournament_fours() {
 	return tournament_fours;
   }
@@ -348,16 +370,15 @@ public class Statistics
   @Override
   public String toString() {
 	return "Statistics [statisticsId=" + statisticsId + ", playerID=" + playerID + ", statsTypeId=" + statsTypeId
-			+ ", matches=" + matches + ", innings=" + innings + ", bowlerInning=" + bowlerInning + ", notOut=" + notOut
-			+ ", runs=" + runs + ", ballsFaced=" + ballsFaced + ", bestScore=" + bestScore + ", bestScoreAgainst="
-			+ bestScoreAgainst + ", bestScoreVenue=" + bestScoreVenue + ", hundreds=" + hundreds + ", fifties="
-			+ fifties + ", thirties=" + thirties + ", fours=" + fours + ", sixes=" + sixes + ", ballsBowled="
-			+ ballsBowled + ", runsConceded=" + runsConceded + ", plus3=" + plus3 + ", plus5=" + plus5 + ", dotBowled="
-			+ dotBowled + ", wickets=" + wickets + ", catches=" + catches + ", bestFigures=" + bestFigures
-			+ ", bestFiguresAgainst=" + bestFiguresAgainst + ", bestFiguresVenue=" + bestFiguresVenue + ", stats_type="
-			+ stats_type + ", tournament_fours=" + tournament_fours + ", tournament_sixes=" + tournament_sixes + "]";
+			+ ", subsStatsType=" + subsStatsType + ", matches=" + matches + ", innings=" + innings + ", bowlerInning="
+			+ bowlerInning + ", notOut=" + notOut + ", runs=" + runs + ", ballsFaced=" + ballsFaced + ", bestScore="
+			+ bestScore + ", bestScoreAgainst=" + bestScoreAgainst + ", bestScoreVenue=" + bestScoreVenue
+			+ ", hundreds=" + hundreds + ", fifties=" + fifties + ", thirties=" + thirties + ", fours=" + fours
+			+ ", sixes=" + sixes + ", ballsBowled=" + ballsBowled + ", runsConceded=" + runsConceded + ", plus3="
+			+ plus3 + ", plus5=" + plus5 + ", dotBowled=" + dotBowled + ", wickets=" + wickets + ", catches=" + catches
+			+ ", bestFigures=" + bestFigures + ", bestFiguresAgainst=" + bestFiguresAgainst + ", bestFiguresVenue="
+			+ bestFiguresVenue + ", stats_type=" + stats_type + ", tournament_fours=" + tournament_fours
+			+ ", tournament_sixes=" + tournament_sixes + "]";
   }
-  
-  
 
   }

@@ -114,6 +114,7 @@ public class CricketDaoImpl implements CricketDao {
     @Override public List<Season> getSeasons() { return getAll(Season.class); }
     @Override public List<Pointers> getPointers() { return getAll(Pointers.class); }
     @Override public List<StatsType> getAllStatsType() { return getAll(StatsType.class); }
+    @Override public List<SubsStatsType> getAllSubsStatsTypes() { return getAll(SubsStatsType.class); }
     @Override public List<Commentator> getCommentator() { return getAll(Commentator.class); }
     @Override public List<Staff> getStaff() { return getAll(Staff.class); }
     @Override public List<POTT> getPott() { return getAll(POTT.class); }
