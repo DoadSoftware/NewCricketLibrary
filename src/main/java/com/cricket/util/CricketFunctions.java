@@ -8020,7 +8020,6 @@ public class CricketFunctions {
 		Statistics stat = objectMapper.readValue(objectMapper.writeValueAsString(statsdata), Statistics.class);
 		
 		for(HeadToHeadPlayer match : headToHead_matches) {
-			System.out.println("FILENAME = " + match.getMatchFileName());
 			if(!match.getMatchFileName().equalsIgnoreCase(currentMatch.getMatch().getMatchFileName())) {
 				if(stat.getStats_type().getStatsShortName().toUpperCase().contains(currentMatch.getSetup().getMatchType().toUpperCase())) {
 //					TimeUnit.MILLISECONDS.sleep(500);
@@ -14537,11 +14536,11 @@ public class CricketFunctions {
 									targetData.setTargetOrResult("Super Over tied - Another super over to follow");
 								}else {
 									if(SplitSummaryText.isEmpty()) {
-//										targetData.setTargetOrResult("Match tied - winner will be decided by super over");
-										targetData.setTargetOrResult("Match tied - winner will be decided by bowl-out");
+										targetData.setTargetOrResult("Match tied - winner will be decided by super over");
+//										targetData.setTargetOrResult("Match tied - winner will be decided by bowl-out");
 									} else {
-//										targetData.setTargetOrResult("Match tied" + SplitSummaryText + "winner will be decided by super over");
-										targetData.setTargetOrResult("Match tied" + SplitSummaryText + "winner will be decided by bowl-out");
+										targetData.setTargetOrResult("Match tied" + SplitSummaryText + "winner will be decided by super over");
+//										targetData.setTargetOrResult("Match tied" + SplitSummaryText + "winner will be decided by bowl-out");
 									}
 								}
 								break;
