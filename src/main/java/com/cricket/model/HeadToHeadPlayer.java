@@ -34,6 +34,7 @@ public class HeadToHeadPlayer implements Cloneable {
   private String inningStarted;
   private String dismissed;
   private String imp;
+  private int batPosition;
   
   private int tapeBall_balls;
   private int tapeBall_runs;
@@ -51,9 +52,9 @@ public class HeadToHeadPlayer implements Cloneable {
   
   private boolean isTeamVsTeam = false;
 
-public HeadToHeadPlayer(int playerId, int runs, int ballsFaced, int batdots, int ones, int twos, int threes, int fours,
-		int sixes, int wickets, int runsConceded, int ballsBowled, int maidens, int balldots, String matchFileName,
-		com.cricket.model.Team team, com.cricket.model.Team opponentTeam, String inningStarted, String dismissed, String venue, int nines,String imp) {
+public HeadToHeadPlayer(int playerId, int runs, int ballsFaced, int batdots, int ones, int twos, int threes, int fours, int sixes, int wickets, int runsConceded, int ballsBowled, 
+		int maidens, int balldots, String matchFileName,com.cricket.model.Team team, com.cricket.model.Team opponentTeam, String inningStarted, String dismissed, String venue, 
+		int nines, String imp, int batPosition) {
 	super();
 	this.playerId = playerId;
 	this.runs = runs;
@@ -77,6 +78,7 @@ public HeadToHeadPlayer(int playerId, int runs, int ballsFaced, int batdots, int
 	this.venue = venue;
 	this.nines = nines;
 	this.imp = imp;
+	this.batPosition = batPosition;
 }
 
 public int getPlayerId() {
@@ -418,6 +420,13 @@ public void setTeamVsTeam(boolean isTeamVsTeam) {
 	this.isTeamVsTeam = isTeamVsTeam;
 }
 
+public int getBatPosition() {
+	return batPosition;
+}
+
+public void setBatPosition(int batPosition) {
+	this.batPosition = batPosition;
+}
 
 public String getImp() {
 	return imp;
