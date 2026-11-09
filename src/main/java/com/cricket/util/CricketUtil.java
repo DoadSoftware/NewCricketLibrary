@@ -217,6 +217,7 @@ public class CricketUtil {
 	public final static String AWAY = "AWAY";
 
 	public final static String TEST = "TEST";
+	public static final String T20_TEST = "T20_TEST";
 	public final static String ODI = "ODI";
 	public final static String IT20 = "IT20";
 	public final static String DT20 = "DT20";
