@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -124,12 +125,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.InputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -265,6 +261,55 @@ public class CricketFunctions {
 
 	    formattedTime = dateFormat.format(dt).toUpperCase();
 	    return formattedTime;
+	}
+	
+	public static List<List<Integer>> calculateMaidenBySpells(List<Event> events, int inningNo, int bowlerId) {
+
+	    Map<Integer, List<Integer>> maidenMap = new TreeMap<>();
+	    int currentSpellNo = 0;
+	    if (events == null) {
+	        return new ArrayList<>();
+	    }
+
+	    List<Event> sortedEvents = events.stream().filter(e -> e.getEventInningNumber() == inningNo)
+	            .sorted(Comparator.comparingInt(Event::getEventNumber)).collect(Collectors.toList());
+
+	    for (Event event : sortedEvents) {
+	        // Identify bowler's spell number
+	        if ("CHANGE_BOWLER".equalsIgnoreCase(event.getEventType())
+	                && event.getEventBowlerNo() == bowlerId) {
+
+	            String[] values = event.getValueToProcess().split(",");
+
+	            if (values.length >= 3) {
+	                currentSpellNo = Integer.parseInt(values[2].trim());
+	                maidenMap.putIfAbsent(currentSpellNo, new ArrayList<Integer>());
+	            }
+	        }
+
+	        // Check completed over
+	        if ("end_over".equalsIgnoreCase(event.getEventType())
+	                && event.getEventBowlerNo() == bowlerId
+	                && currentSpellNo > 0) {
+
+	            if (event.getEventTotalRunsInAnOver() == 0) {
+	                maidenMap.get(currentSpellNo).add(event.getEventOverNo());
+	            }
+	        }
+	    }
+
+	    return new ArrayList<>(maidenMap.values());
+	}
+	
+	public static int getRemainingRunsToAvoidFollowOn(MatchAllData matchAllData) {
+
+	    int firstInningsRuns = matchAllData.getMatch().getInning().get(0).getTotalRuns();
+	    int followOnThreshold = matchAllData.getSetup().getFollowOnThreshold();
+	    int secondInningsRuns = matchAllData.getMatch().getInning().get(1).getTotalRuns();
+
+	    int remRuns = (firstInningsRuns - followOnThreshold + 1) - secondInningsRuns;
+
+	    return Math.max(remRuns, 0);
 	}
 
 	public static String fbPlayerName(Player player,int Char) {
@@ -15439,20 +15484,23 @@ public class CricketFunctions {
 	                    && event.getEventBatterNo() != batter2Id)) {
 	                continue;
 	            }
-
-	            switch (event.getEventType()) {
-	                case CricketUtil.DOT:
-	                    dots++;
-	                    break;
-	                case CricketUtil.ONE:
-	                    ones++;
-	                    break;
-	                case CricketUtil.TWO:
-	                    twos++;
-	                    break;
-	                case CricketUtil.THREE:
-	                    threes++;
-	                    break;
+	            
+	            if((event.getEventBatterNo() == batter1Id && event.getEventOtherBatterNo() == batter2Id) || 
+	            		(event.getEventBatterNo() == batter2Id && event.getEventOtherBatterNo() == batter1Id)) {
+	            	switch (event.getEventType()) {
+		                case CricketUtil.DOT:
+		                    dots++;
+		                    break;
+		                case CricketUtil.ONE:
+		                    ones++;
+		                    break;
+		                case CricketUtil.TWO:
+		                    twos++;
+		                    break;
+		                case CricketUtil.THREE:
+		                    threes++;
+		                    break;
+		            }
 	            }
 	        }
 	    }
