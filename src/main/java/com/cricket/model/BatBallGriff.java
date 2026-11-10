@@ -20,6 +20,8 @@ public class BatBallGriff {
 	private int RunsConceded;
 
 	private int wickets;
+	
+	private int inningNumber;
   
 	private String oversBowled;
 
@@ -51,7 +53,8 @@ public class BatBallGriff {
 
 
 	public BatBallGriff(int playerId, int runs, int ballsFaced, String status, String how_out, int runsConceded,
-			int wickets, String oversBowled, Team opponentTeam, Player player, String matchNumber,String matchIdent) {
+			int wickets, String oversBowled, Team opponentTeam, Player player, String matchNumber,String matchIdent, 
+			int inningNumber) {
 		super();
 		this.playerId = playerId;
 		Runs = runs;
@@ -65,6 +68,7 @@ public class BatBallGriff {
 		this.player = player;
 		MatchNumber = matchNumber;
 		MatchIdent = matchIdent;
+		this.inningNumber = inningNumber;
 	}
 
 	public int getPlayerId() {
@@ -138,6 +142,16 @@ public class BatBallGriff {
 		}
 		
 	}
+
+	public int getInningNumber() {
+		return inningNumber;
+	}
+
+
+	public void setInningNumber(int inningNumber) {
+		this.inningNumber = inningNumber;
+	}
+
 
 	public String getOversBowled() {
 		return oversBowled;
