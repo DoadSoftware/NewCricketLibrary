@@ -39,6 +39,7 @@ com\cricket\archive\Archive.class
 com\cricket\util\CricketFunctions$BatsmanFoursComparator.class
 com\Ae_Third_Party_Xml\AE_Toss.class
 com\cricket\util\CricketFunctions$BowlerDotsComparator.class
+META-INF\maven\com.cricket\NewCricketLibrary\pom.xml
 com\cricket\model\StatsType.class
 com\WTV\BowlerStats.class
 com\Ae_Third_Party_Xml\AE_Player_Info.class
@@ -68,6 +69,7 @@ com\cricket\model\Season.class
 com\cricket\util\CricketFunctions$BatsmenScoreComparator.class
 com\cricket\model\WagonWheel.class
 com\cricket\util\CricketFunctions$3.class
+META-INF\maven\com.cricket\NewCricketLibrary\pom.properties
 com\cricket\model\MatchClock.class
 com\cricket\model\BatSpeed.class
 com\cricket\model\Player.class
@@ -102,6 +104,7 @@ com\Ae_Third_Party_Xml\AE_Wicket.class
 com\cricket\ispl\mvp_leaderBoard.class
 com\cricket\model\ImpactData.class
 com\cricket\model\MatchStatsData$ModesOfDismissal.class
+META-INF\MANIFEST.MF
 com\cricket\model\Clock.class
 com\cricket\model\MatchStats.class
 com\cricket\model\DaySession.class

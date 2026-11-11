@@ -4308,9 +4308,10 @@ public class CricketFunctions {
 		lineByLineData.add("| 136 - 138     Stumpings");
 		lineByLineData.add("| 139 - 141     Nines");
 		lineByLineData.add("| 143 - 146     Imp");
-		lineByLineData.add("| 147 - 149     Position");
+		lineByLineData.add("| 147 - 150     Position");
+		lineByLineData.add("| 151 - 154     Inning Number");
 		lineByLineData.add("|");
-		lineByLineData.add("| <Match File Name   >< Venue Name       >< Team name        >< Opponent Name    ><BAT><R><B><4><6><F><H><I><D><TN><ON><D><1><2><3><C><S><9><IMP><POS>");
+		lineByLineData.add("| <Match File Name   >< Venue Name       >< Team name        >< Opponent Name    ><BAT><R><B><4><6><F><H><I><D><TN><ON><D><1><2><3><C><S><9><IMP><POS><INN>");
 		
 		//Batting Card
 		
@@ -4380,6 +4381,7 @@ public class CricketFunctions {
 					matchDataTxt.insert(143, "N");
 				}
 			    matchDataTxt.insert(147, bc.getBatterPosition());
+			    matchDataTxt.insert(152, inn.getInningNumber());
 			    
 			    lineByLineData.add(matchDataTxt.toString());
 			}
@@ -4404,8 +4406,9 @@ public class CricketFunctions {
 		lineByLineData.add("| 108 - 111     Opponent ticker name");
 		lineByLineData.add("| 112 - 115     Last wicket ball count");
 		lineByLineData.add("| 116 - 120     Imp");
+		lineByLineData.add("| 121 - 123     Inning Number");
 		lineByLineData.add("|");
-		lineByLineData.add("| <Match File Name   >< Venue Name       >< Team name        >< Opponent Name    ><BWL><B><M><R><W><D><TN><ON><LW><IMP>");
+		lineByLineData.add("| <Match File Name   >< Venue Name       >< Team name        >< Opponent Name    ><BWL><B><M><R><W><D><TN><ON><LW><IMP><INN>");
 		
 		for(Inning inn : match.getMatch().getInning()) {
 			matchDataTxt = new StringBuilder();
@@ -4451,6 +4454,8 @@ public class CricketFunctions {
 					}else {
 						matchDataTxt.insert(117, "N");
 					}
+					
+					matchDataTxt.insert(121, inn.getInningNumber());
 				    
 				    lineByLineData.add(matchDataTxt.toString());
 				}
@@ -5022,6 +5027,7 @@ public class CricketFunctions {
 		List<String> headToHead = new ArrayList<String>();
 		HeadToHead headToHead_master = new HeadToHead();
 		int index = 2;
+		int innNumber = 0;
 		
 		if(new File (directory + CricketUtil.HEADTOHEAD_DIRECTORY + match.getMatch().getMatchFileName().replace(".json", ".h2h")).exists()) {
 			String text_to_return = "";
@@ -5046,6 +5052,15 @@ public class CricketFunctions {
 				TeamName.add(headToHead.get(i).substring(43,63).trim());	
 				TeamName.add(headToHead.get(i).substring(63,82).trim());
 				
+				switch(match.getSetup().getMatchType().toUpperCase()) {
+				case CricketUtil.TEST:
+					innNumber = (Integer.valueOf(headToHead.get(i).substring(150,153).trim()) <= 2 ?1:2);
+					break;
+				default:
+					innNumber = Integer.valueOf(headToHead.get(i).substring(150,153).trim());
+					break;
+				}
+				
 				try {
 					
 					headToHead_master.getH2hPlayer().add(new HeadToHeadPlayer(Integer.valueOf(headToHead.get(i).substring(83,86).trim()),Integer.valueOf(headToHead.get(i).substring(87,90).trim()), 
@@ -5057,7 +5072,7 @@ public class CricketFunctions {
 							cricketService.getTeams().stream().filter(team -> team.getTeamName4().equalsIgnoreCase(TeamName.get(1))).findAny().orElse(null),
 							headToHead.get(i).substring(106,108).trim(),headToHead.get(i).substring(109,111).trim(),headToHead.get(i).substring(23,42).trim(),
 							Integer.valueOf(headToHead.get(i).substring(137,140).trim()),headToHead.get(i).substring(142,145).trim(), 
-							Integer.valueOf(headToHead.get(i).substring(146,148).trim())));
+							Integer.valueOf(headToHead.get(i).substring(146,148).trim()),innNumber));
 					} catch (Exception e) {
 					
 				}
@@ -5069,9 +5084,20 @@ public class CricketFunctions {
 				playerId = -1;
 				for(int j=0;j<=headToHead_master.getH2hPlayer().size()-1;j++)
 				{
+					switch(match.getSetup().getMatchType().toUpperCase()) {
+					case CricketUtil.TEST:
+						innNumber = (Integer.valueOf(headToHead.get(i).substring(121,123).trim()) <= 2 ?1:2);
+						break;
+					default:
+						innNumber = Integer.valueOf(headToHead.get(i).substring(121,123).trim());
+						break;
+					}
+					
 					
 					if(headToHead_master.getH2hPlayer().get(j).getPlayerId() == Integer.valueOf(headToHead.get(i).substring(83,86).trim()) &&
-							headToHead_master.getH2hPlayer().get(j).getMatchFileName().equalsIgnoreCase(headToHead.get(i).substring(2,22).trim())) {
+							headToHead_master.getH2hPlayer().get(j).getMatchFileName().equalsIgnoreCase(headToHead.get(i).substring(2,22).trim()) &&
+							headToHead_master.getH2hPlayer().get(j).getInningNumber() == innNumber) {
+					
 						playerId = j;
 						break;
 					}
@@ -5093,7 +5119,7 @@ public class CricketFunctions {
 							Integer.valueOf(headToHead.get(i).substring(99,102).trim()), headToHead.get(i).substring(2,22).trim(), 
 							cricketService.getTeams().stream().filter(team -> team.getTeamName4().equalsIgnoreCase(TeamName.get(0))).findAny().orElse(null),
 							cricketService.getTeams().stream().filter(team -> team.getTeamName4().equalsIgnoreCase(TeamName.get(1))).findAny().orElse(null),
-							"Y", "-", headToHead.get(i).substring(23,42),0,headToHead.get(i).substring(116,119),0));
+							"Y", "-", headToHead.get(i).substring(23,42),0,headToHead.get(i).substring(116,119),0, innNumber));
 					
 					TeamName.clear();
 				}
@@ -8335,7 +8361,17 @@ public class CricketFunctions {
 					}
 					
 					if(match.getPlayerId() == stat.getPlayerID()) {
-						player_found = true;
+						switch(currentMatch.getSetup().getMatchType().toUpperCase()) {
+						case CricketUtil.TEST:
+							if(match.getInningNumber() == 1) {
+								player_found = true;
+							}
+							break;
+						default:
+							player_found = true;
+							break;
+						}
+						
 						if(match.getInningStarted().equalsIgnoreCase("Y")) {
 							stat.setInnings(stat.getInnings() + 1);
 						}
@@ -16691,7 +16727,6 @@ public class CricketFunctions {
 		switch (dataType.toUpperCase()) {
 		case CricketUtil.BATSMAN:
 			boolean rowFilled = false;   // add this before the loop
-			int inningNo = 0; 
 			for (HeadToHeadPlayer h2h : headToHead) {
 				
 				if(new File(CricketUtil.CRICKET_DIRECTORY + CricketUtil.SETUP_DIRECTORY + h2h.getMatchFileName()).exists() == true) {
@@ -16702,33 +16737,27 @@ public class CricketFunctions {
 			    if (!h2h.getTeam().getTeamName4().equalsIgnoreCase(team.getTeamName4())) {
 			        continue;
 			    }
-			    if(h2h.getPlayerId() == 77) {
-			    	System.out.println("ID - " + h2h.getPlayerId() + " RUNS - " + h2h.getRuns() + " BALLS - " + h2h.getBallsFaced());
-			    }
 			    
 			    if(!matchname.equalsIgnoreCase(h2h.getMatchFileName())) {
 			    	// Always add a default "DNP"
 				    matchname = h2h.getMatchFileName();
 				    rowFilled = false;
-			        inningNo = 0;
-				    
+			     
 				    griffBatBall.add(new BatBallGriff(PlayerId, 0, 0, "DNP", "", 0, 0, "0", h2h.getOpponentTeam(), 
-				    		player, matchname.replace(".json", ""),ident,1));
+				    		player, matchname.replace(".json", ""),ident,h2h.getInningNumber()));
 			    }
 			    
 			    // Check if this h2h is for the same player and team
 			    if (h2h.getPlayerId() == PlayerId) {
 			        status = "DNB"; runs = "0";  balls = "0";
-			        inningNo++;
-
+			       
 			        if ("Y".equalsIgnoreCase(h2h.getInningStarted().trim())) {
 			            status = "Y".equalsIgnoreCase(h2h.getDismissed().trim()) ? "OUT" : "NOT OUT";
 			            runs = String.valueOf(h2h.getRuns());
 			            balls = String.valueOf(h2h.getBallsFaced());
 			        }
 			        BatBallGriff row = new BatBallGriff(PlayerId, Integer.parseInt(runs), Integer.parseInt(balls),
-		                    status, "", 0, 0, "0", h2h.getOpponentTeam(), player,
-		                    matchname.replace(".json", ""), ident,inningNo);
+		                    status, "", 0, 0, "0", h2h.getOpponentTeam(), player, matchname.replace(".json", ""), ident,h2h.getInningNumber());
 
 		            if (!rowFilled) {
 		                griffBatBall.set(griffBatBall.size() - 1, row); // replace the DNP placeholder
@@ -16744,14 +16773,17 @@ public class CricketFunctions {
 				{
 					teams = inn.getBowling_team();
 					innNum = Integer.valueOf((inn.getInningNumber()<=2?1:2));
+					
 					if(inn.getBattingCard() != null && inn.getBattingCard().size() > 0) {
 						for(BattingCard bc : inn.getBattingCard())
 						{
 							if(bc.getPlayerId() == PlayerId) {
 								player_check = true;
-								griffBatBall.add(new BatBallGriff(bc.getPlayerId(), bc.getRuns(), bc.getBalls(), bc.getStatus(), bc.getHowOut(), 0, 0, "0",
-										inn.getBowling_team(), bc.getPlayer(),match.getMatch().getMatchFileName().replace(".json", ""),match.getSetup().getMatchIdent(), 
-										innNum));
+								if(inn.getBowlingCard() != null) {
+									griffBatBall.add(new BatBallGriff(bc.getPlayerId(), bc.getRuns(), bc.getBalls(), bc.getStatus(), bc.getHowOut(), 0, 0, "0",
+											inn.getBowling_team(), bc.getPlayer(),match.getMatch().getMatchFileName().replace(".json", ""),match.getSetup().getMatchIdent(), 
+											innNum));
+								}
 								break;
 							}
 						}

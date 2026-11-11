@@ -35,6 +35,7 @@ public class HeadToHeadPlayer implements Cloneable {
   private String dismissed;
   private String imp;
   private int batPosition;
+  private int inningNumber;
   
   private int tapeBall_balls;
   private int tapeBall_runs;
@@ -54,7 +55,7 @@ public class HeadToHeadPlayer implements Cloneable {
 
 public HeadToHeadPlayer(int playerId, int runs, int ballsFaced, int batdots, int ones, int twos, int threes, int fours, int sixes, int wickets, int runsConceded, int ballsBowled, 
 		int maidens, int balldots, String matchFileName,com.cricket.model.Team team, com.cricket.model.Team opponentTeam, String inningStarted, String dismissed, String venue, 
-		int nines, String imp, int batPosition) {
+		int nines, String imp, int batPosition, int inningNumber) {
 	super();
 	this.playerId = playerId;
 	this.runs = runs;
@@ -79,6 +80,7 @@ public HeadToHeadPlayer(int playerId, int runs, int ballsFaced, int batdots, int
 	this.nines = nines;
 	this.imp = imp;
 	this.batPosition = batPosition;
+	this.inningNumber = inningNumber;
 }
 
 public int getPlayerId() {
@@ -452,6 +454,14 @@ public void setBallSpeed(List<Double> ballSpeed) {
 	this.ballSpeed = ballSpeed;
 }
 
+public int getInningNumber() {
+	return inningNumber;
+}
+
+public void setInningNumber(int inningNumber) {
+	this.inningNumber = inningNumber;
+}
+
 @Override
 public HeadToHeadPlayer clone() throws CloneNotSupportedException {
     HeadToHeadPlayer clone = null;
@@ -473,11 +483,12 @@ public String toString() {
 			+ sixes + ", nines=" + nines + ", wickets=" + wickets + ", runsConceded=" + runsConceded + ", ballsBowled="
 			+ ballsBowled + ", maidens=" + maidens + ", balldots=" + balldots + ", MatchFileName=" + MatchFileName
 			+ ", Team=" + Team + ", OpponentTeam=" + OpponentTeam + ", venue=" + venue + ", inningStarted="
-			+ inningStarted + ", dismissed=" + dismissed + ", imp=" + imp + ", tapeBall_balls=" + tapeBall_balls
-			+ ", tapeBall_runs=" + tapeBall_runs + ", tapeBall_wickets=" + tapeBall_wickets + ", tapeBall_dotsBall="
-			+ tapeBall_dotsBall + ", cr_balls=" + cr_balls + ", cr_runs=" + cr_runs + ", cr_wickets=" + cr_wickets
-			+ ", cr_bouns=" + cr_bouns + ", cr_bouns_type=" + cr_bouns_type + ", sixDistance=" + sixDistance
-			+ ", isTeamVsTeam=" + isTeamVsTeam + "]";
+			+ inningStarted + ", dismissed=" + dismissed + ", imp=" + imp + ", batPosition=" + batPosition
+			+ ", inningNumber=" + inningNumber + ", tapeBall_balls=" + tapeBall_balls + ", tapeBall_runs="
+			+ tapeBall_runs + ", tapeBall_wickets=" + tapeBall_wickets + ", tapeBall_dotsBall=" + tapeBall_dotsBall
+			+ ", cr_balls=" + cr_balls + ", cr_runs=" + cr_runs + ", cr_wickets=" + cr_wickets + ", cr_bouns="
+			+ cr_bouns + ", cr_bouns_type=" + cr_bouns_type + ", sixDistance=" + sixDistance + ", ballSpeed="
+			+ ballSpeed + ", isTeamVsTeam=" + isTeamVsTeam + "]";
 }
 
 }
