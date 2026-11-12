@@ -5087,18 +5087,22 @@ public class CricketFunctions {
 					switch(match.getSetup().getMatchType().toUpperCase()) {
 					case CricketUtil.TEST:
 						innNumber = (Integer.valueOf(headToHead.get(i).substring(121,123).trim()) <= 2 ?1:2);
+						if(headToHead_master.getH2hPlayer().get(j).getPlayerId() == Integer.valueOf(headToHead.get(i).substring(83,86).trim()) &&
+								headToHead_master.getH2hPlayer().get(j).getMatchFileName().equalsIgnoreCase(headToHead.get(i).substring(2,22).trim()) &&
+								headToHead_master.getH2hPlayer().get(j).getInningNumber() == innNumber) {
+						
+							playerId = j;
+							break;
+						}
 						break;
 					default:
 						innNumber = Integer.valueOf(headToHead.get(i).substring(121,123).trim());
-						break;
-					}
-					
-					
-					if(headToHead_master.getH2hPlayer().get(j).getPlayerId() == Integer.valueOf(headToHead.get(i).substring(83,86).trim()) &&
-							headToHead_master.getH2hPlayer().get(j).getMatchFileName().equalsIgnoreCase(headToHead.get(i).substring(2,22).trim()) &&
-							headToHead_master.getH2hPlayer().get(j).getInningNumber() == innNumber) {
-					
-						playerId = j;
+						if(headToHead_master.getH2hPlayer().get(j).getPlayerId() == Integer.valueOf(headToHead.get(i).substring(83,86).trim()) &&
+								headToHead_master.getH2hPlayer().get(j).getMatchFileName().equalsIgnoreCase(headToHead.get(i).substring(2,22).trim())) {
+						
+							playerId = j;
+							break;
+						}
 						break;
 					}
 				}
@@ -8093,7 +8097,18 @@ public class CricketFunctions {
 					}
 					
 					if(match.getPlayerId() == stat.getPlayerID() && batTeamName.equalsIgnoreCase(otherTeamName)) {
-						player_found = true;
+						
+						switch(currentMatch.getSetup().getMatchType().toUpperCase()) {
+						case CricketUtil.TEST:
+							if(match.getInningNumber() == 1) {
+								player_found = true;
+							}
+							break;
+						default:
+							player_found = true;
+							break;
+						}
+						
 						if(match.getInningStarted().equalsIgnoreCase("Y")) {
 							stat.setInnings(stat.getInnings() + 1);
 						}
@@ -8227,7 +8242,18 @@ public class CricketFunctions {
 					}
 					
 					if(match.getPlayerId() == stat.getPlayerID() && stat.getSubsStatsType() == match.getBatPosition()) {
-						player_found = true;
+						
+						switch(currentMatch.getSetup().getMatchType().toUpperCase()) {
+						case CricketUtil.TEST:
+							if(match.getInningNumber() == 1) {
+								player_found = true;
+							}
+							break;
+						default:
+							player_found = true;
+							break;
+						}
+						
 						if(match.getInningStarted().equalsIgnoreCase("Y")) {
 							stat.setInnings(stat.getInnings() + 1);
 						}
@@ -12061,8 +12087,7 @@ public class CricketFunctions {
 	        return defaultValue;
 	    } else {
 	        if (numberOfDecimals > 0) {
-	            return String.format(
-	                    "%.0" + numberOfDecimals + "f",
+	            return String.format("%.0" + numberOfDecimals + "f",
 	                    (float) runsConceded / (float) wicketsTaken
 	            );
 	        } else {
