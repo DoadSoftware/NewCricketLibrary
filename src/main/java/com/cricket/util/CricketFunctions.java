@@ -20210,11 +20210,16 @@ public class CricketFunctions {
 	    if (matchAllData.getSetup().getTargetRuns() > 0) {
 	    	targetData.setTargetRuns(matchAllData.getSetup().getTargetRuns());
 	    }else {
-	        if (matchAllData.getSetup().getMaxOvers() == 0) {
-	        	targetData.setTargetRuns(GetTeamRunsAhead(3, matchAllData) + 1);
-	        } else {
-	        	targetData.setTargetRuns(GetTeamRunsAhead(1, matchAllData) + 1);
-	        }
+	    	
+	    	if(matchAllData.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.T20_TEST)) {
+	    		targetData.setTargetRuns(GetTeamRunsAhead(3, matchAllData) + 1);
+	    	}else {
+	    		if (matchAllData.getSetup().getMaxOvers() == 0) {
+		        	targetData.setTargetRuns(GetTeamRunsAhead(3, matchAllData) + 1);
+		        } else {
+		        	targetData.setTargetRuns(GetTeamRunsAhead(1, matchAllData) + 1);
+		        }
+	    	}
 	    }
 	    if (matchAllData.getSetup().getTargetOvers() != null && !matchAllData.getSetup().getTargetOvers().isEmpty()
 	    	&& Integer.valueOf(matchAllData.getSetup().getTargetOvers().split("\\.")[0]) > 0) {
@@ -20222,29 +20227,8 @@ public class CricketFunctions {
 	    } else {
 	    	targetData.setTargetOvers(String.valueOf(matchAllData.getSetup().getMaxOvers()));
 	    }
-	    if (matchAllData.getSetup().getMaxOvers() > 0) {
-	    	if(targetData.getTargetOvers().contains(".")) {
-	    		targetData.setRemaningBall((Integer.valueOf(targetData.getTargetOvers().split("\\.")[0]) * 6 + 
-	    			Integer.valueOf(targetData.getTargetOvers().split("\\.")[1])) - (matchAllData.getMatch().getInning().get(1).getTotalOvers() * 6)
-			    		- matchAllData.getMatch().getInning().get(1).getTotalBalls());
-	    	} else {
-		    	targetData.setRemaningBall((Integer.valueOf(targetData.getTargetOvers()) * 6) - (matchAllData.getMatch().getInning().get(1).getTotalOvers() * 6)
-		    		- matchAllData.getMatch().getInning().get(1).getTotalBalls());
-	    	}
-			if(matchAllData.getSetup().getSpecialMatchRules() != null && matchAllData.getSetup().getSpecialMatchRules().equalsIgnoreCase(CricketUtil.ISPL)
-				&& matchAllData.getMatch().getInning().get(1).getSpecialRuns() != null && !matchAllData.getMatch().getInning().get(1).getSpecialRuns().trim().isEmpty()) 
-			{
-				if(matchAllData.getMatch().getInning().get(1).getSpecialRuns().startsWith("-")) {
-			    	targetData.setRemaningRuns(targetData.getTargetRuns() - (matchAllData.getMatch().getInning().get(1).getTotalRuns() 
-			    		- Integer.parseInt(matchAllData.getMatch().getInning().get(1).getSpecialRuns().replace("-", ""))));
-				} else {
-			    	targetData.setRemaningRuns(targetData.getTargetRuns() - (matchAllData.getMatch().getInning().get(1).getTotalRuns() 
-			    		+ Integer.parseInt(matchAllData.getMatch().getInning().get(1).getSpecialRuns().replace("+", ""))));
-				}
-			} else {
-		    	targetData.setRemaningRuns(targetData.getTargetRuns() - matchAllData.getMatch().getInning().get(1).getTotalRuns());
-			}
-	    } else {
+	    
+	    if(matchAllData.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.T20_TEST)) {
 	    	if (matchAllData.getSetup().getTargetOvers() != null && Integer.valueOf(matchAllData.getSetup().getTargetOvers()) > 0) {
 		    	if(targetData.getTargetOvers().contains(".")) {
 		    		targetData.setRemaningBall((Integer.valueOf(targetData.getTargetOvers().split("\\.")[0]) * 6 + 
@@ -20258,7 +20242,46 @@ public class CricketFunctions {
 	    		targetData.setRemaningBall(0);
 	    	}
 	    	targetData.setRemaningRuns(targetData.getTargetRuns() - matchAllData.getMatch().getInning().get(3).getTotalRuns());
+	    }else {
+	    	if (matchAllData.getSetup().getMaxOvers() > 0) {
+		    	if(targetData.getTargetOvers().contains(".")) {
+		    		targetData.setRemaningBall((Integer.valueOf(targetData.getTargetOvers().split("\\.")[0]) * 6 + 
+		    			Integer.valueOf(targetData.getTargetOvers().split("\\.")[1])) - (matchAllData.getMatch().getInning().get(1).getTotalOvers() * 6)
+				    		- matchAllData.getMatch().getInning().get(1).getTotalBalls());
+		    	} else {
+			    	targetData.setRemaningBall((Integer.valueOf(targetData.getTargetOvers()) * 6) - (matchAllData.getMatch().getInning().get(1).getTotalOvers() * 6)
+			    		- matchAllData.getMatch().getInning().get(1).getTotalBalls());
+		    	}
+				if(matchAllData.getSetup().getSpecialMatchRules() != null && matchAllData.getSetup().getSpecialMatchRules().equalsIgnoreCase(CricketUtil.ISPL)
+					&& matchAllData.getMatch().getInning().get(1).getSpecialRuns() != null && !matchAllData.getMatch().getInning().get(1).getSpecialRuns().trim().isEmpty()) 
+				{
+					if(matchAllData.getMatch().getInning().get(1).getSpecialRuns().startsWith("-")) {
+				    	targetData.setRemaningRuns(targetData.getTargetRuns() - (matchAllData.getMatch().getInning().get(1).getTotalRuns() 
+				    		- Integer.parseInt(matchAllData.getMatch().getInning().get(1).getSpecialRuns().replace("-", ""))));
+					} else {
+				    	targetData.setRemaningRuns(targetData.getTargetRuns() - (matchAllData.getMatch().getInning().get(1).getTotalRuns() 
+				    		+ Integer.parseInt(matchAllData.getMatch().getInning().get(1).getSpecialRuns().replace("+", ""))));
+					}
+				} else {
+			    	targetData.setRemaningRuns(targetData.getTargetRuns() - matchAllData.getMatch().getInning().get(1).getTotalRuns());
+				}
+		    } else {
+		    	if (matchAllData.getSetup().getTargetOvers() != null && Integer.valueOf(matchAllData.getSetup().getTargetOvers()) > 0) {
+			    	if(targetData.getTargetOvers().contains(".")) {
+			    		targetData.setRemaningBall((Integer.valueOf(targetData.getTargetOvers().split("\\.")[0]) * 6 + 
+			    			Integer.valueOf(targetData.getTargetOvers().split("\\.")[1])) - (matchAllData.getMatch().getInning().get(3).getTotalOvers() * 6)
+					    		- matchAllData.getMatch().getInning().get(3).getTotalBalls());
+			    	} else {
+			    		targetData.setRemaningBall((Integer.valueOf(targetData.getTargetOvers()) * 6) - (matchAllData.getMatch().getInning().get(3).getTotalOvers() * 6)
+				    		- matchAllData.getMatch().getInning().get(3).getTotalBalls());
+			    	}
+		    	} else {
+		    		targetData.setRemaningBall(0);
+		    	}
+		    	targetData.setRemaningRuns(targetData.getTargetRuns() - matchAllData.getMatch().getInning().get(3).getTotalRuns());
+		    }
 	    }
+	    
 	    if(targetData.getRemaningBall() < 0) {
 	    	targetData.setRemaningBall(0);
 	    } 
@@ -20389,6 +20412,50 @@ public class CricketFunctions {
 //	    return ResultTxt;
 //     }
 	   
+   
+   public static TargetData GetTargetDataTestT20RemainingBall(MatchAllData matchAllData) 
+   {
+	    TargetData targetDataBall = new TargetData();
+	   
+	    if (matchAllData.getSetup().getTargetOvers() != null && !matchAllData.getSetup().getTargetOvers().isEmpty()
+	    	&& Integer.valueOf(matchAllData.getSetup().getTargetOvers().split("\\.")[0]) > 0) {
+	    	targetDataBall.setTargetOvers(matchAllData.getSetup().getTargetOvers());
+	    } else {
+	    	targetDataBall.setTargetOvers(String.valueOf(matchAllData.getSetup().getMaxOvers()));
+	    }
+	    
+	    if (matchAllData.getSetup().getMaxOvers() > 0) {
+	    	if(targetDataBall.getTargetOvers().contains(".")) {
+	    		targetDataBall.setRemaningBall((Integer.valueOf(targetDataBall.getTargetOvers().split("\\.")[0]) * 6 + 
+	    			Integer.valueOf(targetDataBall.getTargetOvers().split("\\.")[1])) - (matchAllData.getMatch().getInning().get(3).getTotalOvers() * 6)
+			    		- matchAllData.getMatch().getInning().get(3).getTotalBalls());
+	    	} else {
+	    		targetDataBall.setRemaningBall((Integer.valueOf(targetDataBall.getTargetOvers()) * 6) - (matchAllData.getMatch().getInning().get(3).getTotalOvers() * 6)
+		    		- matchAllData.getMatch().getInning().get(3).getTotalBalls());
+	    	}
+			
+	    } else {
+	    	if (matchAllData.getSetup().getTargetOvers() != null && Integer.valueOf(matchAllData.getSetup().getTargetOvers()) > 0) {
+		    	if(targetDataBall.getTargetOvers().contains(".")) {
+		    		targetDataBall.setRemaningBall((Integer.valueOf(targetDataBall.getTargetOvers().split("\\.")[0]) * 6 + 
+		    			Integer.valueOf(targetDataBall.getTargetOvers().split("\\.")[1])) - (matchAllData.getMatch().getInning().get(3).getTotalOvers() * 6)
+				    		- matchAllData.getMatch().getInning().get(3).getTotalBalls());
+		    	} else {
+		    		targetDataBall.setRemaningBall((Integer.valueOf(targetDataBall.getTargetOvers()) * 6) - (matchAllData.getMatch().getInning().get(3).getTotalOvers() * 6)
+			    		- matchAllData.getMatch().getInning().get(3).getTotalBalls());
+		    	}
+	    	} else {
+	    		targetDataBall.setRemaningBall(0);
+	    	}
+	    }
+	    
+	    if(targetDataBall.getRemaningBall() < 0) {
+	    	targetDataBall.setRemaningBall(0);
+	    } 
+	    
+	    return targetDataBall;
+	}
+   
   public static String playerRoleIcons(Player hs) {
 	  String role = "";
 	  if(hs.getCaptainWicketKeeper().equalsIgnoreCase(CricketUtil.WICKET_KEEPER)||hs.getCaptainWicketKeeper().equalsIgnoreCase("CAPTAIN_WICKET_KEEPER")) {
