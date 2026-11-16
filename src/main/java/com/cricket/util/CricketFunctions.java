@@ -6461,24 +6461,27 @@ public class CricketFunctions {
 			break;
 
 		case CricketUtil.TEAM:
-
 			Team tm = multiLanguage.getTeam().stream()
 				.filter(team -> foreignTextToProcess.equalsIgnoreCase(team.getTeamName1()))
 				.findAny().orElse(null);
 	
 			if(tm != null) {		
-				
 				switch(whichDBColumnToProcess) {
 				case CricketUtil.TEAMNAME_2: case CricketUtil.TEAMNAME_3: case CricketUtil.TEAMNAME_4:
 	                switch (whichDBColumnToProcess) {
-					case CricketUtil.TEAMNAME_2: 
+					case CricketUtil.TEAMNAME_2:
 	            		englishTxt = tm.getTeamName2();
+	            		hindiTxt = tm.getHindiTeamName2();
+	            		break;
 					case CricketUtil.TEAMNAME_3: 
 	            		englishTxt = tm.getTeamName3();
+	            		hindiTxt = tm.getHindiTeamName3();
+	            		break;
 					case CricketUtil.TEAMNAME_4:
 	            		englishTxt = tm.getTeamName4();
+	            		hindiTxt = tm.getShortHindiTeamName();
+	            		break;
 					}
-					hindiTxt = tm.getShortHindiTeamName();
 					tamilTxt = tm.getShortTamilTeamName();
 					teluguTxt = tm.getShortTeluguTeamName();
 					break;
@@ -6489,6 +6492,7 @@ public class CricketFunctions {
 					teluguTxt = tm.getFullTeluguTeamName();
 					break;
 				}
+				
 			}
 
 			break;

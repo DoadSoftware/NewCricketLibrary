@@ -67,6 +67,12 @@ public class Team implements Comparable<Team> {
   @Column(name = "ShortTeluguTeamName")
   private String ShortTeluguTeamName;
   
+  @Column(name = "HindiTeamName2")
+  private String HindiTeamName2;
+  
+  @Column(name = "HindiTeamName3")
+  private String HindiTeamName3;
+  
 //public Team(String string, Integer valueOf, Integer valueOf2, Integer valueOf3, String string2, String string3,
 //		String string4, Integer valueOf4, Integer valueOf5, Integer valueOf6) {
 //	// TODO Auto-generated constructor stub
@@ -255,6 +261,22 @@ public String getShortTeluguTeamName() {
 
 public void setShortTeluguTeamName(String shortTeluguTeamName) {
 	ShortTeluguTeamName = shortTeluguTeamName;
+}
+
+public String getHindiTeamName2() {
+	return HindiTeamName2;
+}
+
+public void setHindiTeamName2(String hindiTeamName2) {
+	HindiTeamName2 = hindiTeamName2;
+}
+
+public String getHindiTeamName3() {
+	return HindiTeamName3;
+}
+
+public void setHindiTeamName3(String hindiTeamName3) {
+	HindiTeamName3 = hindiTeamName3;
 }
 
 public String getTeamBadge() {
