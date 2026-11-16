@@ -36,6 +36,9 @@ public class LeagueTeam {
 	@XmlElement(name="NetRunRate")
 	private double NetRunRate;
 	
+	@XmlElement(name="Form")
+	private String Form;
+	
 	@XmlElement(name="NRRR")
 	private double NRRR;
 	
@@ -112,6 +115,14 @@ public class LeagueTeam {
 
 	public void setNetRunRate(double netRunRate) {
 		NetRunRate = netRunRate;
+	}
+
+	public String getForm() {
+		return Form;
+	}
+
+	public void setForm(String form) {
+		Form = form;
 	}
 
 	public int getCount() {
