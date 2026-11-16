@@ -10049,8 +10049,13 @@ public class CricketFunctions {
 					 extractTournamentData("PAST_MATCHES_DATA",ShowStrikeRate, headToHead_matches, cricketService, currentMatch, null));
 			 
 		case "PAST_MATCHES_DATA":
+			Set<String> countedPast = new HashSet<>();
 			for(HeadToHeadPlayer mtch : headToHead_matches) {
 				if(!mtch.getMatchFileName().equalsIgnoreCase(currentMatch.getMatch().getMatchFileName())) {
+					
+					String countKey = mtch.getPlayerId() + "|" + mtch.getMatchFileName().replace(".json", "").trim().toLowerCase();
+					boolean firstRowForPlayerInMatch = countedPast.add(countKey);
+					
 					playerId = -1;
 					for(int i=0; i<=tournament_stats.size() - 1;i++)
 					{
@@ -10062,13 +10067,16 @@ public class CricketFunctions {
 					
 					if(playerId >= 0) 
 					{
-						
 						tournament_stats.get(playerId).setRuns(tournament_stats.get(playerId).getRuns() + mtch.getRuns());
 						tournament_stats.get(playerId).setBallsFaced(tournament_stats.get(playerId).getBallsFaced() + mtch.getBallsFaced());
 						tournament_stats.get(playerId).setFours(tournament_stats.get(playerId).getFours() + mtch.getFours());
 						tournament_stats.get(playerId).setSixes(tournament_stats.get(playerId).getSixes() + mtch.getSixes());
 						tournament_stats.get(playerId).setNines(tournament_stats.get(playerId).getNines() + mtch.getNines());
-						tournament_stats.get(playerId).setMatches(tournament_stats.get(playerId).getMatches() + 1);
+						
+						// Count the match only on the first row of this player for this match
+						if(firstRowForPlayerInMatch) {
+							tournament_stats.get(playerId).setMatches(tournament_stats.get(playerId).getMatches() + 1);
+						}
 						
 						if(mtch.getRuns()>= 30 && mtch.getRuns() < 50) {
 							tournament_stats.get(playerId).setThirty(tournament_stats.get(playerId).getThirty() + 1);
@@ -10292,6 +10300,10 @@ public class CricketFunctions {
 		        }
 		    }
 		    
+		    Set<Integer> countedThisMatch = new HashSet<>();
+		    boolean matchStarted = currentMatch.getMatch().getInning().stream()
+		            .anyMatch(i -> i.getTotalRuns() > 0 || (6 * i.getTotalOvers() + i.getTotalBalls()) > 0);
+		    
 		    for (Inning inn : currentMatch.getMatch().getInning()) {
 
 		        if (inn.getBowlingCard() != null) {
@@ -10303,8 +10315,7 @@ public class CricketFunctions {
 		                t.setRunsConceded(t.getRunsConceded() + boc.getRuns());
 		                t.setWickets(t.getWickets() + boc.getWickets());
 		                t.setDots(t.getDots() + boc.getDots()); 
-		                t.setBallsBowled(t.getBallsBowled() +
-		                        (6 * boc.getOvers() + boc.getBalls()));
+		                t.setBallsBowled(t.getBallsBowled() + (6 * boc.getOvers() + boc.getBalls()));
 
 		                if (boc.getWickets() >= 3 && boc.getWickets() < 5) {
 		                    t.setThreeWicketHaul(t.getThreeWicketHaul() + 1);
@@ -10378,9 +10389,8 @@ public class CricketFunctions {
 		                    }
 		                }
 
-		                if (currentMatch.getMatch().getInning().get(0).getTotalRuns() > 0 ||
-		                        (6 * currentMatch.getMatch().getInning().get(0).getTotalOvers()
-		                                + currentMatch.getMatch().getInning().get(0).getTotalBalls()) > 0) {
+		                // Count the match once per player (old per-row increment removed)
+		                if (matchStarted && countedThisMatch.add(bc.getPlayerId())) {
 		                    t.setMatches(t.getMatches() + 1);
 		                }
 
