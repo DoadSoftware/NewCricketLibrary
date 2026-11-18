@@ -16070,7 +16070,7 @@ public class CricketFunctions {
             "(\\d+)\\s+" +
             "(\\d+)$"
     );
-	public static List<DuckWorthLewis> populateVJD(
+	public static List<DuckWorthLewis> populateVJDOld(
 	        MatchAllData match,String directory) throws InterruptedException {
 
 	    List<DuckWorthLewis> this_dls = new ArrayList<>();
@@ -16174,7 +16174,7 @@ public class CricketFunctions {
 		}
 		return ahead_behind;
 	}
-	public static List<DuckWorthLewis> populateVJDOld(MatchAllData match,String directory) throws IOException {
+	public static List<DuckWorthLewis> populateVJD(MatchAllData match,String directory) throws IOException {
 
 	    List<DuckWorthLewis> dlsList = new ArrayList<>();
 
