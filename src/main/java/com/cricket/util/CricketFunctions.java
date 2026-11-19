@@ -6435,6 +6435,7 @@ public class CricketFunctions {
 					break;
 				case CricketUtil.FIRSTNAME:
 					englishTxt = plyr.getFirstname();
+					hindiTxt = plyr.getHindiFirstName();
 		        	teluguTxt = plyr.getTeluguFirstName();
 					break;
 				case CricketUtil.TICKERNAME:

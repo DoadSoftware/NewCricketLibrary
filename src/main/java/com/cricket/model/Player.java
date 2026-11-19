@@ -80,6 +80,9 @@ public class Player implements Comparable<Player>
   
   @Column(name = "TeluguFirstName")
   private String teluguFirstName;
+  
+  @Column(name = "HindiFirstName")
+  private String hindiFirstName;
 
   @Column(name = "ROLE")
   private String role;
@@ -690,6 +693,14 @@ public String getTeluguFirstName() {
 
 public void setTeluguFirstName(String teluguFirstName) {
 	this.teluguFirstName = teluguFirstName;
+}
+
+public String getHindiFirstName() {
+	return hindiFirstName;
+}
+
+public void setHindiFirstName(String hindiFirstName) {
+	this.hindiFirstName = hindiFirstName;
 }
 
 @Override
