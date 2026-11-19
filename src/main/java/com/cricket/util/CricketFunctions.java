@@ -6334,7 +6334,7 @@ public class CricketFunctions {
 
 	    ForeignLanguageData data = new ForeignLanguageData();
 	    data.setEnglishText(english);
-	    data.setHindiText(english);
+	    data.setHindiText(telugu);
 	    data.setTamilText(english);
 	    data.setTeluguText(telugu);
 
