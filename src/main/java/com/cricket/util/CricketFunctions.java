@@ -61,6 +61,8 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import com.Ae_Third_Party_Xml.AE_Cricket;
 import com.Ae_Third_Party_Xml.AE_Inning;
 import com.Ae_Third_Party_Xml.AE_Last_Ball;
@@ -16226,6 +16228,76 @@ public class CricketFunctions {
 	    br.close();
 
 	    return dlsList;
+	}
+	public static List<DuckWorthLewis> populateDuckWorthLewisNew(
+	        MatchAllData match, String directory) throws InterruptedException {
+
+	    Document htmlFile = null;
+
+	    try {
+	        htmlFile = Jsoup.parse(
+	            new File(directory + "ParScores BB.html"), "ISO-8859-1");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return new ArrayList<DuckWorthLewis>();
+	    }
+
+	    List<DuckWorthLewis> this_dls = new ArrayList<DuckWorthLewis>();
+
+	    if (match.getMatch() == null || match.getMatch().getInning() == null) {
+	        return this_dls;
+	    }
+
+	    int noOfWicket = 0;
+
+	    for (Inning inn : match.getMatch().getInning()) {
+
+	        if (inn.getIsCurrentInning() == null ||
+	            !inn.getIsCurrentInning().equalsIgnoreCase(CricketUtil.YES)) {
+	            continue;
+	        }
+
+	        noOfWicket = inn.getTotalWickets();
+
+	        // Wicket column in the DLS file is 0 to 9.
+	        if (noOfWicket < 0 || noOfWicket > 9) {
+	            System.out.println("Invalid wicket column: " + noOfWicket);
+	            continue;
+	        }
+
+	        Elements fonts = htmlFile.body().getElementsByTag("font");
+
+	        for (int i = 14; i < fonts.size() - 1; i++) {
+
+	            if (fonts.get(i).text().contains("TableID")) {
+	                i = i + 15;
+
+	                if (i >= fonts.size()) {
+	                    break;
+	                }
+	            }
+
+	            // Select only the column matching current innings wickets.
+	            int dlsIndex = i + 2 + noOfWicket;
+
+	            if (dlsIndex >= fonts.size()) {
+	                break;
+	            }
+
+	            String overLeft = fonts.get(i).text();
+	            String dlsData = fonts.get(dlsIndex).text();
+
+	            this_dls.add(new DuckWorthLewis(
+	                overLeft,
+	                dlsData,
+	                noOfWicket
+	            ));
+
+	            i = i + 11;
+	        }
+	    }
+
+	    return this_dls;
 	}
 	public static List<DuckWorthLewis> populateDuckWorthLewis(MatchAllData match, String directory) throws InterruptedException 
 	{

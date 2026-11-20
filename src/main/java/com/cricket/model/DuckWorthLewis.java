@@ -11,6 +11,8 @@ public class DuckWorthLewis
 	private int balls_left;
 	private String wkts_down;
 	private int data;
+	private int wicketsDown;
+	
 	public DuckWorthLewis() {
 		super();
 	}
@@ -21,6 +23,11 @@ public class DuckWorthLewis
 		this.wkts_down = wkts_down;
 	}
 
+	public DuckWorthLewis(String overLeft, String dlsData, int wicketsDown) {
+	    this.over_left = overLeft;
+	    this.wkts_down = dlsData;
+	    this.wicketsDown = wicketsDown;
+	}
 
 	public int getData() {
 		return data;
@@ -56,6 +63,14 @@ public class DuckWorthLewis
 	}
 	public void setWkts_down(String wkts_down) {
 		this.wkts_down = wkts_down;
+	}
+
+	public int getWicketsDown() {
+		return wicketsDown;
+	}
+
+	public void setWicketsDown(int wicketsDown) {
+		this.wicketsDown = wicketsDown;
 	}
 	
 	
