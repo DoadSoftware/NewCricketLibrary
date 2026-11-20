@@ -6160,6 +6160,7 @@ public class CricketFunctions {
 
 	    ForeignLanguageData merged = CricketFunctions.MergeForeignLanguageDataListToSingleObject(foreignLanguageDataList);
 	    if(targetType != null) {
+	    	merged.setHindiText(merged.getHindiText() + " (" + targetType + ")");
 	        merged.setTeluguText(merged.getTeluguText() + " (" + targetType + ")");
 	    }
 	    merged.setEnglishText(teamName + " " + summary);
