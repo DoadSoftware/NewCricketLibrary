@@ -5344,11 +5344,12 @@ public class CricketFunctions {
 //        }
     }
 	public static ForeignLanguageData GenerateMatchResultForeignLanguage(MatchAllData match, String teamNameType, String broadcaster, 
-			String splitResultTxt, boolean ballsRemaining, MultiLanguageDatabase multiLanguageDb)
+			String splitResultTxt, boolean ballsRemaining, MultiLanguageDatabase multiLanguageDb, boolean useWon)
 	{
 		List<ForeignLanguageData> resultToShow = new ArrayList<ForeignLanguageData>();
 //		List<ForeignLanguageData> opponentTeamName = new ArrayList<ForeignLanguageData>();
 		List<String> insertTxt = new ArrayList<String>();
+		String winText = useWon ? "WON" : "WIN";
 		
 		if(match.getMatch().getMatchResult() != null) {
 			if(match.getMatch().getMatchResult().toUpperCase().contains(CricketUtil.DRAWN)
@@ -5464,7 +5465,7 @@ public class CricketFunctions {
 						default:
 							resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, match.getMatch().getMatchResult().split(",")[1], 
 									"", null, resultToShow.size() + 1, resultToShow);
-							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY RUN" + 
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, winText + " BY RUN" + 
 									Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1])), "", null, resultToShow.size() + 1, resultToShow);
 							break;
 						}
@@ -5483,7 +5484,7 @@ public class CricketFunctions {
 						default:
 							resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, match.getMatch().getMatchResult().split(",")[1], 
 									"", null, resultToShow.size() + 1, resultToShow);
-							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY WICKET" 
+							resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, winText + " BY WICKET" 
 									+ Plural(Integer.valueOf(match.getMatch().getMatchResult().split(",")[1])), "", null, resultToShow.size() + 1, resultToShow);
 							if(ballsRemaining) {
 //								TargetData targetData = GetTargetData(match);
@@ -5600,17 +5601,18 @@ public class CricketFunctions {
 		}
 	
 	public static ForeignLanguageData GenerateMatchSummaryStatusForeignLanguage(int whichInning, MatchAllData match, String teamNameType, 
-		String SplitSummaryText, String broadcaster, boolean ballsRemaining, MultiLanguageDatabase multiLanguageDb) 
+		String SplitSummaryText, String broadcaster, boolean ballsRemaining, MultiLanguageDatabase multiLanguageDb, boolean useWon) 
 		{
 			TargetData targetData = new TargetData();
 			List<ForeignLanguageData> resultToShow = new ArrayList<ForeignLanguageData>();
 			List<String> insertTxt = new ArrayList<String>();
 			String unit = "";
+			String winText = useWon ? "WON" : "WIN";
 			
 			if(match.getMatch().getInning().get(0).getTotalRuns() > 0 || (6 * match.getMatch().getInning().get(0).getTotalOvers() 
 				+ match.getMatch().getInning().get(0).getTotalBalls()) > 0) 
 			{
-				resultToShow.add(GenerateMatchResultForeignLanguage(match, teamNameType, broadcaster, SplitSummaryText, ballsRemaining, multiLanguageDb));
+				resultToShow.add(GenerateMatchResultForeignLanguage(match, teamNameType, broadcaster, SplitSummaryText, ballsRemaining, multiLanguageDb, useWon));
 				if(resultToShow.get(0) != null) {
 					System.out.println(resultToShow);
 					targetData = new TargetData(resultToShow.get(0).getEnglishText());
@@ -5732,16 +5734,17 @@ public class CricketFunctions {
 									targetData.setMatchFinished(true);
 									break;
 								default:
+									
 									if(match.getSetup().getMatchType().equalsIgnoreCase(CricketUtil.SUPER_OVER)) {
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
 							    				batTeamNm, "", null, 1, resultToShow);
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
-												"WIN THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
+												winText + " THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
 									} else {
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, batTeamNm, "", null, 1, resultToShow);
 										resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, String.valueOf(CricketFunctions.getWicketsLeft(match,whichInning)), 
 												"", null, resultToShow.size() + 1, resultToShow);
-										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY WICKET" 
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, winText + " BY WICKET" 
 												+ CricketFunctions.Plural(CricketFunctions.getWicketsLeft(match,whichInning)), "", null, resultToShow.size() + 1, resultToShow);
 										
 //										if(ballsRemaining) {
@@ -5830,12 +5833,12 @@ public class CricketFunctions {
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, 
 							    				batTeamNm, "", null, 1, resultToShow);
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, 
-												"WIN THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
+												winText + " THE SUPER OVER", "", null, resultToShow.size() + 1, resultToShow);
 									} else {
 										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.TEAM, "", multiLanguageDb, bowlTeamNm, "", null, 1, resultToShow);
 										resultToShow = CricketFunctions.AssembleMultiLanguageData("", "", multiLanguageDb, String.valueOf((targetData.getRemaningRuns() - 1)), 
 												"", null, resultToShow.size() + 1, resultToShow);
-										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, "WIN BY RUN" + 
+										resultToShow = CricketFunctions.AssembleMultiLanguageData(CricketUtil.DICTIONARY, "", multiLanguageDb, winText + " BY RUN" + 
 												Plural(Integer.valueOf((targetData.getRemaningRuns() - 1))), "", null, resultToShow.size() + 1, resultToShow);
 									}
 									targetData.setMatchFinished(true);
