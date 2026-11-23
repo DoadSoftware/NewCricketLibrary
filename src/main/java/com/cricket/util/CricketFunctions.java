@@ -3421,7 +3421,7 @@ public class CricketFunctions {
 				inning_number = String.valueOf(match.getEventFile().getEvents().get(i).getEventInningNumber());
 				if(match.getEventFile().getEvents().get(i).getEventType().equalsIgnoreCase(CricketUtil.LOG_ANY_BALL)) {
 					isLeagleBall = true;
-					if(match.getEventFile().getEvents().get(i-1).getEventType().equalsIgnoreCase(CricketUtil.CHANGE_BOWLER)) {
+					if(!match.getEventFile().getEvents().get(i-1).getEventType().equalsIgnoreCase(CricketUtil.CHANGE_BOWLER)) {
 						over_number = getOvers(match.getEventFile().getEvents().get(i).getEventOverNo(), 1);
 						over_ball = getBalls(match.getEventFile().getEvents().get(i).getEventOverNo(), 1);
 						ball_number = ball_number + 1;
@@ -3429,6 +3429,10 @@ public class CricketFunctions {
 						ball_number = ball_number + 1;
 						over_number = String.valueOf(match.getEventFile().getEvents().get(i).getEventOverNo() + 1);
 						over_ball = String.valueOf(match.getEventFile().getEvents().get(i).getEventBallNo() + ball_number);
+						
+//						over_number = getOvers(match.getEventFile().getEvents().get(i).getEventOverNo(), match.getEventFile().getEvents().get(i).getEventBallNo());
+//						over_ball = getBalls(match.getEventFile().getEvents().get(i).getEventOverNo(), match.getEventFile().getEvents().get(i).getEventBallNo());
+//						over_ball = String.valueOf(Integer.valueOf(over_ball) + ball_number);
 					}
 				}else {
 					if(match.getEventFile().getEvents().get(i).getEventType().equalsIgnoreCase(CricketUtil.WIDE) || 
@@ -3616,6 +3620,26 @@ public class CricketFunctions {
 			          
 			          line_txt = addSubString(line_txt,this_ball_data,74);
 			        }
+			        
+			        if(match.getEventFile().getEvents().get(i).getEventSubExtraRuns() > 0) {
+			        	this_over_run = String.valueOf(match.getEventFile().getEvents().get(i).getEventSubExtraRuns());
+			        }
+			        
+			        if(match.getEventFile().getEvents().get(i).getEventSubExtra() != null && 
+			        		  !match.getEventFile().getEvents().get(i).getEventSubExtra().isEmpty()) {
+			        	this_over_run = this_over_run + match.getEventFile().getEvents().get(i).getEventSubExtra();
+			        	
+			        	
+			        	this_over_run = this_over_run.replace("WIDE", "WD");
+			        	this_over_run = this_over_run.replace("NO_BALL", "NB");
+			        	this_over_run = this_over_run.replace("LEG_BYE", "LB");
+			        	this_over_run = this_over_run.replace("BYE", "B");
+			        	this_over_run = this_over_run.replace("PENALTY", "PN");
+			        	this_over_run = this_over_run.replace("LOG_WICKET", "W");
+			        	this_over_run = this_over_run.replace("WICKET", "W");
+			        	  
+			        }
+			        
 			      }
 			      if(this_over_run.isEmpty()) {
 			    	  if(match.getEventFile().getEvents().get(i).getValueToProcess().contains("penalty")) {
