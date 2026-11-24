@@ -3422,9 +3422,10 @@ public class CricketFunctions {
 				if(match.getEventFile().getEvents().get(i).getEventType().equalsIgnoreCase(CricketUtil.LOG_ANY_BALL)) {
 					isLeagleBall = true;
 					if(!match.getEventFile().getEvents().get(i-1).getEventType().equalsIgnoreCase(CricketUtil.CHANGE_BOWLER)) {
-						over_number = getOvers(match.getEventFile().getEvents().get(i).getEventOverNo(), 1);
-						over_ball = getBalls(match.getEventFile().getEvents().get(i).getEventOverNo(), 1);
 						ball_number = ball_number + 1;
+						over_number = getOvers(match.getEventFile().getEvents().get(i).getEventOverNo(), match.getEventFile().getEvents().get(i).getEventBallNo());
+						over_ball = getBalls(match.getEventFile().getEvents().get(i).getEventOverNo(), match.getEventFile().getEvents().get(i).getEventBallNo());
+						over_ball = String.valueOf(Integer.valueOf(over_ball) + ball_number);
 					}else {
 						ball_number = ball_number + 1;
 						over_number = String.valueOf(match.getEventFile().getEvents().get(i).getEventOverNo() + 1);
