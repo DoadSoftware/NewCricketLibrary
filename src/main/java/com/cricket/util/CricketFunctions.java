@@ -6541,14 +6541,16 @@ public class CricketFunctions {
 				hindiTxt   = nullSafe(dict.getHindiSentence()); 
 				tamilTxt   = nullSafe(dict.getTamilSentence());
 				teluguTxt  = nullSafe(dict.getTeluguSentence());
-				
 				if(InsertText != null) {
+					
 					if (InsertText.size() >= 1) {
 						englishTxt = englishTxt.replace(dict.getEnglishSentence(), 
 								InsertText.get(0) + " " + dict.getEnglishSentence());
 					
 				        if (dict.getInsertBeforeFirstHindiText() != null && !dict.getInsertBeforeFirstHindiText().isEmpty()) {
 				            hindiTxt = hindiTxt.replace(dict.getInsertBeforeFirstHindiText(), InsertText.get(0) + " " + dict.getInsertBeforeFirstHindiText());
+				        }else {
+				        	hindiTxt = dict.getHindiSentence()  + " " + InsertText.get(0);
 				        }
 				        if (dict.getInsertBeforeFirstTamilText() != null && !dict.getInsertBeforeFirstTamilText().isEmpty()) {
 				        	tamilTxt = tamilTxt.replace(dict.getInsertBeforeFirstTamilText(), InsertText.get(0) + " " + dict.getInsertBeforeFirstTamilText());
