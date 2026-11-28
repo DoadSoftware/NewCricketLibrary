@@ -124,6 +124,8 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.InputStream;
@@ -254,6 +256,38 @@ public class CricketFunctions {
 			}
 		}
 		return match;
+	}
+	
+	public static List<Map<String, String>> readExcel(File file) throws IOException {
+	    List<Map<String, String>> rows = new ArrayList<>();
+	    DataFormatter fmt = new DataFormatter();
+	    try (FileInputStream in = new FileInputStream(file); HSSFWorkbook wb = new HSSFWorkbook(in)) {
+	        Sheet sh = wb.getSheetAt(0);
+	        Row head = sh.getRow(0);
+	        for (int r = 1; r <= sh.getLastRowNum(); r++) {
+	            Row row = sh.getRow(r);
+	            if (row == null) continue;
+	            Map<String, String> m = new LinkedHashMap<>();
+	            m.put("order", String.valueOf(r));
+	            for (Cell h : head) {
+	                m.put(fmt.formatCellValue(h).trim(), fmt.formatCellValue(row.getCell(h.getColumnIndex())).trim());
+	            }
+	            rows.add(m);
+	        }
+	    }
+	    return rows;
+	}
+	
+	public static List<Map<String, String>> readExcelsData(MatchAllData matchAllData) throws IOException {
+	    String name = matchAllData.getMatch().getMatchFileName().replace(".json", "");
+	    File f = new File(CricketUtil.EXCELS_DIRECTORY + name + ".xls");
+	    if (!f.isFile()) f = new File(CricketUtil.EXCELS_DIRECTORY + name.replace("_", " ") + ".xls");
+	    if (!f.isFile()) return new ArrayList<>();
+
+	    List<Map<String, String>> rows = CricketFunctions.readExcel(f);
+	    rows.removeIf(m -> m.get("PromptText").isEmpty() || !m.get("ShowThisStats").equalsIgnoreCase("TRUE"));
+	    rows.forEach(m -> m.put("prompt", m.get("PromptText")));   // the JS dropdown uses "prompt" and "order"
+	    return rows;
 	}
 	
 	public static String LocalTime() {

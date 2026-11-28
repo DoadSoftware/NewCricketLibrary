@@ -37,6 +37,7 @@ public class CricketUtil {
 	public static final String BOWLING_BY_COUNTRY_FILE = "Bowling_04_ByCountry.csv";
 	public static final String BOWLING_BY_VENUE_FILE = "Bowling_05_ByVenue.csv";
 	public final static String CRICKET_ARCHIVE_DIRECTORY = "C:/Sports/CricketArchive/";
+	public static final String EXCELS_DIRECTORY = "C:/Sports/Cricket/Excels/";
 	public final static String Cricket_THIRDPARTY = "AE-Cricket-ThirdParty.XML";
 	public final static String INTERACTIVE_DIRECTORY = "Interactive/";
 	public final static String HEADTOHEAD_DIRECTORY = "HeadToHead/";
